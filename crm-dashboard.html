@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Content Management System - Alison Belle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F9F8F6;
+      --surface: #F2F1EE;
+      --border: #E4E2DC;
+      --ink: #18170F;
+      --ink-2: #46443C;
+      --ink-3: #8C8A82;
+      --dark: #0F1014;
+      --dark-2: #161922;
+      --glow: #8EA3FF;
+      --serif: 'Fraunces', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 52px; height: 58px;
+      background: rgba(249,248,246,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--serif); font-size: 16px; color: var(--ink);
+      text-decoration: none; letter-spacing: -0.01em; font-weight: 300;
+    }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; color: var(--ink-3); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--ink); color: var(--bg) !important;
+      padding: 7px 16px; border-radius: 6px;
+      font-size: 12.5px; font-weight: 500; text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.78; }
+
+    .cs-hero {
+      padding-top: 58px;
+      min-height: 82vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding-left: 52px; padding-right: 52px; padding-bottom: 80px;
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(142,163,255,0.16), transparent 24%),
+        linear-gradient(180deg, #11131A 0%, #171A22 100%);
+    }
+    .cs-hero-watermark {
+      position: absolute; right: -20px; bottom: -30px;
+      font-family: var(--serif); font-size: 280px; font-weight: 900;
+      color: #fff; opacity: 0.03; line-height: 1;
+      pointer-events: none; user-select: none;
+      letter-spacing: -0.04em;
+    }
+    .cs-breadcrumb {
+      font-size: 12px; color: rgba(249,248,246,0.42);
+      display: flex; align-items: center; gap: 8px; margin-bottom: 36px;
+    }
+    .cs-breadcrumb a { color: rgba(249,248,246,0.42); text-decoration: none; transition: color 0.2s; }
+    .cs-breadcrumb a:hover { color: rgba(249,248,246,0.76); }
+    .cs-breadcrumb-sep { opacity: 0.3; }
+    .cs-proj-num {
+      font-family: var(--serif); font-size: 13px; font-style: italic;
+      color: rgba(249,248,246,0.28); margin-bottom: 18px; display: block; font-weight: 300;
+    }
+    .cs-title {
+      font-family: var(--serif);
+      font-size: clamp(52px, 7.5vw, 108px);
+      font-weight: 300; line-height: 0.95;
+      letter-spacing: -0.03em; color: #F9F8F6;
+      margin-bottom: 24px;
+    }
+    .cs-title em { font-style: italic; color: #B7C3FF; }
+    .cs-summary {
+      font-size: 17px; color: rgba(249,248,246,0.58); font-weight: 300;
+      line-height: 1.65; max-width: 620px; margin-bottom: 34px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 38px;
+    }
+    .hero-link,
+    .hero-link-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-size: 13px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .hero-link {
+      background: #F2F4FF;
+      color: #11131A;
+    }
+    .hero-link-ghost {
+      color: rgba(249,248,246,0.72);
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+    }
+    .hero-link:hover,
+    .hero-link-ghost:hover { opacity: 0.82; transform: translateY(-1px); }
+    .cs-meta-strip {
+      display: flex; gap: 0;
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 3px;
+      background: rgba(255,255,255,0.04); max-width: 760px;
+      overflow: hidden;
+    }
+    .cs-meta-cell {
+      padding: 18px 24px; flex: 1; border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .cs-meta-cell:last-child { border-right: none; }
+    .cs-meta-label {
+      font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase;
+      color: rgba(249,248,246,0.3); margin-bottom: 7px;
+    }
+    .cs-meta-value { font-size: 13px; color: rgba(249,248,246,0.74); }
+
+    .cs-section,
+    .cs-section-dark,
+    .cs-section-tint {
+      padding: 96px 52px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-section-dark {
+      background: var(--ink);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .cs-section-tint { background: var(--surface); }
+    .cs-inner { max-width: 1120px; margin: 0 auto; }
+
+    .cs-label,
+    .cs-label-lt {
+      font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 18px; display: flex; align-items: center; gap: 12px;
+    }
+    .cs-label { color: var(--ink-3); }
+    .cs-label-lt { color: rgba(249,248,246,0.3); }
+    .cs-label::before,
+    .cs-label-lt::before {
+      content: ''; width: 18px; height: 1px;
+    }
+    .cs-label::before { background: var(--ink-3); }
+    .cs-label-lt::before { background: rgba(249,248,246,0.3); }
+
+    .cs-h2,
+    .cs-h2-lt {
+      font-family: var(--serif);
+      font-size: clamp(30px, 4vw, 52px);
+      font-weight: 300; line-height: 1.08; letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .cs-h2 { color: var(--ink); }
+    .cs-h2-lt { color: var(--bg); }
+    .cs-h2 em { font-style: italic; color: var(--ink-2); }
+    .cs-h2-lt em { font-style: italic; opacity: 0.45; }
+
+    .cs-body {
+      font-size: 15.5px; color: var(--ink-2); font-weight: 300;
+      line-height: 1.78; max-width: 620px;
+    }
+    .cs-body p + p { margin-top: 18px; }
+
+    .showcase-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 88px;
+    }
+    .wireframe-section {
+      margin-bottom: 88px;
+    }
+    .wireframe-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 28px;
+    }
+    .wireframe-card {
+      background: #f3f2ef;
+      border: 1px solid #d9d6cf;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(24,23,15,0.05);
+    }
+    .wireframe-topbar {
+      height: 34px;
+      background: #ece9e3;
+      border-bottom: 1px solid #d9d6cf;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 14px;
+    }
+    .wireframe-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #c8c4bc;
+    }
+    .wireframe-body {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+    .wf-row {
+      display: grid;
+      gap: 10px;
+    }
+    .wf-2col {
+      grid-template-columns: 0.34fr 1fr;
+    }
+    .wf-bar,
+    .wf-box,
+    .wf-chip {
+      background: #d8d5ce;
+      border-radius: 4px;
+    }
+    .wf-bar { height: 10px; }
+    .wf-box { min-height: 56px; }
+    .wf-chip { height: 26px; }
+    .wf-sidebar {
+      background: #e7e3dc;
+      border-radius: 6px;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+    .wf-panel {
+      background: #ebe8e2;
+      border-radius: 6px;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+    .wf-stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .wf-field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .wf-mobile {
+      max-width: 340px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .wf-mobile .wireframe-body {
+      gap: 10px;
+    }
+    .wf-mobile-stack {
+      display: grid;
+      gap: 10px;
+    }
+    .showcase-block {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+      gap: 64px;
+      align-items: center;
+    }
+    .showcase-block.reverse {
+      grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+    }
+    .showcase-text .cs-label { margin-bottom: 16px; }
+    .showcase-text .cs-h2 { margin-bottom: 18px; }
+
+    .media-frame {
+      position: relative;
+      background: linear-gradient(180deg, #12151D 0%, #1A1E29 100%);
+      border: 1px solid rgba(20,24,34,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 26px 60px rgba(24,23,15,0.12);
+    }
+    .media-frame-light {
+      background: linear-gradient(180deg, #f8f6f3 0%, #efebe5 100%);
+      border-color: var(--border);
+    }
+    .media-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .media-single {
+      padding: 18px;
+    }
+
+    .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+    .tag {
+      font-size: 11px; letter-spacing: 0.04em;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--ink-3); padding: 4px 12px; border-radius: 100px;
+    }
+
+    .next-project {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 52px; text-decoration: none; color: inherit;
+      border-top: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .next-project:hover { background: var(--surface); }
+    .next-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+    .next-name {
+      font-family: var(--serif); font-size: 40px; font-weight: 300;
+      letter-spacing: -0.02em; color: var(--ink);
+    }
+    .next-arrow { font-size: 44px; color: var(--ink-3); transition: transform 0.25s var(--ease); }
+    .next-project:hover .next-arrow { transform: translate(6px,-6px); }
+
+    footer {
+      padding: 28px 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+    .footer-logo { font-family: var(--serif); font-size: 15px; color: var(--ink-3); text-decoration: none; font-weight: 300; }
+    .footer-nav { display: flex; gap: 24px; list-style: none; }
+    .footer-nav a { font-size: 12px; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .footer-nav a:hover { color: var(--ink); }
+    .footer-copy { font-size: 12px; color: var(--ink-3); }
+
+    .reveal {
+      opacity: 1; transform: none;
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 24px; }
+      .nav-links li:not(:last-child) { display: none; }
+      .cs-hero, .cs-section, .cs-section-dark, .cs-section-tint { padding-left: 24px; padding-right: 24px; }
+      .showcase-block, .showcase-block.reverse { grid-template-columns: 1fr; gap: 32px; }
+      .wireframe-grid, .wf-2col, .wf-field-grid, .wf-stat-row { grid-template-columns: 1fr; }
+      .cs-meta-strip { flex-direction: column; }
+      .cs-meta-cell { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      footer { flex-direction: column; gap: 14px; padding: 24px; }
+      .next-project { padding: 32px 24px; }
+      .next-name { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Alison Belle</a>
+  <ul class="nav-links">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="cs-hero">
+  <div class="cs-hero-watermark">CMS</div>
+  <div class="cs-breadcrumb">
+    <a href="index.html">Home</a>
+    <span class="cs-breadcrumb-sep">/</span>
+    <a href="index.html#projects">Work</a>
+    <span class="cs-breadcrumb-sep">/</span>
+    Admin CMS
+  </div>
+  <span class="cs-proj-num">Project 03</span>
+  <h1 class="cs-title reveal">Admin Content<br><em>Management System</em></h1>
+  <p class="cs-summary reveal d1">A working full-stack admin platform built to manage website content through secure authentication, protected routes, and PostgreSQL-backed persistence.</p>
+  <div class="hero-actions reveal d2">
+    <a class="hero-link" href="https://github.com/alisonb-commits/client-site-admin/tree/admin-panel?tab=readme-ov-file" target="_blank" rel="noopener noreferrer">View on GitHub &nearr;</a>
+    <a class="hero-link-ghost" href="#cms-sections">Explore the build</a>
+  </div>
+  <div class="cs-meta-strip reveal d2">
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Role</div>
+      <div class="cs-meta-value">UI/UX Designer &amp; Full-Stack Developer</div>
+    </div>
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Stack</div>
+      <div class="cs-meta-value">React, Vite, Node.js, Express, PostgreSQL, JWT</div>
+    </div>
+  </div>
+</header>
+
+<section class="cs-section">
+  <div class="cs-inner">
+    <div class="showcase-stack" id="cms-sections">
+      <div class="wireframe-section reveal">
+        <div class="cs-label">Structure First</div>
+        <h2 class="cs-h2">Wireframe <em>Exploration</em></h2>
+        <div class="cs-body">
+          <p>Before designing the final interface, the layout and content hierarchy were mapped through low-fidelity wireframes. This helped define the structure, editing workflow, and component relationships before applying the final visual design system.</p>
+        </div>
+        <div class="wireframe-grid" aria-label="Low-fidelity wireframes showing page layout, section hierarchy, and component placement">
+          <div class="wireframe-card">
+            <div class="wireframe-topbar">
+              <span class="wireframe-dot"></span>
+              <span class="wireframe-dot"></span>
+              <span class="wireframe-dot"></span>
+            </div>
+            <div class="wireframe-body">
+              <div class="wf-row wf-2col">
+                <div class="wf-sidebar">
+                  <div class="wf-bar" style="width:52%;"></div>
+                  <div class="wf-chip"></div>
+                  <div class="wf-chip"></div>
+                  <div class="wf-chip"></div>
+                  <div class="wf-chip" style="width:82%;"></div>
+                </div>
+                <div class="wf-panel">
+                  <div class="wf-bar" style="width:34%;height:12px;"></div>
+                  <div class="wf-bar" style="width:62%;"></div>
+                  <div class="wf-stat-row">
+                    <div class="wf-box"></div>
+                    <div class="wf-box"></div>
+                    <div class="wf-box"></div>
+                  </div>
+                  <div class="wf-box" style="min-height:170px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="wireframe-card wf-mobile">
+            <div class="wireframe-topbar">
+              <span class="wireframe-dot"></span>
+              <span class="wireframe-dot"></span>
+              <span class="wireframe-dot"></span>
+            </div>
+            <div class="wireframe-body">
+              <div class="wf-mobile-stack">
+                <div class="wf-bar" style="width:42%;height:12px;"></div>
+                <div class="wf-box" style="min-height:62px;"></div>
+                <div class="wf-field-grid">
+                  <div class="wf-box"></div>
+                  <div class="wf-box"></div>
+                </div>
+                <div class="wf-box" style="min-height:84px;"></div>
+                <div class="wf-box" style="min-height:120px;"></div>
+                <div class="wf-chip" style="width:38%;justify-self:end;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-block reveal">
+        <div class="showcase-text">
+          <div class="cs-label">Security</div>
+          <h2 class="cs-h2">Authentication <em>Flow</em></h2>
+          <div class="cs-body">
+            <p>The dashboard begins with a secure admin sign-in flow designed to protect access to editable website content. Users authenticate with email and password, after which a JWT is issued and used to authorise protected requests across the application. This creates a clear separation between public-facing content and admin-only functionality, while keeping the experience simple and intuitive for the user.</p>
+            <p>The interface was designed to feel minimal, modern, and trustworthy, using a dark glass-inspired visual system that gives the product a polished internal-tool feel rather than a default admin panel aesthetic.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Authentication</span>
+            <span class="tag">JWT</span>
+            <span class="tag">Protected Routes</span>
+          </div>
+        </div>
+        <div class="media-frame media-single">
+          <img src="assets/sign in.png" alt="Secure admin sign-in screen for the content management system" onerror="this.remove();">
+        </div>
+      </div>
+
+      <div class="showcase-block reveal d1">
+        <div class="showcase-text">
+          <div class="cs-label">Core Product</div>
+          <h2 class="cs-h2">Content Management <em>Dashboard</em></h2>
+          <div class="cs-body">
+            <p>Once authenticated, the user can manage core website content through a structured editing interface. The dashboard allows updates to hero content, about text, and services, with changes persisted through protected API routes to a PostgreSQL database. The goal was to create a lightweight CMS-style experience that is straightforward to use while still reflecting production-style frontend and backend architecture.</p>
+            <p>The layout is organised around editable sections, clear save actions, and focused input fields so content changes can be made quickly without overwhelming the user. This turned the project into more than a static dashboard concept &mdash; it became a functional full-stack content management system.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Admin Dashboard</span>
+            <span class="tag">CMS</span>
+            <span class="tag">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="media-frame media-single">
+          <img src="assets/dashboard progress.png" alt="Authenticated content management dashboard showing editable website sections" onerror="this.remove();">
+        </div>
+      </div>
+
+      <div class="showcase-block reverse reveal d2">
+        <div class="media-frame media-single media-frame-light">
+          <img src="assets/mobile view.png" alt="Responsive mobile layout of the admin content management dashboard" onerror="this.remove();">
+        </div>
+        <div class="showcase-text">
+          <div class="cs-label">Responsive Design</div>
+          <h2 class="cs-h2">Responsive Admin <em>Experience</em></h2>
+          <div class="cs-body">
+            <p>The dashboard was also designed to adapt cleanly to smaller screens, ensuring the editing experience remains usable on mobile and tablet layouts. Rather than simply shrinking the desktop interface, the responsive version reflows content into a more vertical and touch-friendly structure, preserving clarity and usability across devices.</p>
+            <p>This was an important part of the build because admin tools are often neglected on smaller screens. Designing the dashboard responsively helped create a more complete and thoughtful product experience.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Responsive UI</span>
+            <span class="tag">Mobile Admin</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-block reveal">
+        <div class="showcase-text">
+          <div class="cs-label">Build System</div>
+          <h2 class="cs-h2">Development <em>Workflow</em></h2>
+          <div class="cs-body">
+            <p>The project was built as a full-stack application using React with Vite on the frontend and Node.js, Express, JWT authentication, and PostgreSQL on the backend. The development workflow was set up so the client and server could run locally in parallel, making it easier to test authentication, protected routes, data updates, and UI changes in real time.</p>
+            <p>Presenting the running environment as part of the case study helps show that this project is not just a visual mockup, but a functioning application with real architecture behind it.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Full-Stack</span>
+            <span class="tag">React + Express</span>
+            <span class="tag">Local Dev</span>
+          </div>
+        </div>
+        <div class="media-frame media-single">
+          <img src="assets/all running.png" alt="Local development environment showing the CRM admin application and backend services running together" onerror="this.remove();">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a href="https://github.com/alisonb-commits/client-site-admin/tree/admin-panel?tab=readme-ov-file" class="next-project" target="_blank" rel="noopener noreferrer">
+  <div>
+    <div class="next-label">GitHub Project</div>
+    <div class="next-name">Client Site Admin</div>
+  </div>
+  <span class="next-arrow">&nearr;</span>
+</a>
+
+<footer>
+  <a href="index.html" class="footer-logo">Alison Belle</a>
+  <ul class="footer-nav">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <span class="footer-copy">&copy; 2024 Alison Belle</span>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('in')),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

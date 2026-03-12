@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alison Belle — Product Designer & Frontend Developer</title>
+  <meta name="description" content="Product Designer & Frontend Developer. Designing elegant digital experiences and building them with code.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #F9F8F6;
+      --surface: #F2F1EE;
+      --border:  #E4E2DC;
+      --ink:     #18170F;
+      --ink-2:   #46443C;
+      --ink-3:   #8C8A82;
+      --serif:   'Fraunces', Georgia, serif;
+      --sans:    'DM Sans', system-ui, sans-serif;
+      --ease:    cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans); background: var(--bg); color: var(--ink);
+      font-size: 15px; line-height: 1.6;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 52px; height: 58px;
+      background: rgba(249,248,246,0.92); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--serif); font-size: 16px; color: var(--ink); text-decoration: none; font-weight: 300; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--ink); color: var(--bg) !important; padding: 7px 16px;
+      border-radius: 6px; font-size: 12.5px; font-weight: 500; text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.78; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 52px 88px; position: relative;
+      border-bottom: 1px solid var(--border); overflow: hidden;
+    }
+    .hero-grid-overlay {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 80px 80px; opacity: 0.35;
+    }
+    .hero-tag {
+      position: absolute; top: 80px; left: 52px; z-index: 1;
+      font-size: 11px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--ink-3);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hero-tag::before { content: ''; width: 18px; height: 1px; background: var(--ink-3); }
+    .hero-avail {
+      position: absolute; top: 80px; right: 52px; z-index: 1;
+      display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ink-3);
+    }
+    .avail-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: #4ade80;
+      box-shadow: 0 0 0 3px rgba(74,222,128,0.18);
+      animation: glow 2.2s ease-in-out infinite;
+    }
+    @keyframes glow {
+      0%,100% { box-shadow: 0 0 0 3px rgba(74,222,128,0.18); }
+      50% { box-shadow: 0 0 0 7px rgba(74,222,128,0.07); }
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 960px; }
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(58px, 8.5vw, 124px);
+      font-weight: 300; line-height: 0.93; letter-spacing: -0.035em;
+      color: var(--ink); margin-bottom: 32px;
+    }
+    h1 em { font-style: italic; color: var(--ink-2); }
+    .hero-sub {
+      font-size: 17px; color: var(--ink-2); font-weight: 300;
+      max-width: 480px; line-height: 1.7; margin-bottom: 40px;
+    }
+    .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .btn-filled {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--ink); color: var(--bg);
+      padding: 12px 22px; border-radius: 7px; font-size: 14px; font-weight: 500;
+      text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s;
+    }
+    .btn-filled:hover { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(24,23,15,0.2); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--ink-2);
+      padding: 12px 22px; border-radius: 7px; border: 1px solid var(--border);
+      font-size: 14px; text-decoration: none; transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--ink-2); color: var(--ink); }
+
+    .hero-footnote {
+      position: absolute; bottom: 88px; right: 52px; z-index: 1;
+      display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+    }
+    .fn-item { font-size: 11px; color: var(--ink-3); display: flex; align-items: center; gap: 8px; }
+    .fn-item strong { color: var(--ink-2); font-weight: 500; }
+    .fn-rule { width: 1px; height: 36px; background: var(--border); margin: 2px auto; }
+
+    /* TICKER */
+    .ticker-wrap {
+      overflow: hidden; background: var(--surface);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 13px 0;
+    }
+    .ticker-track {
+      display: flex; white-space: nowrap;
+      animation: tick 30s linear infinite;
+    }
+    .ticker-item {
+      font-size: 11px; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--ink-3); padding: 0 36px;
+      display: inline-flex; align-items: center; gap: 36px;
+    }
+    .ticker-item::after { content: '·'; opacity: 0.4; }
+    @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* PROJECTS */
+    #projects { padding: 96px 52px; border-bottom: 1px solid var(--border); }
+    .proj-header {
+      display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 64px;
+    }
+    .section-label {
+      font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--ink-3); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before { content: ''; width: 18px; height: 1px; background: var(--ink-3); }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4.5vw, 56px);
+      font-weight: 300; line-height: 1.06; letter-spacing: -0.022em;
+    }
+    .section-title em { font-style: italic; color: var(--ink-2); }
+    .view-all {
+      font-size: 13px; color: var(--ink-3); text-decoration: none;
+      display: flex; align-items: center; gap: 6px; transition: gap 0.2s, color 0.2s;
+    }
+    .view-all:hover { color: var(--ink); gap: 10px; }
+
+    /* project rows */
+    .proj-list { display: flex; flex-direction: column; }
+    .proj-row {
+      display: grid; grid-template-columns: 60px 1fr 140px;
+      align-items: center; gap: 0 40px;
+      padding: 36px 0; border-top: 1px solid var(--border);
+      text-decoration: none; color: inherit;
+      position: relative; transition: padding-left 0.25s var(--ease);
+    }
+    .proj-row:last-child { border-bottom: 1px solid var(--border); }
+    .proj-row::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 0; background: var(--surface); z-index: 0;
+      transition: width 0.28s var(--ease);
+    }
+    .proj-row:hover::before { width: 100%; }
+    .proj-row:hover { padding-left: 16px; }
+    .proj-num {
+      font-family: var(--serif); font-size: 13px; font-style: italic;
+      color: var(--ink-3); position: relative; z-index: 1;
+    }
+    .proj-info { position: relative; z-index: 1; }
+    .proj-name {
+      font-family: var(--serif); font-size: 30px; font-weight: 300;
+      letter-spacing: -0.015em; margin-bottom: 6px; line-height: 1.15;
+    }
+    .proj-desc { font-size: 13.5px; color: var(--ink-3); font-weight: 300; line-height: 1.5; }
+    .proj-tags { display: flex; gap: 7px; margin-top: 14px; flex-wrap: wrap; }
+    .proj-tag {
+      font-size: 10.5px; letter-spacing: 0.04em; color: var(--ink-3);
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 3px 10px; border-radius: 100px;
+    }
+    .proj-right {
+      display: flex; flex-direction: column; align-items: flex-end;
+      gap: 8px; position: relative; z-index: 1;
+    }
+    .proj-year { font-size: 12px; color: var(--ink-3); }
+    .proj-arrow {
+      font-size: 22px; color: var(--ink-3);
+      transition: transform 0.25s var(--ease), color 0.2s;
+    }
+    .proj-row:hover .proj-arrow { transform: translate(4px,-4px); color: var(--ink); }
+
+    /* ABOUT */
+    #about {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; padding: 96px 52px; border-bottom: 1px solid var(--border);
+    }
+    .about-body {
+      font-size: 16px; color: var(--ink-2); font-weight: 300; line-height: 1.8;
+      margin-top: 28px;
+    }
+    .about-body p + p { margin-top: 18px; }
+
+    .skills-block { margin-top: 44px; }
+    .skills-grid { display: flex; gap: 40px; margin-top: 18px; flex-wrap: wrap; }
+    .skill-group {}
+    .skill-group-label {
+      font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--ink-3); margin-bottom: 10px;
+    }
+    .skill-list { display: flex; flex-direction: column; gap: 5px; }
+    .skill-item { font-size: 13.5px; color: var(--ink-2); font-weight: 300; }
+
+    .about-right {}
+    .photo-frame {
+      width: 100%; aspect-ratio: 4/5; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 3px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 20px; font-style: italic; color: var(--ink-3);
+    }
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border); margin-top: 1px;
+    }
+    .stat-cell { background: var(--bg); padding: 24px; }
+    .stat-num {
+      font-family: var(--serif); font-size: 40px; font-weight: 300;
+      letter-spacing: -0.03em; color: var(--ink); line-height: 1; margin-bottom: 6px;
+    }
+    .stat-lbl {
+      font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
+    }
+
+    /* CONTACT */
+    #contact {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; padding: 96px 52px; border-bottom: 1px solid var(--border);
+    }
+    .contact-links { margin-top: 40px; }
+    .contact-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 0; border-bottom: 1px solid var(--border);
+    }
+    .contact-row:first-child { border-top: 1px solid var(--border); }
+    .c-label { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+    .c-value {
+      font-size: 13.5px; color: var(--ink); text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .c-value:hover { opacity: 0.5; }
+
+    .contact-callout {
+      background: var(--ink); border-radius: 3px; padding: 52px;
+      align-self: end;
+    }
+    .cc-eyebrow {
+      font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(249,248,246,0.3); margin-bottom: 20px;
+    }
+    .cc-h {
+      font-family: var(--serif); font-size: 36px; font-weight: 300;
+      line-height: 1.1; letter-spacing: -0.015em; color: var(--bg); margin-bottom: 18px;
+    }
+    .cc-h em { font-style: italic; opacity: 0.45; }
+    .cc-p { font-size: 14px; color: rgba(249,248,246,0.42); font-weight: 300; line-height: 1.7; margin-bottom: 32px; }
+    .cc-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--bg); color: var(--ink);
+      padding: 12px 22px; border-radius: 6px; font-size: 13px; font-weight: 500;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .cc-btn:hover { opacity: 0.84; }
+
+    /* FOOTER */
+    footer {
+      padding: 28px 52px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-logo { font-family: var(--serif); font-size: 15px; color: var(--ink-3); text-decoration: none; font-weight: 300; }
+    .footer-nav { display: flex; gap: 24px; list-style: none; }
+    .footer-nav a { font-size: 12px; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .footer-nav a:hover { color: var(--ink); }
+    .footer-copy { font-size: 12px; color: var(--ink-3); }
+
+    /* REVEAL */
+    .reveal { opacity: 1; transform: none; transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.22s; } .d3 { transition-delay: 0.34s; }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 24px; }
+      .nav-links li:not(:last-child) { display: none; }
+      #hero { padding: 0 24px 64px; }
+      .hero-tag, .hero-avail, .hero-footnote { display: none; }
+      #projects { padding: 64px 24px; }
+      .proj-row { grid-template-columns: 40px 1fr; margin: 0; }
+      .proj-right { display: none; }
+      #about, #contact { grid-template-columns: 1fr; gap: 40px; padding: 64px 24px; }
+      footer { flex-direction: column; gap: 14px; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Alison Belle</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="nav-cta">Get in touch</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-tag">Product Designer & Frontend Developer</div>
+    <div class="hero-avail"><div class="avail-dot"></div>Available for new roles</div>
+
+    <div class="hero-content">
+      <h1 class="reveal">Alison<br><em>Belle.</em></h1>
+      <p class="hero-sub reveal d1">I design elegant digital experiences and build them with code — from UX strategy and systems thinking to production-ready interfaces.</p>
+      <div class="hero-actions reveal d2">
+        <a href="#projects" class="btn-filled">View my work ↓</a>
+        <a href="#contact" class="btn-ghost">Get in touch</a>
+      </div>
+    </div>
+
+    <div class="hero-footnote reveal d3">
+      <div class="fn-item"><strong>Base</strong> Sydney, AU</div>
+      <div class="fn-rule"></div>
+      <div class="fn-item"><strong>Focus</strong> SaaS · Product · Brand</div>
+      <div class="fn-rule"></div>
+      <div class="fn-item"><strong>Stack</strong> Figma · Webflow · JS</div>
+    </div>
+  </section>
+
+  <!-- ── TICKER ── -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">UX Design</span><span class="ticker-item">Product Design</span>
+      <span class="ticker-item">Design Systems</span><span class="ticker-item">Frontend Development</span>
+      <span class="ticker-item">Figma</span><span class="ticker-item">Webflow</span>
+      <span class="ticker-item">HTML · CSS · JS</span><span class="ticker-item">Information Architecture</span>
+      <span class="ticker-item">Prototyping</span><span class="ticker-item">Brand Strategy</span>
+      <span class="ticker-item">User Research</span><span class="ticker-item">Wireframing</span>
+      <span class="ticker-item">UX Design</span><span class="ticker-item">Product Design</span>
+      <span class="ticker-item">Design Systems</span><span class="ticker-item">Frontend Development</span>
+      <span class="ticker-item">Figma</span><span class="ticker-item">Webflow</span>
+      <span class="ticker-item">HTML · CSS · JS</span><span class="ticker-item">Information Architecture</span>
+      <span class="ticker-item">Prototyping</span><span class="ticker-item">Brand Strategy</span>
+      <span class="ticker-item">User Research</span><span class="ticker-item">Wireframing</span>
+    </div>
+  </div>
+
+  <!-- ── PROJECTS ── -->
+  <section id="projects">
+    <div class="proj-header reveal">
+      <div>
+        <div class="section-label">Selected Work</div>
+        <h2 class="section-title">Six projects that<br><em>define my practice</em></h2>
+      </div>
+      <a href="#projects" class="view-all">View all →</a>
+    </div>
+
+    <div class="proj-list">
+      <a href="nyla-artistry.html" class="proj-row reveal">
+        <span class="proj-num">01</span>
+        <div class="proj-info">
+          <div class="proj-name">Nyla Artistry</div>
+          <div class="proj-desc">End-to-end website, booking experience, illustrated print guide, and brand identity for a premium Sydney beauty studio.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">UX Design</span>
+            <span class="proj-tag">Booking Flow</span>
+            <span class="proj-tag">Brand</span>
+            <span class="proj-tag">Webflow</span>
+          </div>
+        </div>
+        <div class="proj-right">
+          <span class="proj-year">2025</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="belle-digital-studio.html" class="proj-row reveal d1">
+        <span class="proj-num">02</span>
+        <div class="proj-info">
+          <div class="proj-name">Belle Digital Studio</div>
+          <div class="proj-desc">Brand identity, design system, and production website for a boutique digital studio — typography tokens, component library, hand-coded.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">Brand Identity</span>
+            <span class="proj-tag">Design System</span>
+            <span class="proj-tag">Typography</span>
+            <span class="proj-tag">HTML/CSS</span>
+          </div>
+        </div>
+        <div class="proj-right">
+          <span class="proj-year">2026</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="crm-dashboard.html" class="proj-row reveal d2">
+        <span class="proj-num">03</span>
+        <div class="proj-info">
+          <div class="proj-name">Client Relationship Dashboard</div>
+          <div class="proj-desc">SaaS UI concept — CRM data tables, health scoring, analytics, and a full component system demonstrating B2B product design thinking.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">SaaS UI</span>
+            <span class="proj-tag">Component Design</span>
+            <span class="proj-tag">Data Viz</span>
+            <span class="proj-tag">Figma</span>
+          </div>
+        </div>
+        <div class="proj-right">
+          <span class="proj-year">2025</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="australia-study.html" class="proj-row reveal">
+        <span class="proj-num">04</span>
+        <div class="proj-info">
+          <div class="proj-name">Australia Study</div>
+          <div class="proj-desc">Logo, brand identity, and web presence for an Australian education platform — culturally grounded design applied across digital and print.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">Logo Design</span>
+            <span class="proj-tag">Brand Identity</span>
+            <span class="proj-tag">Web</span>
+            <span class="proj-tag">Print</span>
+          </div>
+        </div>
+        <div class="proj-right">
+          <span class="proj-year">2024</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="sei-mai-name.html" class="proj-row reveal d1">
+        <span class="proj-num">05</span>
+        <div class="proj-info">
+          <div class="proj-name">Sei Mai Name</div>
+          <div class="proj-desc">Full brand identity, Squarespace website, and social media presence for a Vietnamese-inspired tapas and cocktail bar in Sydney.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">Brand</span>
+            <span class="proj-tag">Web Dev</span>
+            <span class="proj-tag">Social Media</span>
+            <span class="proj-tag">Hospitality</span>
+          </div>
+        </div>
+        <div class="proj-right">
+          <span class="proj-year">2024</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="3d-uiux.html" class="proj-row reveal d2">
+        <span class="proj-num">06</span>
+        <div class="proj-info">
+          <div class="proj-name">3D UI/UX Exploration</div>
+          <div class="proj-desc">Two conceptual website designs using self-taught Blender 3D renders as UI hero assets — merging visual art with functional interface design.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">3D Design</span>
+            <span class="proj-tag">Blender</span>
+            <span class="proj-tag">Creative Direction</span>
+            <span class="proj-tag">Concept</span>
+          </div>
+        </div>
+        <div class="proj-right">
+          <span class="proj-year">2025</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section id="about">
+    <div class="reveal">
+      <div class="section-label">About</div>
+      <h2 class="section-title">Design-led.<br><em>Code-fluent.</em></h2>
+      <div class="about-body">
+        <p>I'm a hybrid Product Designer and Frontend Developer based in Sydney. I bridge the gap between design and engineering — translating research and strategy into interfaces that are both beautiful and technically precise.</p>
+        <p>My work spans SaaS products, service businesses, and brand-led digital experiences. I care about the full arc: defining the problem, solving it with clarity, and building it to last.</p>
+        <p>I'm actively seeking product design roles at SaaS companies where craft and rigour matter equally.</p>
+      </div>
+      <div class="skills-block">
+        <div class="section-label" style="margin-bottom:14px;">Tools & Skills</div>
+        <div class="skills-grid">
+          <div class="skill-group">
+            <div class="skill-group-label">Design</div>
+            <div class="skill-list">
+              <span class="skill-item">Figma</span>
+              <span class="skill-item">Prototyping</span>
+              <span class="skill-item">Design Systems</span>
+              <span class="skill-item">User Research</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Build</div>
+            <div class="skill-list">
+              <span class="skill-item">HTML / CSS</span>
+              <span class="skill-item">JavaScript</span>
+              <span class="skill-item">Webflow</span>
+              <span class="skill-item">React (basics)</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Process</div>
+            <div class="skill-list">
+              <span class="skill-item">UX Strategy</span>
+              <span class="skill-item">IA & Wireframing</span>
+              <span class="skill-item">Brand Identity</span>
+              <span class="skill-item">Accessibility</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-right reveal d1">
+      <div class="photo-frame">
+        <img src="assets/About ssection profile picture.png" alt="Portrait of Alison Belle standing in a neutral architectural setting">
+      </div>
+      <div class="stats-grid">
+        <div class="stat-cell">
+          <div class="stat-num">4+</div>
+          <div class="stat-lbl">Years experience</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">22+</div>
+          <div class="stat-lbl">Projects shipped</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">2</div>
+          <div class="stat-lbl">Disciplines</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">AU</div>
+          <div class="stat-lbl">Sydney-based</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ── -->
+  <section id="contact">
+    <div class="reveal">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">Open to<br><em>the right role</em></h2>
+      <p style="font-size:16px;color:var(--ink-2);font-weight:300;line-height:1.75;margin-top:20px;max-width:400px;">
+        I'm looking for a product design role at a company where design and engineering work closely together. If that sounds like you, I'd love to connect.
+      </p>
+      <div class="contact-links">
+        <div class="contact-row">
+          <span class="c-label">Email</span>
+          <a href="mailto:belledigitalstudio1@gmail.com" class="c-value">belledigitalstudio1@gmail.com &nearr;</a>
+        </div>
+        <div class="contact-row">
+          <span class="c-label">Location</span>
+          <span class="c-value">Sydney, NSW, Australia</span>
+        </div>
+        <div class="contact-row">
+          <span class="c-label">LinkedIn</span>
+          <a href="https://www.linkedin.com/in/alison-belle-14b60325a/" class="c-value" target="_blank" rel="noopener noreferrer">linkedin.com/in/alisonbelle &nearr;</a>
+        </div>
+        <div class="contact-row">
+          <span class="c-label">Resume</span>
+          <a href="../../Applications/Portfolio Of Alison Belle.pdf" class="c-value" target="_blank" rel="noopener noreferrer">Download PDF &nearr;</a>
+        </div>
+      </div>
+    </div>
+    <div class="reveal d1">
+      <div class="contact-callout">
+        <div class="cc-eyebrow">Currently available</div>
+        <h3 class="cc-h">Let's build something<br><em>worth using.</em></h3>
+        <p class="cc-p">I want to be on a team where the details matter — where product and design are one conversation, not two departments.</p>
+        <a href="mailto:belledigitalstudio1@gmail.com" class="cc-btn">Start a conversation →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <a href="index.html" class="footer-logo">Alison Belle</a>
+    <ul class="footer-nav">
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 Alison Belle</span>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(e => e.forEach(el => el.isIntersecting && el.target.classList.add('in')), { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    // Trigger hero immediately
+    document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('in'));
+  </script>
+</body>
+</html>
+

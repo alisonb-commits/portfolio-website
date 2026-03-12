@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sei Mai Name - Alison Belle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F9F8F6;
+      --surface: #F2F1EE;
+      --border: #E4E2DC;
+      --ink: #18170F;
+      --ink-2: #46443C;
+      --ink-3: #8C8A82;
+      --gold: #D4A819;
+      --gold-deep: #8B6914;
+      --char: #1A1508;
+      --serif: 'Fraunces', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 52px; height: 58px;
+      background: rgba(249,248,246,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--serif); font-size: 16px; color: var(--ink);
+      text-decoration: none; letter-spacing: -0.01em; font-weight: 300;
+    }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; color: var(--ink-3); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--ink); color: var(--bg) !important;
+      padding: 7px 16px; border-radius: 6px;
+      font-size: 12.5px; font-weight: 500; text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.78; }
+
+    .cs-hero {
+      padding-top: 58px;
+      min-height: 78vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding-left: 52px; padding-right: 52px; padding-bottom: 80px;
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      background: var(--char);
+    }
+    .cs-hero-watermark {
+      position: absolute; right: -20px; bottom: -30px;
+      font-family: var(--serif); font-size: 280px; font-weight: 900;
+      color: var(--gold); opacity: 0.04; line-height: 1;
+      pointer-events: none; user-select: none;
+      letter-spacing: -0.04em;
+    }
+    .cs-breadcrumb {
+      font-size: 12px; color: rgba(249,248,246,0.4);
+      display: flex; align-items: center; gap: 8px; margin-bottom: 36px;
+    }
+    .cs-breadcrumb a { color: rgba(249,248,246,0.4); text-decoration: none; transition: color 0.2s; }
+    .cs-breadcrumb a:hover { color: rgba(249,248,246,0.72); }
+    .cs-breadcrumb-sep { opacity: 0.3; }
+    .cs-proj-num {
+      font-family: var(--serif); font-size: 13px; font-style: italic;
+      color: rgba(249,248,246,0.3); margin-bottom: 18px; display: block; font-weight: 300;
+    }
+    .cs-title {
+      font-family: var(--serif);
+      font-size: clamp(52px, 7.5vw, 108px);
+      font-weight: 300; line-height: 0.95;
+      letter-spacing: -0.03em; color: #F9F8F6;
+      margin-bottom: 28px;
+    }
+    .cs-title em { font-style: italic; color: var(--gold); }
+    .cs-summary {
+      font-size: 17px; color: rgba(249,248,246,0.55); font-weight: 300;
+      line-height: 1.65; max-width: 560px; margin-bottom: 44px;
+    }
+    .cs-meta-strip {
+      display: flex; gap: 0;
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 3px;
+      background: rgba(255,255,255,0.04); max-width: 720px;
+      overflow: hidden;
+    }
+    .cs-meta-cell {
+      padding: 18px 28px; flex: 1; border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .cs-meta-cell:last-child { border-right: none; }
+    .cs-meta-label {
+      font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase;
+      color: rgba(249,248,246,0.3); margin-bottom: 7px;
+    }
+    .cs-meta-value { font-size: 13px; color: rgba(249,248,246,0.72); }
+
+    .cs-section,
+    .cs-section-dark,
+    .cs-section-tint {
+      padding: 96px 52px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-section-dark {
+      background: var(--char);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .cs-section-tint { background: var(--surface); }
+    .cs-inner { max-width: 1120px; margin: 0 auto; }
+
+    .cs-label,
+    .cs-label-lt {
+      font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 28px; display: flex; align-items: center; gap: 12px;
+    }
+    .cs-label { color: var(--ink-3); }
+    .cs-label-lt { color: rgba(249,248,246,0.3); }
+    .cs-label::before,
+    .cs-label-lt::before {
+      content: ''; width: 18px; height: 1px;
+    }
+    .cs-label::before { background: var(--ink-3); }
+    .cs-label-lt::before { background: rgba(249,248,246,0.3); }
+
+    .cs-h2,
+    .cs-h2-lt {
+      font-family: var(--serif);
+      font-size: clamp(30px, 4vw, 52px);
+      font-weight: 300; line-height: 1.08; letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+    .cs-h2 { color: var(--ink); }
+    .cs-h2-lt { color: var(--bg); }
+    .cs-h2 em { font-style: italic; color: var(--ink-2); }
+    .cs-h2-lt em { font-style: italic; opacity: 0.45; }
+
+    .cs-body {
+      font-size: 15.5px; color: var(--ink-2); font-weight: 300;
+      line-height: 1.78; max-width: 620px;
+    }
+    .cs-body p + p { margin-top: 18px; }
+    .cs-body-lt {
+      font-size: 15.5px; color: rgba(249,248,246,0.5); font-weight: 300;
+      line-height: 1.78; max-width: 620px;
+    }
+    .cs-body-lt p + p { margin-top: 18px; }
+
+    .col-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+    .col-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; margin-top: 48px; }
+
+    .card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 3px; padding: 28px;
+    }
+    .card-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+    .card-body { font-size: 13px; color: var(--ink-3); line-height: 1.65; font-weight: 300; }
+
+    .process-list { margin-top: 40px; }
+    .process-step-dk {
+      display: grid; grid-template-columns: 52px 1fr;
+      gap: 20px; padding: 26px 0;
+      border-top: 1px solid rgba(255,255,255,0.07); align-items: start;
+    }
+    .process-step-dk:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .step-num-lt {
+      font-family: var(--serif); font-size: 22px; font-style: italic;
+      color: rgba(249,248,246,0.2); font-weight: 300;
+    }
+    .step-title-lt { font-size: 14.5px; font-weight: 500; color: rgba(249,248,246,0.8); margin-bottom: 6px; }
+    .step-body-lt { font-size: 13px; color: rgba(249,248,246,0.35); font-weight: 300; line-height: 1.65; }
+
+    .showcase-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 88px;
+    }
+    .showcase-block {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+      gap: 64px;
+      align-items: center;
+    }
+    .showcase-block.reverse {
+      grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+    }
+    .showcase-text .cs-label { margin-bottom: 16px; }
+    .showcase-text .cs-h2 { margin-bottom: 18px; }
+
+    .media-frame {
+      position: relative;
+      background: linear-gradient(180deg, #f5f3ef 0%, #ece8e1 100%);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(24,23,15,0.08);
+    }
+    .media-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .inline-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .inline-link:hover { opacity: 0.72; }
+    .media-single {
+      padding: 22px;
+    }
+    .media-composition {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .media-composition .media-frame:first-child {
+      margin-top: 42px;
+    }
+    .media-composition .media-frame:last-child {
+      padding: 18px;
+    }
+    .media-composition .media-frame:first-child {
+      padding: 16px;
+      background: #f0ece7;
+    }
+    .media-composition .media-frame:last-child {
+      background: linear-gradient(180deg, #f4f1eb 0%, #ebe6de 100%);
+    }
+    .media-frame-dark {
+      background: linear-gradient(180deg, #22201b 0%, #15120d 100%);
+      border-color: rgba(255,255,255,0.06);
+    }
+
+    .outcome-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
+      border-radius: 3px; overflow: hidden; margin-top: 48px;
+    }
+    .outcome-cell { background: var(--bg); padding: 40px 32px; }
+    .outcome-num {
+      font-family: var(--serif); font-size: 56px; font-weight: 300;
+      letter-spacing: -0.04em; color: var(--ink); line-height: 1;
+      margin-bottom: 10px;
+    }
+    .outcome-label {
+      font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink-3); margin-bottom: 8px;
+    }
+    .outcome-note { font-size: 13px; color: var(--ink-2); font-weight: 300; line-height: 1.55; }
+
+    .next-project {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 52px; text-decoration: none; color: inherit;
+      border-top: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .next-project:hover { background: var(--surface); }
+    .next-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+    .next-name {
+      font-family: var(--serif); font-size: 40px; font-weight: 300;
+      letter-spacing: -0.02em; color: var(--ink);
+    }
+    .next-arrow { font-size: 44px; color: var(--ink-3); transition: transform 0.25s var(--ease); }
+    .next-project:hover .next-arrow { transform: translate(6px,-6px); }
+
+    footer {
+      padding: 28px 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+    .footer-logo { font-family: var(--serif); font-size: 15px; color: var(--ink-3); text-decoration: none; font-weight: 300; }
+    .footer-nav { display: flex; gap: 24px; list-style: none; }
+    .footer-nav a { font-size: 12px; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .footer-nav a:hover { color: var(--ink); }
+    .footer-copy { font-size: 12px; color: var(--ink-3); }
+
+    .reveal {
+      opacity: 1; transform: none;
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 24px; }
+      .nav-links li:not(:last-child) { display: none; }
+      .cs-hero, .cs-section, .cs-section-dark, .cs-section-tint { padding-left: 24px; padding-right: 24px; }
+      .col-2, .col-3, .showcase-block, .showcase-block.reverse, .media-composition { grid-template-columns: 1fr; gap: 32px; }
+      .cs-meta-strip { flex-direction: column; }
+      .cs-meta-cell { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .media-composition .media-frame:first-child { margin-top: 0; }
+      .outcome-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 14px; padding: 24px; }
+      .next-project { padding: 32px 24px; }
+      .next-name { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Alison Belle</a>
+  <ul class="nav-links">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="cs-hero">
+  <div class="cs-hero-watermark">SMN</div>
+  <div class="cs-breadcrumb">
+    <a href="index.html">Home</a>
+    <span class="cs-breadcrumb-sep">/</span>
+    <a href="index.html#projects">Work</a>
+    <span class="cs-breadcrumb-sep">/</span>
+    <span>Sei Mai Name</span>
+  </div>
+  <span class="cs-proj-num">Project 05</span>
+  <h1 class="cs-title reveal">Sei Mai<br><em>Name</em></h1>
+  <p class="cs-summary reveal d1">Full brand identity, website, and social media presence for a Vietnamese-inspired tapas and cocktail bar in Sydney, from logo to digital community.</p>
+  <div class="cs-meta-strip reveal d2">
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Role</div>
+      <div class="cs-meta-value">Brand | Web Dev | Social</div>
+    </div>
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Tools</div>
+      <div class="cs-meta-value">Illustrator | Squarespace | Canva Pro</div>
+    </div>
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Year</div>
+      <div class="cs-meta-value">2024</div>
+    </div>
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Type</div>
+      <div class="cs-meta-value">Client Project</div>
+    </div>
+  </div>
+</header>
+
+<section class="cs-section">
+  <div class="cs-inner">
+    <div class="col-2">
+      <div class="reveal">
+        <div class="cs-label">The Problem</div>
+        <h2 class="cs-h2">A distinctive venue with no <em>digital presence</em></h2>
+      </div>
+      <div class="cs-body reveal d1">
+        <p>Sei Mai Name is a vibrant Vietnamese-inspired tapas and cocktail bar in Sydney. The venue had a clear personality in person, warm, bold, and culturally rich, but had no brand identity, website, or social presence to communicate that experience before customers arrived.</p>
+        <p>In a competitive hospitality market where diners discover venues through Instagram before they ever book, that absence was a direct business problem. The brief was to build a brand and digital presence that captured the essence of the bar and helped launch it with credibility.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section-tint">
+  <div class="cs-inner">
+    <div class="cs-label reveal">Design Thinking</div>
+    <h2 class="cs-h2 reveal">Brand as <em>experience extension</em></h2>
+    <div class="col-3 reveal">
+      <div class="card">
+        <div class="card-title">Identity with Presence</div>
+        <div class="card-body">The circular seal mark gave the venue a logo that felt warm, distinctive, and adaptable across signage, menus, social content, and digital touchpoints.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Mobile and Social First</div>
+        <div class="card-body">The website and social rollout were treated as primary deliverables because hospitality audiences often meet the brand first on their phones.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Atmosphere over Minimalism</div>
+        <div class="card-body">Deep charcoal, warm gold, and cinematic food imagery were used to reflect the candlelit, intimate energy of the venue without losing clarity.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section-dark">
+  <div class="cs-inner">
+    <div class="cs-label-lt reveal">Process</div>
+    <h2 class="cs-h2-lt reveal">Logo to <em>live presence</em></h2>
+    <div class="process-list reveal">
+      <div class="process-step-dk">
+        <span class="step-num-lt">01</span>
+        <div>
+          <div class="step-title-lt">Brand Discovery</div>
+          <div class="step-body-lt">Workshopped the venue values with the owner and positioned the brand around warmth, celebration, community, and cultural richness.</div>
+        </div>
+      </div>
+      <div class="process-step-dk">
+        <span class="step-num-lt">02</span>
+        <div>
+          <div class="step-title-lt">Logo & Seal Design</div>
+          <div class="step-body-lt">Developed a circular SMN seal with floral detailing and created flexible logo variations for digital and physical use.</div>
+        </div>
+      </div>
+      <div class="process-step-dk">
+        <span class="step-num-lt">03</span>
+        <div>
+          <div class="step-title-lt">Website Build</div>
+          <div class="step-body-lt">Designed and built a Squarespace site with strong visual mood, booking calls to action, and a mobile-first structure.</div>
+        </div>
+      </div>
+      <div class="process-step-dk">
+        <span class="step-num-lt">04</span>
+        <div>
+          <div class="step-title-lt">Social Media Rollout</div>
+          <div class="step-body-lt">Created the visual direction for launch content and branded templates so the venue could build a recognisable feed from day one.</div>
+        </div>
+      </div>
+      <div class="process-step-dk">
+        <span class="step-num-lt">05</span>
+        <div>
+          <div class="step-title-lt">Handoff & Training</div>
+          <div class="step-body-lt">Delivered the core system in a way the client could manage confidently after handoff without losing consistency.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="cs-inner">
+    <div class="showcase-stack">
+      <div class="showcase-block reveal">
+        <div class="showcase-text">
+          <div class="cs-label">Website Showcase</div>
+          <h2 class="cs-h2">Website / <em>Mobile First</em></h2>
+          <div class="cs-body">
+            <p>Sei Mai Name needed more than a visual identity &mdash; it needed a digital presence that could introduce the venue before guests ever arrived. I designed and built a website that translated the atmosphere of the bar into a clean, mobile-friendly experience, with a strong focus on discoverability, visual mood, and clear booking calls to action. Since hospitality audiences often first engage on their phones, the mobile experience was treated as a priority rather than a reduced version of the desktop site.</p>
+            <p>The visual direction used deep charcoal, warm gold, and cinematic food imagery to reflect the candlelit, intimate energy of the venue. This gave the site a stronger emotional presence while still keeping the structure simple and easy to navigate. The result was a more credible online identity that made it easier for potential customers to understand the brand, explore the venue, and move toward booking.</p>
+          </div>
+          <a class="inline-link" href="https://www.seimainame.com.au/" target="_blank" rel="noopener noreferrer">View live website &nearr;</a>
+        </div>
+        <div class="media-frame media-single">
+          <img src="assets/Website and Mobile.png" alt="Sei Mai Name website shown on desktop and mobile devices" onerror="this.closest('.media-frame').classList.add('media-frame-dark'); this.remove();">
+        </div>
+      </div>
+
+      <div class="showcase-block reveal d1">
+        <div class="showcase-text">
+          <div class="cs-label">Brand Identity</div>
+          <h2 class="cs-h2">Logo <em>Identity</em></h2>
+          <div class="cs-body">
+            <p>The Sei Mai Name identity was built around a circular seal logo that combined the SMN initials with a floral motif, creating a mark that felt distinctive, warm, and suitable for both digital and physical applications. The circular format gave the brand a sense of presence and versatility, allowing it to work across signage, menus, social media, and other branded touchpoints without losing recognition.</p>
+            <p>To make the identity more flexible, I developed logo variations for light and dark backgrounds, ensuring the mark remained legible and consistent across different environments. Showing the logo both as a standalone system and in-context on signage helps communicate not just what the logo looks like, but how it functions as part of a real hospitality brand.</p>
+          </div>
+        </div>
+        <div class="media-composition">
+          <figure class="media-frame">
+            <img src="assets/Logos.png" alt="Sei Mai Name logo system showing brand mark variations on light and dark backgrounds" onerror="this.closest('.media-frame').classList.add('media-frame-dark'); this.remove();">
+          </figure>
+          <figure class="media-frame">
+            <img src="assets/Logo Preview in Action.png" alt="Sei Mai Name brand identity applied to venue signage and promotional imagery" onerror="this.closest('.media-frame').classList.add('media-frame-dark'); this.remove();">
+          </figure>
+        </div>
+      </div>
+
+      <div class="showcase-block reverse reveal d2">
+        <div class="media-frame media-single">
+          <img src="assets/Social Media.png" alt="Sei Mai Name Instagram feed presented on a mobile device" onerror="this.closest('.media-frame').classList.add('media-frame-dark'); this.remove();">
+        </div>
+        <div class="showcase-text">
+          <div class="cs-label">Social</div>
+          <h2 class="cs-h2">Social Media <em>Presence</em></h2>
+          <div class="cs-body">
+            <p>Because Instagram plays such a major role in how hospitality venues are discovered, social media was treated as a core part of the brand rollout. I created a visual direction for the feed that balanced food photography, promotional graphics, and branded announcements, helping Sei Mai Name feel active, recognisable, and visually cohesive online.</p>
+            <p>The goal was to create a feed that felt inviting and atmospheric while still being structured enough to support marketing moments such as launches, promotions, and event-driven content. This gave the business a stronger digital presence and helped extend the brand experience beyond the venue itself.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section-tint">
+  <div class="cs-inner">
+    <div class="cs-label reveal">Outcome</div>
+    <h2 class="cs-h2 reveal">Community built, <em>brand launched</em></h2>
+    <div class="outcome-grid reveal">
+      <div class="outcome-cell">
+        <div class="outcome-num">30+</div>
+        <div class="outcome-label">Social templates</div>
+        <div class="outcome-note">Branded Canva templates handed off so the owner can post consistently without ongoing design support.</div>
+      </div>
+      <div class="outcome-cell">
+        <div class="outcome-num">3</div>
+        <div class="outcome-label">Platforms launched</div>
+        <div class="outcome-note">Website, Instagram, and Google Business Profile were launched with a consistent visual identity from day one.</div>
+      </div>
+      <div class="outcome-cell">
+        <div class="outcome-num">+</div>
+        <div class="outcome-label">Brand presence</div>
+        <div class="outcome-note">The venue moved from no digital footprint to a cohesive launch-ready system spanning identity, web, and social media.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a href="3d-uiux.html" class="next-project">
+  <div>
+    <div class="next-label">Next Project</div>
+    <div class="next-name">3D UI/UX Exploration</div>
+  </div>
+  <span class="next-arrow">&nearr;</span>
+</a>
+
+<footer>
+  <a href="index.html" class="footer-logo">Alison Belle</a>
+  <ul class="footer-nav">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <span class="footer-copy">&copy; 2024 Alison Belle</span>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('in')),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Australia Study - Alison Belle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F9F8F6;
+      --surface: #F2F1EE;
+      --border: #E4E2DC;
+      --ink: #18170F;
+      --ink-2: #46443C;
+      --ink-3: #8C8A82;
+      --orange: #F47B43;
+      --green: #5D9670;
+      --sand: #EEE5D9;
+      --serif: 'Fraunces', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 52px; height: 58px;
+      background: rgba(249,248,246,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--serif); font-size: 16px; color: var(--ink);
+      text-decoration: none; letter-spacing: -0.01em; font-weight: 300;
+    }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; color: var(--ink-3); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--ink); color: var(--bg) !important;
+      padding: 7px 16px; border-radius: 6px;
+      font-size: 12.5px; font-weight: 500; text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.78; }
+
+    .cs-hero {
+      padding-top: 58px;
+      min-height: 78vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding-left: 52px; padding-right: 52px; padding-bottom: 80px;
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      background: linear-gradient(180deg, #f4efe8 0%, #f1efe9 100%);
+    }
+    .cs-hero-watermark {
+      position: absolute; right: -20px; bottom: -30px;
+      font-family: var(--serif); font-size: 280px; font-weight: 900;
+      color: var(--green); opacity: 0.08; line-height: 1;
+      pointer-events: none; user-select: none;
+      letter-spacing: -0.04em;
+    }
+    .cs-breadcrumb {
+      font-size: 12px; color: var(--ink-3);
+      display: flex; align-items: center; gap: 8px; margin-bottom: 36px;
+    }
+    .cs-breadcrumb a { color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .cs-breadcrumb a:hover { color: var(--ink); }
+    .cs-breadcrumb-sep { opacity: 0.3; }
+    .cs-proj-num {
+      font-family: var(--serif); font-size: 13px; font-style: italic;
+      color: var(--ink-3); margin-bottom: 18px; display: block; font-weight: 300;
+    }
+    .cs-title {
+      font-family: var(--serif);
+      font-size: clamp(52px, 7.5vw, 108px);
+      font-weight: 300; line-height: 0.95;
+      letter-spacing: -0.03em; color: var(--ink);
+      margin-bottom: 28px;
+    }
+    .cs-title em { font-style: italic; color: var(--green); }
+    .cs-summary {
+      font-size: 17px; color: var(--ink-2); font-weight: 300;
+      line-height: 1.65; max-width: 560px; margin-bottom: 44px;
+    }
+    .cs-meta-strip {
+      display: flex; gap: 0;
+      border: 1px solid var(--border); border-radius: 3px;
+      background: rgba(255,255,255,0.36); max-width: 720px;
+      overflow: hidden;
+    }
+    .cs-meta-cell {
+      padding: 18px 28px; flex: 1; border-right: 1px solid var(--border);
+    }
+    .cs-meta-cell:last-child { border-right: none; }
+    .cs-meta-label {
+      font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--ink-3); margin-bottom: 7px;
+    }
+    .cs-meta-value { font-size: 13px; color: var(--ink-2); }
+
+    .cs-section,
+    .cs-section-dark,
+    .cs-section-tint {
+      padding: 96px 52px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-section-dark {
+      background: var(--ink);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .cs-section-tint { background: var(--surface); }
+    .cs-inner { max-width: 1120px; margin: 0 auto; }
+
+    .cs-label,
+    .cs-label-lt {
+      font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 28px; display: flex; align-items: center; gap: 12px;
+    }
+    .cs-label { color: var(--ink-3); }
+    .cs-label-lt { color: rgba(249,248,246,0.3); }
+    .cs-label::before,
+    .cs-label-lt::before {
+      content: ''; width: 18px; height: 1px;
+    }
+    .cs-label::before { background: var(--ink-3); }
+    .cs-label-lt::before { background: rgba(249,248,246,0.3); }
+
+    .cs-h2,
+    .cs-h2-lt {
+      font-family: var(--serif);
+      font-size: clamp(30px, 4vw, 52px);
+      font-weight: 300; line-height: 1.08; letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+    .cs-h2 { color: var(--ink); }
+    .cs-h2-lt { color: var(--bg); }
+    .cs-h2 em { font-style: italic; color: var(--ink-2); }
+    .cs-h2-lt em { font-style: italic; opacity: 0.45; }
+
+    .cs-body {
+      font-size: 15.5px; color: var(--ink-2); font-weight: 300;
+      line-height: 1.78; max-width: 620px;
+    }
+    .cs-body p + p { margin-top: 18px; }
+    .cs-body-lt {
+      font-size: 15.5px; color: rgba(249,248,246,0.5); font-weight: 300;
+      line-height: 1.78; max-width: 620px;
+    }
+    .cs-body-lt p + p { margin-top: 18px; }
+
+    .col-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+    .col-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; margin-top: 48px; }
+
+    .card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 3px; padding: 28px;
+    }
+    .card-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+    .card-body { font-size: 13px; color: var(--ink-3); line-height: 1.65; font-weight: 300; }
+
+    .process-list { margin-top: 40px; }
+    .process-step-dk {
+      display: grid; grid-template-columns: 52px 1fr;
+      gap: 20px; padding: 26px 0;
+      border-top: 1px solid rgba(255,255,255,0.07); align-items: start;
+    }
+    .process-step-dk:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .step-num-lt {
+      font-family: var(--serif); font-size: 22px; font-style: italic;
+      color: rgba(249,248,246,0.2); font-weight: 300;
+    }
+    .step-title-lt { font-size: 14.5px; font-weight: 500; color: rgba(249,248,246,0.8); margin-bottom: 6px; }
+    .step-body-lt { font-size: 13px; color: rgba(249,248,246,0.35); font-weight: 300; line-height: 1.65; }
+
+    .showcase-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 88px;
+    }
+    .showcase-block {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+      gap: 64px;
+      align-items: center;
+    }
+    .showcase-text .cs-label { margin-bottom: 16px; }
+    .showcase-text .cs-h2 { margin-bottom: 18px; }
+
+    .media-frame {
+      position: relative;
+      background: linear-gradient(180deg, #f8f5ef 0%, #eeebe4 100%);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(24,23,15,0.08);
+    }
+    .media-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .inline-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .inline-link:hover { opacity: 0.72; }
+    .media-single {
+      padding: 22px;
+    }
+    .media-minimal {
+      padding: 42px;
+      background: linear-gradient(180deg, #fbfaf7 0%, #f2efe8 100%);
+    }
+    .media-minimal img {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+    .brand-composition {
+      position: relative;
+      min-height: 760px;
+    }
+    .brand-large,
+    .brand-small {
+      position: absolute;
+    }
+    .brand-large {
+      top: 0;
+      left: 0;
+      width: 72%;
+      z-index: 1;
+      padding: 16px;
+    }
+    .brand-small {
+      right: 0;
+      bottom: 24px;
+      width: 48%;
+      z-index: 2;
+      padding: 14px;
+      transform: translateY(0);
+    }
+
+    .wireframe-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+      gap: 56px;
+      align-items: start;
+    }
+    .wireframe-copy .cs-label { margin-bottom: 16px; }
+    .wireframe-copy .cs-h2 { margin-bottom: 18px; }
+    .wireframe-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+    .wireframe-card {
+      background: rgba(255,255,255,0.52);
+      border: 1px solid #ddd8d0;
+      border-radius: 3px;
+      padding: 18px;
+      box-shadow: 0 12px 28px rgba(24,23,15,0.04);
+    }
+    .wireframe-card.offset {
+      margin-top: 34px;
+    }
+    .wireframe-board {
+      min-height: 298px;
+      background: #fbfaf8;
+      border: 1px solid #e6e1d9;
+      border-radius: 2px;
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+    .wf-line {
+      height: 8px;
+      width: 34%;
+      background: #d8d3cb;
+      border-radius: 999px;
+    }
+    .wf-line.short { width: 22%; }
+    .wf-line.long { width: 56%; }
+    .wf-hero {
+      border: 1px solid #d9d4cc;
+      min-height: 84px;
+      border-radius: 2px;
+      background: #f3f1ed;
+    }
+    .wf-row-2,
+    .wf-row-3 {
+      display: grid;
+      gap: 10px;
+    }
+    .wf-row-2 { grid-template-columns: repeat(2, 1fr); }
+    .wf-row-3 { grid-template-columns: 1.2fr 0.8fr 0.8fr; }
+    .wf-block,
+    .wf-card-sm,
+    .wf-cta {
+      border: 1px solid #ddd8d0;
+      border-radius: 2px;
+      background: #f5f3ef;
+    }
+    .wf-block { min-height: 72px; }
+    .wf-card-sm { min-height: 84px; }
+    .wf-cta { min-height: 56px; }
+
+    .outcome-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
+      border-radius: 3px; overflow: hidden; margin-top: 48px;
+    }
+    .outcome-cell { background: var(--bg); padding: 40px 32px; }
+    .outcome-num {
+      font-family: var(--serif); font-size: 56px; font-weight: 300;
+      letter-spacing: -0.04em; color: var(--ink); line-height: 1;
+      margin-bottom: 10px;
+    }
+    .outcome-label {
+      font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink-3); margin-bottom: 8px;
+    }
+    .outcome-note { font-size: 13px; color: var(--ink-2); font-weight: 300; line-height: 1.55; }
+
+    .next-project {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 52px; text-decoration: none; color: inherit;
+      border-top: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .next-project:hover { background: var(--surface); }
+    .next-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+    .next-name {
+      font-family: var(--serif); font-size: 40px; font-weight: 300;
+      letter-spacing: -0.02em; color: var(--ink);
+    }
+    .next-arrow { font-size: 44px; color: var(--ink-3); transition: transform 0.25s var(--ease); }
+    .next-project:hover .next-arrow { transform: translate(6px,-6px); }
+
+    footer {
+      padding: 28px 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+    .footer-logo { font-family: var(--serif); font-size: 15px; color: var(--ink-3); text-decoration: none; font-weight: 300; }
+    .footer-nav { display: flex; gap: 24px; list-style: none; }
+    .footer-nav a { font-size: 12px; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .footer-nav a:hover { color: var(--ink); }
+    .footer-copy { font-size: 12px; color: var(--ink-3); }
+
+    .reveal {
+      opacity: 1; transform: none;
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 24px; }
+      .nav-links li:not(:last-child) { display: none; }
+      .cs-hero, .cs-section, .cs-section-dark, .cs-section-tint { padding-left: 24px; padding-right: 24px; }
+      .col-2, .col-3, .showcase-block, .wireframe-shell { grid-template-columns: 1fr; gap: 32px; }
+      .wireframe-gallery { grid-template-columns: 1fr; }
+      .wireframe-card.offset { margin-top: 0; }
+      .cs-meta-strip { flex-direction: column; }
+      .cs-meta-cell { border-right: none; border-bottom: 1px solid var(--border); }
+      .brand-composition {
+        min-height: auto;
+        display: grid;
+        gap: 18px;
+      }
+      .brand-large,
+      .brand-small {
+        position: static;
+        width: 100%;
+      }
+      .outcome-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 14px; padding: 24px; }
+      .next-project { padding: 32px 24px; }
+      .next-name { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Alison Belle</a>
+  <ul class="nav-links">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="cs-hero">
+  <div class="cs-hero-watermark">AS.</div>
+  <div class="cs-breadcrumb">
+    <a href="index.html">Home</a>
+    <span class="cs-breadcrumb-sep">/</span>
+    <a href="index.html#projects">Work</a>
+    <span class="cs-breadcrumb-sep">/</span>
+    Australia Study
+  </div>
+  <span class="cs-proj-num">Project 04</span>
+  <h1 class="cs-title reveal">Australia<br><em>Study</em></h1>
+  <p class="cs-summary reveal d1">Logo, brand identity, and web presence for an Australian education platform, built to feel warm, supportive, and credible for international students.</p>
+  <div class="cs-meta-strip reveal d2">
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Role</div>
+      <div class="cs-meta-value">Logo | Brand Identity | Web</div>
+    </div>
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Tools</div>
+      <div class="cs-meta-value">Illustrator | Figma | Webflow</div>
+    </div>
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Year</div>
+      <div class="cs-meta-value">2024</div>
+    </div>
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Type</div>
+      <div class="cs-meta-value">Client Project</div>
+    </div>
+  </div>
+</header>
+
+<section class="cs-section">
+  <div class="cs-inner">
+    <div class="col-2">
+      <div class="reveal">
+        <div class="cs-label">The Problem</div>
+        <h2 class="cs-h2">An education platform without a <em>distinctive identity</em></h2>
+      </div>
+      <div class="cs-body reveal d1">
+        <p>Australia Study needed a brand identity that could work across website, student guides, printed materials, outdoor advertising, and digital campaigns. It had to feel credible and professional to educators while still feeling approachable and aspirational for prospective students.</p>
+        <p>The challenge was finding the middle ground between overly corporate education branding and something too playful to feel trustworthy. The final direction focused on warmth, clarity, and a stronger sense of place.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section-tint">
+  <div class="cs-inner">
+    <div class="cs-label reveal">Design Thinking</div>
+    <h2 class="cs-h2 reveal">Symbol as <em>strategy</em></h2>
+    <div class="col-3 reveal">
+      <div class="card">
+        <div class="card-title">Cultural Grounding</div>
+        <div class="card-body">The logo concept drew from the Australian map outline and the boomerang to communicate movement, place, and direction in a subtle way.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Journey-Led Meaning</div>
+        <div class="card-body">A soft dot inside the mark acts as an origin point, reinforcing the idea that Australia Study helps students begin and navigate their journey.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Warmth over Institution</div>
+        <div class="card-body">Orange, eucalyptus green, and soft neutrals helped the brand feel optimistic and approachable while still maintaining structure and professionalism.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section-dark">
+  <div class="cs-inner">
+    <div class="cs-label-lt reveal">Process</div>
+    <h2 class="cs-h2-lt reveal">From sketch to <em>system</em></h2>
+    <div class="process-list reveal">
+      <div class="process-step-dk">
+        <span class="step-num-lt">01</span>
+        <div>
+          <div class="step-title-lt">Concept Development</div>
+          <div class="step-body-lt">Explored multiple directions across geography, movement, and education before refining the strongest symbol-led approach.</div>
+        </div>
+      </div>
+      <div class="process-step-dk">
+        <span class="step-num-lt">02</span>
+        <div>
+          <div class="step-title-lt">Logomark Refinement</div>
+          <div class="step-body-lt">Shaped the final AS symbol to feel fluid, memorable, and legible across both digital and physical applications.</div>
+        </div>
+      </div>
+      <div class="process-step-dk">
+        <span class="step-num-lt">03</span>
+        <div>
+          <div class="step-title-lt">System Expansion</div>
+          <div class="step-body-lt">Extended the identity into a broader color, layout, and application system that could scale across campaigns and collateral.</div>
+        </div>
+      </div>
+      <div class="process-step-dk">
+        <span class="step-num-lt">04</span>
+        <div>
+          <div class="step-title-lt">Website Direction</div>
+          <div class="step-body-lt">Translated the identity into a student-friendly website direction focused on clarity, approachability, and trust.</div>
+        </div>
+      </div>
+      <div class="process-step-dk">
+        <span class="step-num-lt">05</span>
+        <div>
+          <div class="step-title-lt">Brand Rollout</div>
+          <div class="step-body-lt">Applied the system across printed guides, collateral, and outdoor formats to test consistency across touchpoints.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="cs-inner">
+    <div class="wireframe-shell reveal">
+      <div class="wireframe-copy">
+        <div class="cs-label">Wireframe Exploration</div>
+        <h2 class="cs-h2">Wireframe <em>Exploration</em></h2>
+        <div class="cs-body">
+          <p>Early wireframes were used to establish the website&rsquo;s layout, content hierarchy, and key communication areas before applying the final brand system. This helped organise information clearly for prospective students while ensuring the digital experience felt supportive, modern, and easy to understand.</p>
+          <p>The wireframe stage focused on balancing trust, clarity, and visual rhythm so the final interface could communicate both professionalism and approachability.</p>
+        </div>
+      </div>
+      <div class="wireframe-gallery">
+        <figure class="wireframe-card reveal d1">
+          <div class="wireframe-board" role="img" aria-label="Low-fidelity wireframe showing early homepage structure for Australia Study">
+            <div class="wf-line"></div>
+            <div class="wf-line long"></div>
+            <div class="wf-hero"></div>
+            <div class="wf-row-2">
+              <div class="wf-block"></div>
+              <div class="wf-block"></div>
+            </div>
+            <div class="wf-cta"></div>
+          </div>
+        </figure>
+        <figure class="wireframe-card offset reveal d2">
+          <div class="wireframe-board" role="img" aria-label="Low-fidelity wireframe showing content hierarchy and CTA placement for Australia Study">
+            <div class="wf-line short"></div>
+            <div class="wf-row-3">
+              <div class="wf-card-sm"></div>
+              <div class="wf-card-sm"></div>
+              <div class="wf-card-sm"></div>
+            </div>
+            <div class="wf-row-2">
+              <div class="wf-block"></div>
+              <div class="wf-block"></div>
+            </div>
+            <div class="wf-cta"></div>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="cs-inner">
+    <div class="showcase-stack">
+      <div class="showcase-block reveal">
+        <div class="showcase-text">
+          <div class="cs-label">Digital</div>
+          <h2 class="cs-h2">Website / <em>Digital Presence</em></h2>
+          <div class="cs-body">
+            <p>Australia Study needed a digital presence that felt clear, trustworthy, and easy to engage with for prospective international students. I translated the new identity into a website direction that balanced friendliness with credibility, using strong colour blocking, simple navigation, and clear calls to action to make the platform feel more accessible from the first interaction. This helped position the brand as supportive and modern, rather than overly corporate or institutional.</p>
+            <p>The interface used the brand palette in a way that felt optimistic and geographically grounded, with warm tones and organic shapes carrying the identity into the digital experience. The result was a web presence that made the service feel more approachable while still communicating professionalism and structure.</p>
+          </div>
+          <a class="inline-link" href="https://australiastudy.com/" target="_blank" rel="noopener noreferrer">View live website &nearr;</a>
+        </div>
+        <div class="media-frame media-single">
+          <img src="assets/Website.png" alt="Australia Study website displayed on a laptop screen" onerror="this.closest('.media-frame').removeAttribute('style'); this.remove();">
+        </div>
+      </div>
+
+      <div class="showcase-block reveal d1">
+        <div class="showcase-text">
+          <div class="cs-label">Identity</div>
+          <h2 class="cs-h2">Logo <em>Identity</em></h2>
+          <div class="cs-body">
+            <p>The Australia Study identity was built around a custom &ldquo;AS&rdquo; symbol designed to feel fluid, memorable, and culturally grounded. The form draws inspiration from the Australian map outline and the boomerang, using shape as a way to communicate movement, direction, and the idea of a student journey. A soft dot element within the mark acts as a subtle origin point, reinforcing the message that this is where the journey begins.</p>
+            <p>Rather than relying on a generic education aesthetic, the logo was designed to feel warm and distinctive. This gave the brand a recognisable core mark that could scale across web, print, and campaign applications while still feeling modern and approachable.</p>
+          </div>
+        </div>
+        <div class="media-frame media-minimal">
+          <img src="assets/Logo.png" alt="Australia Study logo identity shown as a standalone AS symbol" onerror="this.closest('.media-frame').removeAttribute('style'); this.remove();">
+        </div>
+      </div>
+
+      <div class="showcase-block reveal d2">
+        <div class="showcase-text">
+          <div class="cs-label">Applications</div>
+          <h2 class="cs-h2">Brand <em>Applications</em></h2>
+          <div class="cs-body">
+            <p>The identity system was designed to extend well beyond the logo itself, with applications across printed guides, business collateral, and outdoor advertising. These mockups show how the Australia Study brand holds together across different formats while keeping a consistent visual language. The warm orange, eucalyptus green, and soft neutral tones help the brand stand out while still feeling supportive, aspirational, and easy to trust.</p>
+            <p>By applying the system across both promotional and informational materials, the project demonstrates how a single visual identity can create consistency at every touchpoint. This made the brand feel more established, more scalable, and better equipped to communicate with students across both digital and physical spaces.</p>
+          </div>
+        </div>
+        <div class="brand-composition">
+          <figure class="media-frame brand-large">
+            <img src="assets/Brand Material 2.png" alt="Australia Study brand applied to outdoor advertising and business collateral" onerror="this.closest('.media-frame').removeAttribute('style'); this.remove();">
+          </figure>
+          <figure class="media-frame brand-small">
+            <img src="assets/Brand Material 1.png" alt="Australia Study printed guide cover showing the brand system in use" onerror="this.closest('.media-frame').removeAttribute('style'); this.remove();">
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section-tint">
+  <div class="cs-inner">
+    <div class="cs-label reveal">Outcome</div>
+    <h2 class="cs-h2 reveal">Clean, versatile, <em>culturally resonant</em></h2>
+    <div class="outcome-grid reveal">
+      <div class="outcome-cell">
+        <div class="outcome-num">12+</div>
+        <div class="outcome-label">Brand touchpoints</div>
+        <div class="outcome-note">The identity system was designed to hold together across digital, print, and campaign formats.</div>
+      </div>
+      <div class="outcome-cell">
+        <div class="outcome-num">3</div>
+        <div class="outcome-label">Core showcases</div>
+        <div class="outcome-note">Website, logo identity, and brand applications each demonstrate the system working at a different scale.</div>
+      </div>
+      <div class="outcome-cell">
+        <div class="outcome-num">&uarr;</div>
+        <div class="outcome-label">Visual clarity</div>
+        <div class="outcome-note">A warmer, more grounded system helped the brand feel more approachable while retaining structure and professionalism.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a href="sei-mai-name.html" class="next-project">
+  <div>
+    <div class="next-label">Next Project</div>
+    <div class="next-name">Sei Mai Name</div>
+  </div>
+  <span class="next-arrow">&nearr;</span>
+</a>
+
+<footer>
+  <a href="index.html" class="footer-logo">Alison Belle</a>
+  <ul class="footer-nav">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <span class="footer-copy">&copy; 2024 Alison Belle</span>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('in')),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nyla Artistry - Alison Belle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3efe8;
+      --surface: #dbe2dc;
+      --border: #ccb27a;
+      --ink: #6b4a38;
+      --ink-2: #815537;
+      --ink-3: #8e765f;
+      --accent: #d57d3d;
+      --accent-2: #cfb071;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Raleway', system-ui, sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 52px; height: 58px;
+      background: rgba(243,239,232,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(107,74,56,0.12);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 18px;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      font-weight: 500;
+    }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 13px;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--accent);
+      color: var(--bg) !important;
+      padding: 7px 16px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.82; }
+
+    .cs-hero {
+      padding-top: 58px;
+      min-height: 78vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-left: 52px;
+      padding-right: 52px;
+      padding-bottom: 80px;
+      border-bottom: 1px solid rgba(107,74,56,0.12);
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #eef2ed 0%, #f3efe8 100%);
+    }
+    .cs-hero-watermark {
+      position: absolute;
+      right: -20px;
+      bottom: -30px;
+      font-family: var(--serif);
+      font-size: 300px;
+      font-weight: 600;
+      color: var(--accent);
+      opacity: 0.08;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.04em;
+    }
+    .cs-breadcrumb {
+      font-size: 12px;
+      color: var(--ink-3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 36px;
+    }
+    .cs-breadcrumb a { color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .cs-breadcrumb a:hover { color: var(--ink); }
+    .cs-breadcrumb-sep { opacity: 0.3; }
+    .cs-proj-num {
+      font-family: var(--serif);
+      font-size: 13px;
+      font-style: italic;
+      color: var(--ink-3);
+      margin-bottom: 18px;
+      display: block;
+      font-weight: 400;
+    }
+    .cs-title {
+      font-family: var(--serif);
+      font-size: clamp(58px, 7.5vw, 110px);
+      font-weight: 500;
+      line-height: 0.95;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      margin-bottom: 26px;
+    }
+    .cs-title em { font-style: italic; color: var(--ink-2); }
+    .cs-summary {
+      font-size: 15px;
+      color: var(--ink-2);
+      font-weight: 400;
+      line-height: 1.65;
+      max-width: 560px;
+      margin-bottom: 44px;
+    }
+    .cs-meta-strip {
+      display: flex;
+      gap: 0;
+      border: 1px solid rgba(107,74,56,0.12);
+      border-radius: 3px;
+      background: rgba(255,255,255,0.35);
+      max-width: 760px;
+      overflow: hidden;
+    }
+    .cs-meta-cell {
+      padding: 18px 28px;
+      flex: 1;
+      border-right: 1px solid rgba(107,74,56,0.12);
+    }
+    .cs-meta-cell:last-child { border-right: none; }
+    .cs-meta-label {
+      font-size: 10px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 7px;
+    }
+    .cs-meta-value { font-size: 13px; color: var(--ink-2); }
+
+    .cs-section,
+    .cs-section-dark,
+    .cs-section-tint {
+      padding: 96px 52px;
+      border-bottom: 1px solid rgba(107,74,56,0.12);
+    }
+    .cs-section-dark { background: #6b4a38; border-bottom-color: rgba(255,255,255,0.08); }
+    .cs-section-tint { background: #e6ebe5; }
+    .cs-inner { max-width: 1140px; margin: 0 auto; }
+
+    .cs-label,
+    .cs-label-lt {
+      font-size: 10.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cs-label { color: var(--ink-3); }
+    .cs-label-lt { color: rgba(255,255,255,0.45); }
+    .cs-label::before,
+    .cs-label-lt::before {
+      content: '';
+      width: 18px;
+      height: 1px;
+    }
+    .cs-label::before { background: var(--accent); }
+    .cs-label-lt::before { background: rgba(255,255,255,0.35); }
+
+    .cs-h2,
+    .cs-h2-lt {
+      font-family: var(--serif);
+      font-size: clamp(34px, 4vw, 54px);
+      font-weight: 500;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 28px;
+    }
+    .cs-h2 { color: var(--ink); }
+    .cs-h2-lt { color: var(--bg); }
+    .cs-h2 em { font-style: italic; color: var(--ink-2); }
+    .cs-h2-lt em { font-style: italic; opacity: 0.6; }
+
+    .cs-body {
+      font-size: 13.5px;
+      color: var(--ink-2);
+      font-weight: 400;
+      line-height: 1.72;
+      max-width: 520px;
+    }
+    .cs-body p + p { margin-top: 14px; }
+    .cs-body-lt {
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.55);
+      font-weight: 400;
+      line-height: 1.65;
+      max-width: 620px;
+    }
+    .cs-body-lt p + p { margin-top: 16px; }
+
+    .col-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+    .col-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 48px; }
+
+    .card {
+      background: rgba(255,255,255,0.42);
+      border: 1px solid rgba(107,74,56,0.12);
+      border-radius: 4px;
+      padding: 28px;
+    }
+    .card-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+    .card-body { font-size: 12.5px; color: var(--ink-3); line-height: 1.65; font-weight: 400; }
+
+    .process-list { margin-top: 40px; }
+    .process-step-dk {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 20px;
+      padding: 24px 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      align-items: start;
+    }
+    .process-step-dk:last-child { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .step-num-lt {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-style: italic;
+      color: rgba(255,255,255,0.28);
+      font-weight: 400;
+    }
+    .step-title-lt { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.88); margin-bottom: 6px; }
+    .step-body-lt { font-size: 12.5px; color: rgba(255,255,255,0.55); font-weight: 400; line-height: 1.65; }
+
+    .case-study-block {
+      display: grid;
+      grid-template-columns: minmax(0, 0.76fr) minmax(0, 1.24fr);
+      gap: 56px;
+      align-items: start;
+    }
+    .case-study-block + .case-study-block {
+      margin-top: 88px;
+      padding-top: 88px;
+      border-top: 1px solid rgba(107,74,56,0.12);
+    }
+    .case-study-text .cs-label { margin-bottom: 16px; }
+    .case-study-text .cs-h2 { margin-bottom: 18px; }
+    .case-study-text .tag-row { margin-top: 16px; }
+
+    .case-media,
+    .media-stack {
+      display: grid;
+      gap: 18px;
+    }
+    .media-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .media-grid-3 {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 18px;
+    }
+    .case-media-frame {
+      position: relative;
+      border: 1px solid rgba(107,74,56,0.12);
+      border-radius: 4px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #edf1ec 0%, #efe4d8 100%);
+      min-height: 300px;
+    }
+    .media-tall { min-height: 620px; }
+    .media-mid { min-height: 300px; }
+    .case-media-frame img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .case-media-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(213,125,61,0.14), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(207,176,113,0.18), transparent 36%);
+      pointer-events: none;
+    }
+    .case-media-fallback {
+      display: none;
+      position: absolute;
+      inset: 0;
+      padding: 28px;
+      align-items: end;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.54)),
+        linear-gradient(135deg, #f4f0ea 0%, #ebe5de 100%);
+    }
+    .case-media.is-missing .case-media-fallback { display: flex; }
+    .fallback-chip {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 10px;
+    }
+    .fallback-title {
+      font-family: var(--serif);
+      font-size: 32px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .fallback-copy {
+      font-size: 13px;
+      color: var(--ink-2);
+      max-width: 320px;
+    }
+
+    .tag-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag {
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      background: rgba(213,125,61,0.08);
+      border: 1px solid rgba(213,125,61,0.18);
+      color: var(--ink-3);
+      padding: 4px 12px;
+      border-radius: 100px;
+    }
+    .inline-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .inline-link:hover { opacity: 0.72; }
+
+    .outcome-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(107,74,56,0.12);
+      border: 1px solid rgba(107,74,56,0.12);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 48px;
+    }
+    .outcome-cell { background: rgba(255,255,255,0.4); padding: 36px 28px; }
+    .outcome-num {
+      font-family: var(--serif);
+      font-size: 52px;
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .outcome-label {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 8px;
+    }
+    .outcome-note { font-size: 13px; color: var(--ink-2); font-weight: 400; line-height: 1.55; }
+
+    .next-project {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 52px;
+      text-decoration: none;
+      color: inherit;
+      border-top: 1px solid rgba(107,74,56,0.12);
+      transition: background 0.2s;
+    }
+    .next-project:hover { background: #ebe7df; }
+    .next-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 10px;
+    }
+    .next-name {
+      font-family: var(--serif);
+      font-size: 40px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+    .next-arrow {
+      font-size: 44px;
+      color: var(--accent);
+      transition: transform 0.25s var(--ease);
+    }
+    .next-project:hover .next-arrow { transform: translate(6px, -6px); }
+
+    footer {
+      padding: 28px 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(107,74,56,0.12);
+    }
+    .footer-logo {
+      font-family: var(--serif);
+      font-size: 15px;
+      color: var(--ink-3);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .footer-nav { display: flex; gap: 24px; list-style: none; }
+    .footer-nav a { font-size: 12px; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .footer-nav a:hover { color: var(--ink); }
+    .footer-copy { font-size: 12px; color: var(--ink-3); }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 24px; }
+      .nav-links li:not(:last-child) { display: none; }
+      .cs-hero, .cs-section, .cs-section-dark, .cs-section-tint { padding-left: 24px; padding-right: 24px; }
+      .col-2, .col-3, .case-study-block, .media-grid-2, .media-grid-3 { grid-template-columns: 1fr; gap: 32px; }
+      .cs-meta-strip { flex-direction: column; }
+      .cs-meta-cell { border-right: none; border-bottom: 1px solid rgba(107,74,56,0.12); }
+      .outcome-grid { grid-template-columns: 1fr; }
+      .case-study-block + .case-study-block { margin-top: 64px; padding-top: 64px; }
+      .case-media-frame, .media-tall, .media-mid { min-height: 240px; }
+      footer { flex-direction: column; gap: 14px; padding: 24px; }
+      .next-project { padding: 32px 24px; }
+      .next-name { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Alison Belle</a>
+    <ul class="nav-links">
+      <li><a href="index.html#projects">Work</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header class="cs-hero">
+    <div class="cs-hero-watermark">Nyla</div>
+    <div class="cs-breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="cs-breadcrumb-sep">/</span>
+      <a href="index.html#projects">Work</a>
+      <span class="cs-breadcrumb-sep">/</span>
+      Nyla Artistry
+    </div>
+    <span class="cs-proj-num">Project 01</span>
+    <h1 class="cs-title reveal">Nyla<br><em>Artistry</em></h1>
+    <p class="cs-summary reveal d1">Brand, website, and print system for a Sydney beauty studio, designed to make the booking journey clearer, more premium, and more cohesive.</p>
+    <div class="cs-meta-strip reveal d2">
+      <div class="cs-meta-cell">
+        <div class="cs-meta-label">Role</div>
+        <div class="cs-meta-value">UI/UX Design | Brand | Print</div>
+      </div>
+      <div class="cs-meta-cell">
+        <div class="cs-meta-label">Tools</div>
+        <div class="cs-meta-value">Figma | Webflow | Illustrator</div>
+      </div>
+      <div class="cs-meta-cell">
+        <div class="cs-meta-label">Year</div>
+        <div class="cs-meta-value">2025</div>
+      </div>
+      <div class="cs-meta-cell">
+        <div class="cs-meta-label">Type</div>
+        <div class="cs-meta-value">Client Project</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="cs-section">
+    <div class="cs-inner">
+      <div class="col-2">
+        <div class="reveal">
+          <div class="cs-label">The Problem</div>
+          <h2 class="cs-h2">A strong service with an <em>underdeveloped presence</em></h2>
+        </div>
+        <div class="cs-body reveal d1">
+          <p>Nyla Artistry had built trust through service quality, but the website and supporting material did not reflect that standard. The experience felt generic, mobile navigation was weak, and service information lacked clarity.</p>
+          <p>The wider brand system also needed consistency, especially across booking, aftercare, and print touchpoints.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-section-tint">
+    <div class="cs-inner">
+      <div class="cs-label reveal">Design Thinking</div>
+      <h2 class="cs-h2 reveal">Balancing <em>personality</em> with clarity</h2>
+      <div class="col-3 reveal">
+        <div class="card">
+          <div class="card-title">User Research</div>
+          <div class="card-body">Most traffic arrived from Instagram on mobile, so the experience had to prioritise fast scanning, easy service selection, and a direct route into booking.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Mobile-First Priority</div>
+          <div class="card-body">The booking journey and service structure were designed mobile-first rather than reduced from desktop.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Brand Balance</div>
+          <div class="card-body">The final palette used warm orange, muted sage, soft stone, honey gold, and rich brown to feel premium, feminine, and recognisably Nyla.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-section-dark">
+    <div class="cs-inner">
+      <div class="cs-label-lt reveal">My Role</div>
+      <h2 class="cs-h2-lt reveal">Full scope, from <em>strategy to rollout</em></h2>
+      <div class="process-list reveal">
+        <div class="process-step-dk">
+          <span class="step-num-lt">01</span>
+          <div>
+            <div class="step-title-lt">Discovery & Brand Direction</div>
+            <div class="step-body-lt">Defined the studio position, clarified the audience, and set a more elevated visual direction.</div>
+          </div>
+        </div>
+        <div class="process-step-dk">
+          <span class="step-num-lt">02</span>
+          <div>
+            <div class="step-title-lt">Website UX & UI Design</div>
+            <div class="step-body-lt">Restructured the site around service clarity, mobile usability, and a simpler booking path.</div>
+          </div>
+        </div>
+        <div class="process-step-dk">
+          <span class="step-num-lt">03</span>
+          <div>
+            <div class="step-title-lt">Illustrated Policy Guide</div>
+            <div class="step-body-lt">Created a custom illustrated guide to make policies and care instructions easier to understand and remember.</div>
+          </div>
+        </div>
+        <div class="process-step-dk">
+          <span class="step-num-lt">04</span>
+          <div>
+            <div class="step-title-lt">Brand Collateral & Print</div>
+            <div class="step-body-lt">Extended the identity into flyers and branded cards so the full client journey felt connected.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-section">
+    <div class="cs-inner">
+      <div class="case-study-block reveal">
+        <div class="case-study-text">
+          <div class="cs-label">Website</div>
+          <h2 class="cs-h2">Website <em>Experience</em></h2>
+          <div class="cs-body">
+            <p>The website redesign gave Nyla Artistry a more polished and trustworthy digital presence. The focus was on clearer treatment information, better hierarchy, and a cleaner path from discovery to booking.</p>
+            <p>The final direction paired the actual Nyla palette with Cormorant and Raleway to make the brand feel elegant, feminine, and more established without losing usability on mobile.</p>
+          </div>
+        <div class="tag-row">
+          <span class="tag">Mobile-first UX</span>
+          <span class="tag">Booking clarity</span>
+          <span class="tag">Cormorant + Raleway</span>
+        </div>
+        <a class="inline-link" href="https://www.nylaartistry.com.au/" target="_blank" rel="noopener noreferrer">View live website ↗</a>
+      </div>
+      <div class="case-media">
+          <figure class="case-media-frame media-tall">
+            <img src="assets/Web & App.png" alt="Nyla Artistry website shown across desktop and mobile screens" onerror="this.closest('.case-media').classList.add('is-missing'); this.remove();">
+            <div class="case-media-fallback">
+              <div>
+                <div class="fallback-chip">Website mockup</div>
+                <div class="fallback-title">Nyla digital presence</div>
+                <p class="fallback-copy">Add <code>assets/Web &amp; App.png</code> to display the website and booking mockup in this section.</p>
+              </div>
+            </div>
+          </figure>
+        </div>
+      </div>
+
+      <div class="case-study-block reveal d1">
+        <div class="case-study-text">
+          <div class="cs-label">Illustration</div>
+          <h2 class="cs-h2">Illustrated Policy & <em>Aftercare Guide</em></h2>
+          <div class="cs-body">
+            <p>The custom illustrated guide turned policy and aftercare information into something clients would actually read. Instead of dense text, the information was reframed through a playful pop-art style that stayed on-brand and easy to absorb.</p>
+            <p>This added personality to the identity while reducing confusion around deposits, cancellations, preparation, and aftercare.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Custom illustration</span>
+            <span class="tag">Policy communication</span>
+            <span class="tag">Brand personality</span>
+          </div>
+        </div>
+        <div class="case-media">
+          <div class="media-grid-3">
+            <figure class="case-media-frame media-tall">
+              <img src="assets/Illustration 2.png" alt="Nyla Artistry illustrated policy and aftercare guide" onerror="this.closest('.case-media').classList.add('is-missing'); this.remove();">
+            </figure>
+            <div class="media-stack">
+              <figure class="case-media-frame media-mid">
+                <img src="assets/Illustration 1.png" alt="Close-up of illustrated Nyla Artistry appointment policy card" onerror="this.closest('.case-media').classList.add('is-missing'); this.remove();">
+              </figure>
+              <figure class="case-media-frame media-mid">
+                <img src="assets/Illustration 3.png" alt="Nyla Artistry illustrated policy materials displayed in an interior mockup" onerror="this.closest('.case-media').classList.add('is-missing'); this.remove();">
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-study-block reveal d2">
+        <div class="case-study-text">
+          <div class="cs-label">Branding / Print</div>
+          <h2 class="cs-h2">Brand Collateral & <em>Print Design</em></h2>
+          <div class="cs-body">
+            <p>The supporting print pieces extended the Nyla identity beyond the website and helped make the client experience feel more cohesive across digital and physical touchpoints.</p>
+            <p>Clean layout, refined typography, and QR-linked booking collateral made the materials feel premium while still practical.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Flyer design</span>
+            <span class="tag">QR to booking</span>
+            <span class="tag">Brand system</span>
+          </div>
+        </div>
+        <div class="case-media">
+          <div class="media-grid-2">
+            <figure class="case-media-frame media-mid">
+              <img src="assets/Flyer.png" alt="Nyla Artistry promotional flyer design" onerror="this.closest('.case-media').classList.add('is-missing'); this.remove();">
+            </figure>
+            <figure class="case-media-frame media-mid">
+              <img src="assets/Business Card.png" alt="Nyla Artistry business card design" onerror="this.closest('.case-media').classList.add('is-missing'); this.remove();">
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-section-tint">
+    <div class="cs-inner">
+      <div class="cs-label reveal">Outcome</div>
+      <h2 class="cs-h2 reveal">A clearer, more cohesive <em>client journey</em></h2>
+      <div class="outcome-grid reveal">
+        <div class="outcome-cell">
+          <div class="outcome-num">84%</div>
+          <div class="outcome-label">Mobile visitors</div>
+          <div class="outcome-note">The case study was built around the real audience behavior: users arriving from Instagram on mobile.</div>
+        </div>
+        <div class="outcome-cell">
+          <div class="outcome-num">3</div>
+          <div class="outcome-label">Connected touchpoints</div>
+          <div class="outcome-note">Website, illustrated guide, and print collateral all worked as one visual system.</div>
+        </div>
+        <div class="outcome-cell">
+          <div class="outcome-num">↓</div>
+          <div class="outcome-label">Policy confusion</div>
+          <div class="outcome-note">The illustrated guide helped reduce uncertainty around deposits, aftercare, and appointment preparation.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <a href="belle-digital-studio.html" class="next-project">
+    <div>
+      <div class="next-label">Next Project</div>
+      <div class="next-name">Belle Digital Studio</div>
+    </div>
+    <span class="next-arrow">↗</span>
+  </a>
+
+  <footer>
+    <a href="index.html" class="footer-logo">Alison Belle</a>
+    <ul class="footer-nav">
+      <li><a href="index.html#projects">Work</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 Alison Belle</span>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('in')),
+      { threshold: 0.08 }
+    );
+
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>

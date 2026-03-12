@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Belle Digital Studio - Alison Belle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F9F8F6;
+      --surface: #F2F1EE;
+      --border: #E4E2DC;
+      --ink: #18170F;
+      --ink-2: #46443C;
+      --ink-3: #8C8A82;
+      --warm: #B88D72;
+      --warm-2: #D8C7B8;
+      --serif: 'Fraunces', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 52px; height: 58px;
+      background: rgba(249,248,246,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--serif); font-size: 16px; color: var(--ink);
+      text-decoration: none; letter-spacing: -0.01em; font-weight: 300;
+    }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; color: var(--ink-3); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--ink); color: var(--bg) !important;
+      padding: 7px 16px; border-radius: 6px;
+      font-size: 12.5px; font-weight: 500; text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.78; }
+
+    .cs-hero {
+      padding-top: 58px;
+      min-height: 100vh;
+      padding-left: 52px;
+      padding-right: 52px;
+      padding-bottom: 80px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+      display: flex;
+      align-items: end;
+    }
+    .cs-hero-watermark {
+      position: absolute; right: -20px; bottom: -30px;
+      font-family: var(--serif); font-size: 280px; font-weight: 900;
+      color: var(--ink); opacity: 0.03; line-height: 1;
+      pointer-events: none; user-select: none;
+      letter-spacing: -0.04em;
+    }
+    .hero-grid {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 64px;
+      align-items: end;
+    }
+    .cs-breadcrumb {
+      font-size: 12px; color: var(--ink-3);
+      display: flex; align-items: center; gap: 8px; margin-bottom: 36px;
+    }
+    .cs-breadcrumb a { color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .cs-breadcrumb a:hover { color: var(--ink); }
+    .cs-breadcrumb-sep { opacity: 0.3; }
+    .cs-proj-num {
+      font-family: var(--serif); font-size: 13px; font-style: italic;
+      color: var(--ink-3); margin-bottom: 18px; display: block; font-weight: 300;
+    }
+    .cs-title {
+      font-family: var(--serif);
+      font-size: clamp(52px, 7.5vw, 108px);
+      font-weight: 300; line-height: 0.95;
+      letter-spacing: -0.03em; color: var(--ink);
+      margin-bottom: 18px;
+    }
+    .cs-title em { font-style: italic; color: var(--ink-2); }
+    .hero-subtitle {
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 18px;
+    }
+    .cs-summary {
+      font-size: 17px; color: var(--ink-2); font-weight: 300;
+      line-height: 1.65; max-width: 540px; margin-bottom: 34px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+    .hero-link,
+    .hero-link-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-size: 13px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .hero-link {
+      background: var(--ink);
+      color: var(--bg);
+    }
+    .hero-link-ghost {
+      color: var(--ink-2);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.55);
+    }
+    .hero-link:hover,
+    .hero-link-ghost:hover { opacity: 0.8; transform: translateY(-1px); }
+    .cs-meta-strip {
+      display: flex; gap: 0;
+      border: 1px solid var(--border); border-radius: 3px;
+      background: rgba(255,255,255,0.52); max-width: 640px;
+      overflow: hidden;
+      margin-top: 38px;
+    }
+    .cs-meta-cell {
+      padding: 18px 24px; flex: 1; border-right: 1px solid var(--border);
+    }
+    .cs-meta-cell:last-child { border-right: none; }
+    .cs-meta-label {
+      font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--ink-3); margin-bottom: 7px;
+    }
+    .cs-meta-value { font-size: 13px; color: var(--ink-2); }
+
+    .hero-media,
+    .section-media {
+      position: relative;
+      background: linear-gradient(180deg, #f7f4ef 0%, #ece7e0 100%);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(24,23,15,0.08);
+    }
+    .hero-media {
+      min-height: 640px;
+    }
+    .hero-media img,
+    .section-media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .media-fallback {
+      display: none;
+      position: absolute;
+      inset: 0;
+      padding: 32px;
+      align-items: end;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.58)),
+        linear-gradient(180deg, #f7f4ef 0%, #ece7e0 100%);
+    }
+    .hero-media.is-missing .media-fallback,
+    .section-media.is-missing .media-fallback { display: flex; }
+    .fallback-chip {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 10px;
+    }
+    .fallback-title {
+      font-family: var(--serif);
+      font-size: 32px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .fallback-copy {
+      font-size: 13px;
+      color: var(--ink-2);
+      max-width: 320px;
+      line-height: 1.6;
+    }
+
+    .cs-section,
+    .cs-section-dark,
+    .cs-section-tint {
+      padding: 104px 52px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-section-dark {
+      background: var(--ink);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .cs-section-tint { background: var(--surface); }
+    .cs-inner { max-width: 1120px; margin: 0 auto; }
+
+    .cs-label,
+    .cs-label-lt {
+      font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 18px; display: flex; align-items: center; gap: 12px;
+    }
+    .cs-label { color: var(--ink-3); }
+    .cs-label-lt { color: rgba(249,248,246,0.3); }
+    .cs-label::before,
+    .cs-label-lt::before {
+      content: ''; width: 18px; height: 1px;
+    }
+    .cs-label::before { background: var(--ink-3); }
+    .cs-label-lt::before { background: rgba(249,248,246,0.3); }
+
+    .cs-h2,
+    .cs-h2-lt {
+      font-family: var(--serif);
+      font-size: clamp(30px, 4vw, 52px);
+      font-weight: 300; line-height: 1.08; letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .cs-h2 { color: var(--ink); }
+    .cs-h2-lt { color: var(--bg); }
+    .cs-h2 em { font-style: italic; color: var(--ink-2); }
+    .cs-h2-lt em { font-style: italic; opacity: 0.45; }
+
+    .cs-body {
+      font-size: 15.5px; color: var(--ink-2); font-weight: 300;
+      line-height: 1.78; max-width: 620px;
+    }
+    .cs-body p + p { margin-top: 18px; }
+    .cs-body-lt {
+      font-size: 15.5px; color: rgba(249,248,246,0.5); font-weight: 300;
+      line-height: 1.78; max-width: 720px;
+    }
+    .cs-body-lt p + p { margin-top: 18px; }
+
+    .showcase-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 96px;
+    }
+    .showcase-block {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+      gap: 64px;
+      align-items: center;
+    }
+    .showcase-block.reverse {
+      grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+    }
+    .showcase-text .cs-label { margin-bottom: 16px; }
+    .showcase-text .cs-h2 { margin-bottom: 18px; }
+    .showcase-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .showcase-link:hover { opacity: 0.72; }
+    .section-media {
+      min-height: 480px;
+    }
+
+    .process-list {
+      display: grid;
+      gap: 22px;
+      margin-top: 24px;
+    }
+    .process-row {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 18px;
+      padding: 18px 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .process-row:last-child {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .process-num {
+      font-family: var(--serif);
+      font-size: 30px;
+      font-style: italic;
+      color: rgba(249,248,246,0.22);
+      line-height: 1;
+    }
+    .process-title {
+      font-size: 15px;
+      color: rgba(249,248,246,0.88);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .process-copy {
+      font-size: 13px;
+      color: rgba(249,248,246,0.46);
+      line-height: 1.65;
+    }
+
+    .wireframe-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+      gap: 56px;
+      align-items: start;
+    }
+    .wireframe-copy .cs-label { margin-bottom: 16px; }
+    .wireframe-copy .cs-h2 { margin-bottom: 18px; }
+    .wireframe-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+    .wireframe-card {
+      background: rgba(255,255,255,0.52);
+      border: 1px solid #ddd8d0;
+      border-radius: 3px;
+      padding: 18px;
+      box-shadow: 0 12px 28px rgba(24,23,15,0.04);
+    }
+    .wireframe-card.offset {
+      margin-top: 34px;
+    }
+    .wireframe-board {
+      min-height: 310px;
+      background: #fbfaf8;
+      border: 1px solid #e6e1d9;
+      border-radius: 2px;
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+    .wf-line {
+      height: 8px;
+      width: 34%;
+      background: #d8d3cb;
+      border-radius: 999px;
+    }
+    .wf-line.short { width: 22%; }
+    .wf-line.long { width: 58%; }
+    .wf-hero {
+      border: 1px solid #d9d4cc;
+      min-height: 86px;
+      border-radius: 2px;
+      background: #f3f1ed;
+    }
+    .wf-row-2,
+    .wf-row-3 {
+      display: grid;
+      gap: 10px;
+    }
+    .wf-row-2 { grid-template-columns: 1.2fr 0.8fr; }
+    .wf-row-3 { grid-template-columns: repeat(3, 1fr); }
+    .wf-block,
+    .wf-card-sm,
+    .wf-cta {
+      border: 1px solid #ddd8d0;
+      border-radius: 2px;
+      background: #f5f3ef;
+    }
+    .wf-block { min-height: 70px; }
+    .wf-card-sm { min-height: 92px; }
+    .wf-cta { min-height: 58px; }
+
+    .outcome-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
+      border-radius: 3px; overflow: hidden; margin-top: 48px;
+    }
+    .outcome-cell { background: var(--bg); padding: 40px 32px; }
+    .outcome-num {
+      font-family: var(--serif); font-size: 56px; font-weight: 300;
+      letter-spacing: -0.04em; color: var(--ink); line-height: 1;
+      margin-bottom: 10px;
+    }
+    .outcome-label {
+      font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink-3); margin-bottom: 8px;
+    }
+    .outcome-note { font-size: 13px; color: var(--ink-2); font-weight: 300; line-height: 1.55; }
+
+    .next-project {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 52px; text-decoration: none; color: inherit;
+      border-top: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .next-project:hover { background: var(--surface); }
+    .next-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+    .next-name {
+      font-family: var(--serif); font-size: 40px; font-weight: 300;
+      letter-spacing: -0.02em; color: var(--ink);
+    }
+    .next-arrow { font-size: 44px; color: var(--ink-3); transition: transform 0.25s var(--ease); }
+    .next-project:hover .next-arrow { transform: translate(6px,-6px); }
+
+    footer {
+      padding: 28px 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+    .footer-logo { font-family: var(--serif); font-size: 15px; color: var(--ink-3); text-decoration: none; font-weight: 300; }
+    .footer-nav { display: flex; gap: 24px; list-style: none; }
+    .footer-nav a { font-size: 12px; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .footer-nav a:hover { color: var(--ink); }
+    .footer-copy { font-size: 12px; color: var(--ink-3); }
+
+    .reveal {
+      opacity: 1; transform: none;
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 24px; }
+      .nav-links li:not(:last-child) { display: none; }
+      .cs-hero, .cs-section, .cs-section-dark, .cs-section-tint { padding-left: 24px; padding-right: 24px; }
+      .hero-grid,
+      .wireframe-shell,
+      .showcase-block,
+      .showcase-block.reverse { grid-template-columns: 1fr; gap: 32px; }
+      .wireframe-gallery { grid-template-columns: 1fr; }
+      .wireframe-card.offset { margin-top: 0; }
+      .hero-media { min-height: 320px; }
+      .section-media { min-height: 260px; }
+      .cs-meta-strip { flex-direction: column; }
+      .cs-meta-cell { border-right: none; border-bottom: 1px solid var(--border); }
+      .outcome-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 14px; padding: 24px; }
+      .next-project { padding: 32px 24px; }
+      .next-name { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Alison Belle</a>
+  <ul class="nav-links">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="cs-hero">
+  <div class="cs-hero-watermark">Belle</div>
+  <div class="hero-grid">
+    <div class="reveal">
+      <div class="cs-breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="cs-breadcrumb-sep">/</span>
+        <a href="index.html#projects">Work</a>
+        <span class="cs-breadcrumb-sep">/</span>
+        Belle Digital Studio
+      </div>
+      <span class="cs-proj-num">Studio Platform</span>
+      <h1 class="cs-title">Belle Digital<br><em>Studio</em></h1>
+      <div class="hero-subtitle">Studio Website &amp; Brand Platform</div>
+      <p class="cs-summary">Belle Digital Studio needed a website that functioned not only as a portfolio, but as a strategic platform to attract and convert boutique service businesses. The site introduces the studio&rsquo;s positioning, showcases selected client work, and communicates the design philosophy behind every project.</p>
+      <p class="cs-summary" style="margin-bottom:0;">The goal was to create a calm, premium digital environment that reflects the same clarity and attention to detail offered to clients.</p>
+      <div class="hero-actions">
+        <a class="hero-link" href="https://www.belledigitalstudio.com/" target="_blank" rel="noopener noreferrer">View Live Website &nearr;</a>
+        <a class="hero-link-ghost" href="#showcase">Explore the platform</a>
+      </div>
+      <div class="cs-meta-strip">
+        <div class="cs-meta-cell">
+          <div class="cs-meta-label">Role</div>
+          <div class="cs-meta-value">Founder, Designer &amp; Developer</div>
+        </div>
+        <div class="cs-meta-cell">
+          <div class="cs-meta-label">Tools</div>
+          <div class="cs-meta-value">HTML, CSS, JavaScript, Figma</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-media reveal d1">
+      <img src="assets/9.png" alt="Belle Digital Studio hero preview featuring studio client spotlight and interface composition" onerror="this.closest('.hero-media').classList.add('is-missing'); this.remove();">
+      <div class="media-fallback">
+        <div>
+          <div class="fallback-chip">Intro visual</div>
+          <div class="fallback-title">Belle studio platform</div>
+          <p class="fallback-copy">Add <code>assets/9.png</code> to display the opening Belle Digital Studio visual in this hero.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="cs-section">
+  <div class="cs-inner">
+    <div class="wireframe-shell reveal">
+      <div class="wireframe-copy">
+        <div class="cs-label">Wireframe Exploration</div>
+        <h2 class="cs-h2">Wireframe <em>Exploration</em></h2>
+        <div class="cs-body">
+          <p>Before refining the final interface, early wireframes were used to map out content hierarchy, service positioning, and the relationship between portfolio content and conversion-focused sections. This helped define a structure that would feel calm, premium, and easy to navigate before the final visual language was applied.</p>
+          <p>The aim was to keep the experience editorial and strategic, balancing brand presentation with clear pathways for potential clients to explore work and make enquiries.</p>
+        </div>
+      </div>
+      <div class="wireframe-gallery">
+        <figure class="wireframe-card reveal d1">
+          <div class="wireframe-board" role="img" aria-label="Low-fidelity wireframe showing early homepage layout planning for Belle Digital Studio">
+            <div class="wf-line"></div>
+            <div class="wf-line long"></div>
+            <div class="wf-hero"></div>
+            <div class="wf-row-2">
+              <div class="wf-block"></div>
+              <div class="wf-block"></div>
+            </div>
+            <div class="wf-cta"></div>
+          </div>
+        </figure>
+        <figure class="wireframe-card offset reveal d2">
+          <div class="wireframe-board" role="img" aria-label="Low-fidelity wireframe showing portfolio and call-to-action structure for Belle Digital Studio">
+            <div class="wf-line short"></div>
+            <div class="wf-row-3">
+              <div class="wf-card-sm"></div>
+              <div class="wf-card-sm"></div>
+              <div class="wf-card-sm"></div>
+            </div>
+            <div class="wf-row-2">
+              <div class="wf-block"></div>
+              <div class="wf-block"></div>
+            </div>
+            <div class="wf-cta"></div>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="cs-inner">
+    <div class="showcase-block reveal">
+      <div class="showcase-text">
+        <div class="cs-label">Studio Overview</div>
+        <h2 class="cs-h2">A strategic platform, not a <em>brochure</em></h2>
+        <div class="cs-body">
+          <p>This site was designed as the public-facing foundation for Belle Digital Studio: a place to articulate positioning, establish trust, and convert the right type of enquiry.</p>
+          <p>Rather than framing the studio as a generic web service, the structure presents a clear point of view around premium web design, brand identity, and thoughtful digital systems for boutique businesses.</p>
+        </div>
+      </div>
+      <div class="section-media">
+        <img src="assets/8.png" alt="Belle Digital Studio messaging section focused on web design and brand identity for boutique businesses" onerror="this.closest('.section-media').classList.add('is-missing'); this.remove();">
+        <div class="media-fallback">
+          <div>
+            <div class="fallback-chip">Positioning visual</div>
+            <div class="fallback-title">Clear studio messaging</div>
+            <p class="fallback-copy">Add <code>assets/8.png</code> to display the positioning and messaging section visual.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section-tint" id="showcase">
+  <div class="cs-inner">
+    <div class="showcase-stack">
+      <div class="showcase-block reverse reveal">
+        <div class="section-media">
+          <img src="assets/3.png" alt="Belle Digital Studio selected work section displaying curated project case studies" onerror="this.closest('.section-media').classList.add('is-missing'); this.remove();">
+          <div class="media-fallback">
+            <div>
+              <div class="fallback-chip">Selected work</div>
+              <div class="fallback-title">Portfolio showcase</div>
+              <p class="fallback-copy">Add <code>assets/3.png</code> to display the selected work showcase image.</p>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-text">
+          <div class="cs-label">Selected Work</div>
+          <h2 class="cs-h2">Selected <em>Work</em></h2>
+          <div class="cs-body">
+            <p>A curated portfolio section highlights recent projects across industries such as law, construction, and professional services.</p>
+            <p>Each project is presented as a case study, focusing on the strategic thinking, visual system, and measurable results behind the work rather than simply displaying visuals.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-block reveal d1">
+        <div class="showcase-text">
+          <div class="cs-label">Conversion</div>
+          <h2 class="cs-h2">Websites That <em>Convert</em></h2>
+          <div class="cs-body">
+            <p>Rather than focusing purely on aesthetics, the studio website emphasises conversion-focused design. Clear calls to action, structured content, and thoughtful layout decisions guide visitors toward enquiries and consultations.</p>
+            <p>This philosophy reflects the studio&rsquo;s belief that design should not only look refined, but also support real business outcomes.</p>
+          </div>
+        </div>
+        <div class="section-media">
+          <img src="assets/2.png" alt="Belle Digital Studio statement about websites that convert shown with a project example" onerror="this.closest('.section-media').classList.add('is-missing'); this.remove();">
+          <div class="media-fallback">
+            <div>
+              <div class="fallback-chip">Conversion focus</div>
+              <div class="fallback-title">Websites that convert</div>
+              <p class="fallback-copy">Add <code>assets/2.png</code> to display the conversion-focused design section visual.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-block reverse reveal d2">
+        <div class="section-media">
+          <img src="assets/4.png" alt="Belle Digital Studio website process section outlining the four-step project approach" onerror="this.closest('.section-media').classList.add('is-missing'); this.remove();">
+          <div class="media-fallback">
+            <div>
+              <div class="fallback-chip">Studio process</div>
+              <div class="fallback-title">Clear project flow</div>
+              <p class="fallback-copy">Add <code>assets/4.png</code> to display the project process section visual.</p>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-text">
+          <div class="cs-label">Process</div>
+          <h2 class="cs-h2">A Clear Project <em>Process</em></h2>
+          <div class="cs-body">
+            <p>To build trust with potential clients, the website outlines the studio&rsquo;s structured project approach, covering strategy, design systems, development, and launch optimisation.</p>
+            <p>This transparency helps clients understand how projects are executed and what they can expect when working with the studio.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-block reveal">
+        <div class="showcase-text">
+          <div class="cs-label">Case Studies</div>
+          <h2 class="cs-h2">Case Study <em>Integration</em></h2>
+          <div class="cs-body">
+            <p>Detailed case studies demonstrate how the studio&rsquo;s process translates into real client results. Each project showcases the combination of brand identity, website design, and supporting materials used to create cohesive digital experiences.</p>
+          </div>
+          <a class="showcase-link" href="https://www.belledigitalstudio.com/" target="_blank" rel="noopener noreferrer">Visit Website &nearr;</a>
+        </div>
+        <div class="section-media">
+          <img src="assets/10.png" alt="Belle Digital Studio case study presentation showing structured, polished client work" onerror="this.closest('.section-media').classList.add('is-missing'); this.remove();">
+          <div class="media-fallback">
+            <div>
+              <div class="fallback-chip">Case study view</div>
+              <div class="fallback-title">Structured client work</div>
+              <p class="fallback-copy">Add <code>assets/10.png</code> to display the case study integration section visual.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section-dark">
+  <div class="cs-inner">
+    <div class="showcase-block">
+      <div class="showcase-text reveal">
+        <div class="cs-label-lt">Studio Positioning</div>
+        <h2 class="cs-h2-lt">Clear Studio <em>Positioning</em></h2>
+        <div class="cs-body-lt">
+          <p>The website is designed around a focused positioning: helping boutique and professional service businesses elevate their digital presence through refined web design and brand identity.</p>
+          <p>Clear messaging, typography-driven layouts, and a restrained colour palette ensure the site feels sophisticated while still approachable to potential clients.</p>
+        </div>
+      </div>
+      <div class="reveal d1">
+        <div class="cs-label-lt">Process Logic</div>
+        <div class="process-list">
+          <div class="process-row">
+            <div class="process-num">01</div>
+            <div>
+              <div class="process-title">Strategy &amp; Positioning</div>
+              <div class="process-copy">Define the structure, message, offer, and audience before moving into visuals.</div>
+            </div>
+          </div>
+          <div class="process-row">
+            <div class="process-num">02</div>
+            <div>
+              <div class="process-title">Design System</div>
+              <div class="process-copy">Create the typography, layout language, and interface components that make the brand feel cohesive.</div>
+            </div>
+          </div>
+          <div class="process-row">
+            <div class="process-num">03</div>
+            <div>
+              <div class="process-title">Build &amp; Implementation</div>
+              <div class="process-copy">Develop a responsive front end that turns the concept into a live, high-performing platform.</div>
+            </div>
+          </div>
+          <div class="process-row">
+            <div class="process-num">04</div>
+            <div>
+              <div class="process-title">Launch &amp; Optimisation</div>
+              <div class="process-copy">Refine performance, clarity, and conversion points so the site is ready to support enquiries from day one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="cs-inner">
+    <div class="cs-label reveal">Outcome</div>
+    <h2 class="cs-h2 reveal">A studio website built to <em>attract and convert</em></h2>
+    <div class="outcome-grid reveal">
+      <div class="outcome-cell">
+        <div class="outcome-num">6</div>
+        <div class="outcome-label">Core platform sections</div>
+        <div class="outcome-note">The site balances positioning, portfolio, process, and case study content in a way that feels calm rather than crowded.</div>
+      </div>
+      <div class="outcome-cell">
+        <div class="outcome-num">1</div>
+        <div class="outcome-label">Studio platform</div>
+        <div class="outcome-note">Belle Digital Studio is presented as a strategic business platform, not just a visual portfolio.</div>
+      </div>
+      <div class="outcome-cell">
+        <div class="outcome-num">→</div>
+        <div class="outcome-label">Clearer enquiry path</div>
+        <div class="outcome-note">Every section supports a stronger understanding of the offer and a clearer route toward consultation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a href="https://www.belledigitalstudio.com/" class="next-project" target="_blank" rel="noopener noreferrer">
+  <div>
+    <div class="next-label">Live Website</div>
+    <div class="next-name">Belle Digital Studio</div>
+  </div>
+  <span class="next-arrow">&nearr;</span>
+</a>
+
+<footer>
+  <a href="index.html" class="footer-logo">Alison Belle</a>
+  <ul class="footer-nav">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <span class="footer-copy">&copy; 2024 Alison Belle</span>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('in')),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
