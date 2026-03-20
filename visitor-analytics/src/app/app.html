@@ -1,0 +1,217 @@
+<div class="shell">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">Beonic<em>Flow</em></span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group-label">Overview</div>
+      <a class="nav-item active" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Visitor Flow
+      </a>
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Analytics
+      </a>
+
+      <div class="nav-group-label" style="margin-top:20px">Locations</div>
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        All Venues
+      </a>
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Sydney Airport
+      </a>
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        ANZ Stadium
+      </a>
+
+      <div class="nav-group-label" style="margin-top:20px">System</div>
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        Reports
+      </a>
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        Alerts
+        <span class="nav-badge">{{ alertCount }}</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        Settings
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar">AB</div>
+        <div class="user-info">
+          <div class="user-name">Alison Belle</div>
+          <div class="user-role">Admin</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main">
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title">Dashboard</h1>
+        <div class="live-badge">
+          <span class="live-dot"></span>
+          Live
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="venue-selector">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          Sydney Airport T1
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="time-display">{{ currentTime }}</div>
+      </div>
+    </header>
+
+    <!-- Stat cards -->
+    <section class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Total Visitors Today</span>
+          <span class="stat-icon green"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+        </div>
+        <div class="stat-value">{{ totalVisitors | number }}</div>
+        <div class="stat-delta positive">↑ 12.4% vs yesterday</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Current Occupancy</span>
+          <span class="stat-icon accent"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+        </div>
+        <div class="stat-value">{{ currentOccupancy | number }}</div>
+        <div class="occupancy-bar-wrap">
+          <div class="occupancy-bar">
+            <div class="occupancy-fill" [style.width.%]="occupancyPct" [class.warn]="occupancyPct > 70" [class.crit]="occupancyPct > 90"></div>
+          </div>
+          <span class="occupancy-pct">{{ occupancyPct }}% capacity</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Avg Dwell Time</span>
+          <span class="stat-icon purple"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+        </div>
+        <div class="stat-value">{{ dwellTime }}<span class="stat-unit">min</span></div>
+        <div class="stat-delta negative">↓ 2.1 min vs last week</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Active Sensors</span>
+          <span class="stat-icon amber"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></span>
+        </div>
+        <div class="stat-value">{{ activeSensors }}<span class="stat-unit">/48</span></div>
+        <div class="stat-delta neutral">● 1 sensor offline, Gate C12</div>
+      </div>
+    </section>
+
+    <!-- Chart + Alerts row -->
+    <section class="mid-grid">
+      <!-- Line chart -->
+      <div class="card chart-card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Visitor Flow</div>
+            <div class="card-sub">{{ chartSubtitle }}</div>
+          </div>
+          <div class="chart-tabs">
+            <button class="chart-tab" [class.active]="activeTab === '24h'" (click)="setTab('24h')">24h</button>
+            <button class="chart-tab" [class.active]="activeTab === '7d'"  (click)="setTab('7d')">7d</button>
+            <button class="chart-tab" [class.active]="activeTab === '30d'" (click)="setTab('30d')">30d</button>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <svg class="line-chart" viewBox="0 0 700 200" preserveAspectRatio="none">
+            <line x1="0" y1="40" x2="700" y2="40" stroke="var(--border)" stroke-width="1"/>
+            <line x1="0" y1="90" x2="700" y2="90" stroke="var(--border)" stroke-width="1"/>
+            <line x1="0" y1="140" x2="700" y2="140" stroke="var(--border)" stroke-width="1"/>
+            <path [attr.d]="yesterdayArea" fill="var(--ink-3)" opacity="0.08"/>
+            <path [attr.d]="yesterdayLine" fill="none" stroke="var(--ink-3)" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <path [attr.d]="todayArea" fill="var(--accent)" opacity="0.08"/>
+            <path [attr.d]="todayLine" fill="none" stroke="var(--accent)" stroke-width="2"/>
+          </svg>
+          @if (activeTab === '24h') {
+            <div class="live-dot-overlay" [style.left.%]="liveDotXPct" [style.top.%]="liveDotYPct"></div>
+          }
+          <div class="chart-x-labels">
+            @for (label of xAxisLabels; track label) {
+              <span>{{ label }}</span>
+            }
+          </div>
+        </div>
+        <div class="chart-legend">
+          <span class="legend-item"><span class="legend-dot accent"></span>{{ chartLegend[0] }}</span>
+          <span class="legend-item"><span class="legend-dot muted"></span>{{ chartLegend[1] }}</span>
+        </div>
+      </div>
+
+      <!-- Alert feed -->
+      <div class="card alerts-card">
+        <div class="card-header">
+          <div class="card-title">Live Alerts</div>
+          <span class="alert-count-badge">{{ alertCount }}</span>
+        </div>
+        <div class="alerts-list">
+          @for (alert of alerts; track alert.id) {
+            <div class="alert-item" [class]="'alert-' + alert.severity">
+              <div class="alert-dot"></div>
+              <div class="alert-body">
+                <div class="alert-msg">{{ alert.message }}</div>
+                <div class="alert-meta">{{ alert.zone }} · {{ alert.time }}</div>
+              </div>
+              <span class="alert-badge">{{ alert.severity }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Zone heatmap -->
+    <section class="card heatmap-card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Zone Occupancy</div>
+          <div class="card-sub">Real-time density, Terminal 1 Floor Plan</div>
+        </div>
+        <div class="heatmap-legend">
+          <span class="hm-label">Low</span>
+          <div class="hm-gradient"></div>
+          <span class="hm-label">High</span>
+        </div>
+      </div>
+      <div class="floorplan">
+        @for (zone of zones; track zone.id) {
+          <div class="zone-cell" [style.gridArea]="zone.area"
+               [class]="'heat-' + zone.level"
+               [class.zone-alert]="zone.level === 'critical'">
+            <div class="zone-name">{{ zone.name }}</div>
+            <div class="zone-count">{{ zone.count }}</div>
+            <div class="zone-pct">{{ zone.pct }}%</div>
+          </div>
+        }
+      </div>
+    </section>
+  </main>
+</div>
