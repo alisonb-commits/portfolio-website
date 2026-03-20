@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visitor Analytics Dashboard · Alison Belle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F9F8F6; --surface: #F2F1EE; --border: #E4E2DC;
+      --ink: #18170F; --ink-2: #46443C; --ink-3: #8C8A82;
+      --dark: #0D0F14; --dark-2: #13161D; --dark-3: #1A1E28;
+      --accent: #4F8EF7; --green: #34D399; --amber: #FBBF24; --red: #F87171;
+      --serif: 'Fraunces', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans); background: var(--bg); color: var(--ink);
+      font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 52px; height: 58px;
+      background: rgba(249,248,246,0.92); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--serif); font-size: 16px; color: var(--ink); text-decoration: none; font-weight: 300; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--ink); color: var(--bg) !important; padding: 7px 16px;
+      border-radius: 6px; font-size: 12.5px; font-weight: 500; text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.78; }
+
+    /* Hero */
+    .cs-hero {
+      padding-top: 58px; min-height: 82vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding-left: 52px; padding-right: 52px; padding-bottom: 80px;
+      border-bottom: 1px solid var(--border); position: relative; overflow: hidden;
+      background:
+        radial-gradient(circle at 70% 20%, rgba(79,142,247,0.12), transparent 36%),
+        radial-gradient(circle at 10% 80%, rgba(52,211,153,0.07), transparent 28%),
+        linear-gradient(180deg, #0A0C11 0%, #0D0F14 100%);
+    }
+    .cs-hero-watermark {
+      position: absolute; right: -20px; bottom: -30px;
+      font-family: var(--serif); font-size: 280px; font-weight: 900;
+      color: #fff; opacity: 0.025; line-height: 1;
+      pointer-events: none; user-select: none; letter-spacing: -0.04em;
+    }
+    .cs-breadcrumb {
+      font-size: 12px; color: rgba(249,248,246,0.42);
+      display: flex; align-items: center; gap: 8px; margin-bottom: 36px;
+    }
+    .cs-breadcrumb a { color: rgba(249,248,246,0.42); text-decoration: none; transition: color 0.2s; }
+    .cs-breadcrumb a:hover { color: rgba(249,248,246,0.76); }
+    .cs-breadcrumb-sep { opacity: 0.3; }
+    .cs-proj-num {
+      font-family: var(--serif); font-size: 13px; font-style: italic;
+      color: rgba(249,248,246,0.28); margin-bottom: 18px; display: block; font-weight: 300;
+    }
+    .cs-title {
+      font-family: var(--serif); font-size: clamp(52px, 7.5vw, 108px);
+      font-weight: 300; line-height: 0.95; letter-spacing: -0.03em; color: #F9F8F6; margin-bottom: 24px;
+    }
+    .cs-title em { font-style: italic; color: #7FB3FA; }
+    .cs-summary {
+      font-size: 17px; color: rgba(249,248,246,0.58); font-weight: 300;
+      line-height: 1.65; max-width: 620px; margin-bottom: 34px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 38px; }
+    .hero-link, .hero-link-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 18px; border-radius: 7px; text-decoration: none; font-size: 13px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .hero-link { background: #E8F0FF; color: #0D0F14; }
+    .hero-link-ghost { color: rgba(249,248,246,0.72); border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
+    .hero-link:hover, .hero-link-ghost:hover { opacity: 0.82; transform: translateY(-1px); }
+    .cs-meta-strip {
+      display: flex; border: 1px solid rgba(255,255,255,0.08); border-radius: 3px;
+      background: rgba(255,255,255,0.04); max-width: 860px; overflow: hidden;
+    }
+    .cs-meta-cell { padding: 18px 24px; flex: 1; border-right: 1px solid rgba(255,255,255,0.08); }
+    .cs-meta-cell:last-child { border-right: none; }
+    .cs-meta-label { font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(249,248,246,0.3); margin-bottom: 7px; }
+    .cs-meta-value { font-size: 13px; color: rgba(249,248,246,0.74); }
+
+    /* Sections */
+    .cs-section, .cs-section-dark, .cs-section-tint { padding: 96px 52px; border-bottom: 1px solid var(--border); }
+    .cs-section-dark { background: var(--ink); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .cs-section-tint { background: var(--surface); }
+    .cs-inner { max-width: 1120px; margin: 0 auto; }
+
+    .cs-label, .cs-label-lt {
+      font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 18px; display: flex; align-items: center; gap: 12px;
+    }
+    .cs-label { color: var(--ink-3); }
+    .cs-label-lt { color: rgba(249,248,246,0.3); }
+    .cs-label::before { content: ''; width: 18px; height: 1px; background: var(--ink-3); }
+    .cs-label-lt::before { content: ''; width: 18px; height: 1px; background: rgba(249,248,246,0.3); }
+
+    .cs-h2, .cs-h2-lt {
+      font-family: var(--serif); font-size: clamp(30px, 4vw, 52px);
+      font-weight: 300; line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 20px;
+    }
+    .cs-h2 { color: var(--ink); }
+    .cs-h2-lt { color: var(--bg); }
+    .cs-h2 em { font-style: italic; color: var(--ink-2); }
+    .cs-h2-lt em { font-style: italic; opacity: 0.45; }
+
+    .cs-body { font-size: 15.5px; color: var(--ink-2); font-weight: 300; line-height: 1.78; max-width: 620px; }
+    .cs-body p + p { margin-top: 18px; }
+
+    .showcase-stack { display: flex; flex-direction: column; gap: 88px; }
+    .showcase-block {
+      display: grid; grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+      gap: 64px; align-items: center;
+    }
+    .showcase-block.reverse { grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr); }
+
+    .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+    .tag {
+      font-size: 11px; letter-spacing: 0.04em;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--ink-3); padding: 4px 12px; border-radius: 100px;
+    }
+
+    /* ── Dashboard mockups ── */
+    .dash-frame {
+      border-radius: 10px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 28px 64px rgba(0,0,0,0.5);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: #0D0F14;
+    }
+    .dash-topbar {
+      height: 40px; background: #0D0F14; border-bottom: 1px solid #242836;
+      display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
+    }
+    .dash-tb-title { font-size: 11px; font-weight: 600; color: #F0F2F8; letter-spacing: -0.02em; }
+    .dash-tb-badge {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 9px; color: #34D399; background: rgba(52,211,153,0.12);
+      padding: 2px 8px; border-radius: 99px;
+    }
+    .dash-live-dot { width: 5px; height: 5px; border-radius: 50%; background: #34D399; }
+
+    /* Stats row */
+    .dash-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #242836; border-bottom: 1px solid #242836; }
+    .dash-stat { background: #13161D; padding: 12px 14px; }
+    .dash-stat-label { font-size: 8px; color: #5A6178; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+    .dash-stat-val { font-size: 18px; font-weight: 600; color: #F0F2F8; letter-spacing: -0.03em; }
+    .dash-stat-delta { font-size: 8px; margin-top: 3px; }
+    .dash-green { color: #34D399; }
+    .dash-accent { color: #4F8EF7; }
+    .dash-amber { color: #FBBF24; }
+    .dash-red { color: #F87171; }
+
+    /* Occupancy bar */
+    .dash-occ-bar { height: 3px; background: #1A1E28; border-radius: 2px; margin-top: 5px; overflow: hidden; }
+    .dash-occ-fill { height: 100%; background: #4F8EF7; border-radius: 2px; }
+
+    /* Chart area */
+    .dash-mid { display: grid; grid-template-columns: 1fr 220px; gap: 1px; background: #242836; border-bottom: 1px solid #242836; }
+    .dash-chart { background: #13161D; padding: 14px 16px; }
+    .dash-chart-title { font-size: 9px; font-weight: 600; color: #F0F2F8; margin-bottom: 2px; }
+    .dash-chart-sub { font-size: 8px; color: #5A6178; margin-bottom: 10px; }
+    .dash-chart-svg { width: 100%; height: 80px; }
+    .dash-alerts { background: #13161D; padding: 14px; }
+    .dash-alerts-title { font-size: 9px; font-weight: 600; color: #F0F2F8; margin-bottom: 8px; }
+    .dash-alert { display: flex; align-items: flex-start; gap: 6px; padding: 6px 8px; border-radius: 5px; margin-bottom: 4px; }
+    .dash-alert-crit { background: rgba(248,113,113,0.07); border: 1px solid rgba(248,113,113,0.2); }
+    .dash-alert-warn { background: rgba(251,191,36,0.05); border: 1px solid rgba(251,191,36,0.18); }
+    .dash-alert-info { background: rgba(79,142,247,0.06); border: 1px solid rgba(79,142,247,0.18); }
+    .dash-alert-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+    .dash-alert-text { font-size: 8px; color: #9AA3BA; line-height: 1.4; }
+    .dash-alert-text strong { color: #F0F2F8; font-weight: 500; display: block; }
+
+    /* Heatmap */
+    .dash-heatmap { background: #13161D; padding: 14px 16px; }
+    .dash-heatmap-title { font-size: 9px; font-weight: 600; color: #F0F2F8; margin-bottom: 8px; }
+    .dash-zones { display: grid; grid-template-columns: repeat(7, 1fr); grid-template-rows: repeat(3, 40px); gap: 3px; }
+    .dash-zone { border-radius: 4px; display: flex; flex-direction: column; justify-content: space-between; padding: 5px 6px; }
+    .dash-zone-name { font-size: 7px; color: rgba(240,242,248,0.5); }
+    .dash-zone-count { font-size: 11px; font-weight: 600; color: #F0F2F8; letter-spacing: -0.02em; }
+    .dz-low    { background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.2); }
+    .dz-medium { background: rgba(251,191,36,0.09); border: 1px solid rgba(251,191,36,0.22); }
+    .dz-high   { background: rgba(248,113,113,0.13); border: 1px solid rgba(248,113,113,0.28); }
+    .dz-crit   { background: rgba(248,113,113,0.22); border: 1px solid #F87171; }
+
+    /* Sidebar mockup */
+    .dash-with-sidebar { display: grid; grid-template-columns: 140px 1fr; }
+    .dash-sidebar { background: #13161D; border-right: 1px solid #242836; padding: 12px; }
+    .dash-sidebar-logo { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; color: #F0F2F8; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #242836; }
+    .dash-sidebar-logo span { color: #4F8EF7; font-size: 13px; }
+    .dash-nav-group { font-size: 7px; color: #5A6178; text-transform: uppercase; letter-spacing: 0.1em; margin: 10px 0 5px; }
+    .dash-nav-item { display: flex; align-items: center; gap: 6px; font-size: 9px; color: #9AA3BA; padding: 5px 7px; border-radius: 5px; margin-bottom: 2px; }
+    .dash-nav-item.active { background: rgba(79,142,247,0.12); color: #4F8EF7; }
+    .dash-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+    /* Mobile mockup */
+    .dash-mobile-frame {
+      max-width: 280px; margin: 0 auto;
+      border-radius: 20px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 28px 64px rgba(0,0,0,0.5);
+      background: #0D0F14;
+    }
+    .dash-mobile-topbar {
+      background: #0D0F14; border-bottom: 1px solid #242836;
+      padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .dash-mobile-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #242836; }
+    .dash-mobile-chart { background: #13161D; padding: 12px 14px; }
+
+    /* Next project */
+    .next-project {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 52px; text-decoration: none; color: inherit;
+      border-top: 1px solid var(--border); transition: background 0.2s;
+    }
+    .next-project:hover { background: var(--surface); }
+    .next-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+    .next-name { font-family: var(--serif); font-size: 40px; font-weight: 300; letter-spacing: -0.02em; color: var(--ink); }
+    .next-arrow { font-size: 44px; color: var(--ink-3); transition: transform 0.25s var(--ease); }
+    .next-project:hover .next-arrow { transform: translate(6px,-6px); }
+
+    footer {
+      padding: 28px 52px; display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+    .footer-logo { font-family: var(--serif); font-size: 15px; color: var(--ink-3); text-decoration: none; font-weight: 300; }
+    .footer-nav { display: flex; gap: 24px; list-style: none; }
+    .footer-nav a { font-size: 12px; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .footer-nav a:hover { color: var(--ink); }
+    .footer-copy { font-size: 12px; color: var(--ink-3); }
+
+    /* Wireframe components */
+    .wireframe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 28px; }
+    .wireframe-card { background: #f3f2ef; border: 1px solid #d9d6cf; border-radius: 8px; overflow: hidden; box-shadow: 0 18px 40px rgba(24,23,15,0.05); }
+    .wireframe-topbar { height: 34px; background: #ece9e3; border-bottom: 1px solid #d9d6cf; display: flex; align-items: center; gap: 6px; padding: 0 14px; }
+    .wireframe-dot { width: 7px; height: 7px; border-radius: 50%; background: #c8c4bc; }
+    .wireframe-body { padding: 16px; display: grid; gap: 12px; }
+    .wf-row { display: grid; gap: 10px; }
+    .wf-2col { grid-template-columns: 0.34fr 1fr; }
+    .wf-bar, .wf-box, .wf-chip { background: #d8d5ce; border-radius: 4px; }
+    .wf-bar { height: 10px; }
+    .wf-box { min-height: 56px; }
+    .wf-chip { height: 26px; }
+    .wf-sidebar { background: #e7e3dc; border-radius: 6px; padding: 10px; display: grid; gap: 8px; align-content: start; }
+    .wf-panel { background: #ebe8e2; border-radius: 6px; padding: 12px; display: grid; gap: 10px; }
+    .wf-stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .wf-field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .wf-mobile { max-width: 340px; margin-left: auto; margin-right: auto; }
+    .wf-mobile-stack { display: grid; gap: 10px; }
+
+    .reveal { opacity: 1; transform: none; transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+    .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 24px; }
+      .nav-links li:not(:last-child) { display: none; }
+      .cs-hero, .cs-section, .cs-section-dark, .cs-section-tint { padding-left: 24px; padding-right: 24px; }
+      .showcase-block, .showcase-block.reverse { grid-template-columns: 1fr; gap: 32px; }
+      .cs-meta-strip { flex-direction: column; }
+      .cs-meta-cell { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      footer { flex-direction: column; gap: 14px; padding: 24px; }
+      .next-project { padding: 32px 24px; } .next-name { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Alison Belle</a>
+  <ul class="nav-links">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="cs-hero">
+  <div class="cs-hero-watermark">VAD</div>
+  <div class="cs-breadcrumb">
+    <a href="index.html">Home</a>
+    <span class="cs-breadcrumb-sep">/</span>
+    <a href="index.html#projects">Work</a>
+    <span class="cs-breadcrumb-sep">/</span>
+    Visitor Analytics
+  </div>
+  <span class="cs-proj-num">Project 01</span>
+  <h1 class="cs-title reveal">Visitor Analytics<br><em>Dashboard</em></h1>
+  <p class="cs-summary reveal d1">A real-time smart venue dashboard built in Angular 21 , simulating live occupancy, sensor data, and visitor flow across airports, stadiums and retail environments.</p>
+  <div class="hero-actions reveal d2">
+    <a class="hero-link" href="beonic-flow/index.html" target="_blank">Live Demo ↗</a>
+    <a class="hero-link-ghost" href="#vad-sections">Explore the build</a>
+  </div>
+  <div class="cs-meta-strip reveal d2">
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Role</div>
+      <div class="cs-meta-value">Frontend Developer</div>
+    </div>
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Stack</div>
+      <div class="cs-meta-value">Angular 21, TypeScript, RxJS, CSS</div>
+    </div>
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Domain</div>
+      <div class="cs-meta-value">Smart Buildings · Airports · Retail</div>
+    </div>
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Year</div>
+      <div class="cs-meta-value">2026</div>
+    </div>
+  </div>
+</header>
+
+<section class="cs-section-tint" id="vad-sections">
+  <div class="cs-inner">
+
+    <!-- Brief -->
+    <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;">
+      <div>
+        <div class="cs-label">The Brief</div>
+        <h2 class="cs-h2">What problem<br><em>needed solving?</em></h2>
+      </div>
+      <div class="cs-body">
+        <p>Venue operators at large-scale physical environments , airports, stadiums, retail centres , need to make fast decisions based on live crowd data. But most off-the-shelf tools are either too generic or buried in enterprise complexity. The brief: design and build a focused, real-time dashboard that gives operators immediate visibility into occupancy, visitor flow, and zone density, with alerts surfaced before they become incidents.</p>
+        <p>This project was built specifically to demonstrate Angular frontend capability aligned with Beonic's product domain , smart building analytics, IoT sensor integration, and data-driven venue intelligence.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="cs-inner">
+    <div class="showcase-stack">
+
+      <!-- Information architecture -->
+      <div class="reveal">
+        <div class="cs-label">Information Architecture</div>
+        <h2 class="cs-h2">Defining the <em>data hierarchy</em></h2>
+        <div class="cs-body" style="margin-bottom:36px;">
+          <p>Before any code was written, I mapped out what information operators would need at a glance vs. on demand. The hierarchy: venue-level stats at the top (total visitors, occupancy, dwell time, sensor status), then time-series flow analysis, then spatial zone density. Alerts sit in a persistent panel , always visible, never blocking the primary data view.</p>
+        </div>
+
+        <!-- IA diagram wireframe -->
+        <div class="wireframe-card">
+          <div class="wireframe-topbar">
+            <span class="wireframe-dot"></span><span class="wireframe-dot"></span><span class="wireframe-dot"></span>
+            <span style="font-size:10px;color:#b0aaa0;margin-left:8px;">Information Architecture , BeonicFlow Dashboard</span>
+          </div>
+          <div class="wireframe-body" style="gap:16px;padding:24px;">
+            <!-- Level 1: KPI row -->
+            <div>
+              <div style="font-size:9px;color:#b0aaa0;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Level 1 , At-a-glance KPIs (always visible, top row)</div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+                <div class="wf-box" style="min-height:52px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#b0aaa0;">Total Visitors</div>
+                <div class="wf-box" style="min-height:52px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#b0aaa0;">Occupancy %</div>
+                <div class="wf-box" style="min-height:52px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#b0aaa0;">Dwell Time</div>
+                <div class="wf-box" style="min-height:52px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#b0aaa0;">Sensor Status</div>
+              </div>
+            </div>
+            <!-- Level 2: Flow + Alerts -->
+            <div>
+              <div style="font-size:9px;color:#b0aaa0;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Level 2 , Time-series analysis + Live alerts (secondary row)</div>
+              <div style="display:grid;grid-template-columns:1fr 280px;gap:10px;">
+                <div class="wf-box" style="min-height:80px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#b0aaa0;">Visitor Flow Chart , Hourly · Today vs Yesterday</div>
+                <div class="wf-box" style="min-height:80px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#b0aaa0;">Alert Feed , Critical / Warning / Info</div>
+              </div>
+            </div>
+            <!-- Level 3: Spatial -->
+            <div>
+              <div style="font-size:9px;color:#b0aaa0;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Level 3 , Spatial density (zone floor plan)</div>
+              <div class="wf-box" style="min-height:56px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#b0aaa0;">Zone Heatmap , Terminal 1 Floor Plan · Density-coded grid</div>
+            </div>
+            <!-- Navigation -->
+            <div style="border-top:1px solid #d8d5ce;padding-top:14px;">
+              <div style="font-size:9px;color:#b0aaa0;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Navigation structure</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <div class="wf-chip" style="padding:0 16px;display:flex;align-items:center;font-size:9px;color:#b0aaa0;">Dashboard ✦</div>
+                <div class="wf-chip" style="padding:0 16px;display:flex;align-items:center;font-size:9px;color:#b0aaa0;">Visitor Flow</div>
+                <div class="wf-chip" style="padding:0 16px;display:flex;align-items:center;font-size:9px;color:#b0aaa0;">Analytics</div>
+                <div class="wf-chip" style="padding:0 16px;display:flex;align-items:center;font-size:9px;color:#b0aaa0;">All Venues</div>
+                <div class="wf-chip" style="padding:0 16px;display:flex;align-items:center;font-size:9px;color:#b0aaa0;">Sydney Airport</div>
+                <div class="wf-chip" style="padding:0 16px;display:flex;align-items:center;font-size:9px;color:#b0aaa0;">ANZ Stadium</div>
+                <div class="wf-chip" style="padding:0 16px;display:flex;align-items:center;font-size:9px;color:#b0aaa0;">Reports</div>
+                <div class="wf-chip" style="padding:0 16px;display:flex;align-items:center;font-size:9px;color:#b0aaa0;">Alerts ●</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wireframes -->
+      <div class="reveal d1">
+        <div class="cs-label">Structure First</div>
+        <h2 class="cs-h2">Wireframe <em>Exploration</em></h2>
+        <div class="cs-body" style="margin-bottom:36px;">
+          <p>Low-fidelity wireframes were used to lock in layout structure and component relationships before applying the visual design. The key constraint was information density , a venue operator needs to see everything critical without scrolling. The sidebar nav + fixed topbar + scrollable main panel pattern solved this cleanly.</p>
+        </div>
+        <div class="wireframe-grid">
+          <!-- Desktop wireframe -->
+          <div class="wireframe-card">
+            <div class="wireframe-topbar">
+              <span class="wireframe-dot"></span><span class="wireframe-dot"></span><span class="wireframe-dot"></span>
+              <span style="font-size:10px;color:#b0aaa0;margin-left:8px;">Desktop , 1440px</span>
+            </div>
+            <div class="wireframe-body">
+              <div class="wf-row wf-2col">
+                <!-- Sidebar -->
+                <div class="wf-sidebar" style="min-height:260px;">
+                  <div class="wf-bar" style="width:60%;height:12px;"></div>
+                  <div style="margin-top:6px;display:grid;gap:5px;">
+                    <div class="wf-chip"></div>
+                    <div class="wf-chip" style="background:#c0c8d8;"></div>
+                    <div class="wf-chip"></div>
+                    <div class="wf-bar" style="width:50%;margin-top:4px;"></div>
+                    <div class="wf-chip"></div>
+                    <div class="wf-chip"></div>
+                    <div class="wf-bar" style="width:50%;margin-top:4px;"></div>
+                    <div class="wf-chip"></div>
+                    <div class="wf-chip"></div>
+                  </div>
+                </div>
+                <!-- Main -->
+                <div class="wf-panel">
+                  <!-- Topbar -->
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:8px;border-bottom:1px solid #d8d5ce;">
+                    <div class="wf-bar" style="width:28%;height:10px;"></div>
+                    <div class="wf-bar" style="width:22%;height:10px;"></div>
+                  </div>
+                  <!-- Stats -->
+                  <div class="wf-stat-row">
+                    <div class="wf-box" style="min-height:48px;"></div>
+                    <div class="wf-box" style="min-height:48px;"></div>
+                    <div class="wf-box" style="min-height:48px;"></div>
+                    <div class="wf-box" style="min-height:48px;"></div>
+                  </div>
+                  <!-- Chart + Alerts -->
+                  <div style="display:grid;grid-template-columns:1fr 0.55fr;gap:8px;">
+                    <div class="wf-box" style="min-height:80px;"></div>
+                    <div class="wf-box" style="min-height:80px;"></div>
+                  </div>
+                  <!-- Heatmap -->
+                  <div class="wf-box" style="min-height:56px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Mobile wireframe -->
+          <div class="wireframe-card wf-mobile">
+            <div class="wireframe-topbar">
+              <span class="wireframe-dot"></span><span class="wireframe-dot"></span><span class="wireframe-dot"></span>
+              <span style="font-size:10px;color:#b0aaa0;margin-left:8px;">Mobile , 375px (sidebar hidden)</span>
+            </div>
+            <div class="wireframe-body">
+              <div class="wf-mobile-stack">
+                <!-- Topbar -->
+                <div style="display:flex;justify-content:space-between;">
+                  <div class="wf-bar" style="width:36%;height:10px;"></div>
+                  <div class="wf-bar" style="width:28%;height:10px;"></div>
+                </div>
+                <!-- 2-col stats -->
+                <div class="wf-field-grid">
+                  <div class="wf-box" style="min-height:54px;"></div>
+                  <div class="wf-box" style="min-height:54px;"></div>
+                  <div class="wf-box" style="min-height:54px;"></div>
+                  <div class="wf-box" style="min-height:54px;"></div>
+                </div>
+                <!-- Chart full width -->
+                <div class="wf-box" style="min-height:80px;"></div>
+                <!-- Alerts stacked -->
+                <div class="wf-box" style="min-height:48px;"></div>
+                <div class="wf-box" style="min-height:48px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Component architecture -->
+      <div class="reveal">
+        <div class="cs-label">Angular Architecture</div>
+        <h2 class="cs-h2">Component <em>Structure</em></h2>
+        <div class="cs-body" style="margin-bottom:36px;">
+          <p>The app is built using Angular 21 standalone components , no NgModules. The root <code>App</code> component owns all state and data logic, keeping the template as a pure view layer. RxJS <code>interval()</code> drives the live data loop, subscriptions are tracked via a <code>Subscription</code> bag and cleaned up in <code>ngOnDestroy</code> to prevent memory leaks. TypeScript interfaces enforce the data contract between the data layer and the template.</p>
+        </div>
+        <!-- Architecture diagram -->
+        <div class="wireframe-card">
+          <div class="wireframe-topbar">
+            <span class="wireframe-dot"></span><span class="wireframe-dot"></span><span class="wireframe-dot"></span>
+            <span style="font-size:10px;color:#b0aaa0;margin-left:8px;">app.ts , Component architecture</span>
+          </div>
+          <div class="wireframe-body" style="padding:24px;gap:12px;">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+              <div>
+                <div style="font-size:9px;color:#b0aaa0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">Interfaces</div>
+                <div class="wf-box" style="padding:10px 12px;min-height:auto;">
+                  <div class="wf-bar" style="width:60%;margin-bottom:6px;"></div>
+                  <div class="wf-bar" style="width:45%;margin-bottom:4px;"></div>
+                  <div class="wf-bar" style="width:55%;margin-bottom:4px;"></div>
+                  <div class="wf-bar" style="width:40%;"></div>
+                </div>
+                <div class="wf-box" style="padding:10px 12px;min-height:auto;margin-top:8px;">
+                  <div class="wf-bar" style="width:50%;margin-bottom:6px;"></div>
+                  <div class="wf-bar" style="width:65%;margin-bottom:4px;"></div>
+                  <div class="wf-bar" style="width:45%;margin-bottom:4px;"></div>
+                  <div class="wf-bar" style="width:60%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:9px;color:#b0aaa0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">State (properties)</div>
+                <div class="wf-box" style="padding:10px 12px;min-height:auto;">
+                  <div class="wf-bar" style="width:75%;margin-bottom:5px;"></div>
+                  <div class="wf-bar" style="width:65%;margin-bottom:5px;"></div>
+                  <div class="wf-bar" style="width:55%;margin-bottom:5px;"></div>
+                  <div class="wf-bar" style="width:80%;margin-bottom:5px;"></div>
+                  <div class="wf-bar" style="width:50%;margin-bottom:5px;"></div>
+                  <div class="wf-bar" style="width:70%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:9px;color:#b0aaa0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">Lifecycle / RxJS</div>
+                <div class="wf-box" style="padding:10px 12px;min-height:auto;">
+                  <div class="wf-bar" style="width:55%;margin-bottom:5px;background:#c0c8d8;"></div>
+                  <div class="wf-bar" style="width:70%;margin-bottom:5px;"></div>
+                  <div class="wf-bar" style="width:60%;margin-bottom:5px;"></div>
+                  <div class="wf-bar" style="width:45%;margin-bottom:5px;background:#c0c8d8;"></div>
+                  <div class="wf-bar" style="width:65%;margin-bottom:5px;"></div>
+                  <div class="wf-bar" style="width:50%;"></div>
+                </div>
+              </div>
+            </div>
+            <div style="border-top:1px solid #d8d5ce;padding-top:12px;">
+              <div style="font-size:9px;color:#b0aaa0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">Template bindings , app.html</div>
+              <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+                <div class="wf-chip" style="display:flex;align-items:center;justify-content:center;font-size:8px;color:#b0aaa0;">{{ value }}</div>
+                <div class="wf-chip" style="display:flex;align-items:center;justify-content:center;font-size:8px;color:#b0aaa0;">[style.width]</div>
+                <div class="wf-chip" style="display:flex;align-items:center;justify-content:center;font-size:8px;color:#b0aaa0;">[class]</div>
+                <div class="wf-chip" style="display:flex;align-items:center;justify-content:center;font-size:8px;color:#b0aaa0;">@for track</div>
+                <div class="wf-chip" style="display:flex;align-items:center;justify-content:center;font-size:8px;color:#b0aaa0;">[attr.d]</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Design system -->
+      <div class="showcase-block reveal d1">
+        <div class="showcase-text">
+          <div class="cs-label">Visual Design</div>
+          <h2 class="cs-h2">Design System <em>Decisions</em></h2>
+          <div class="cs-body">
+            <p>The dark UI was a deliberate choice , venue operations dashboards are often used in dimly-lit control rooms or on monitors exposed to low ambient light. The colour palette uses a deep navy base (#0D0F14) with carefully calibrated surface layers, ensuring sufficient contrast at every level without creating visual noise.</p>
+            <p>Semantic colour is used strictly: green for healthy/low occupancy, amber for caution, red for critical. This maps directly to the traffic-light mental model operators already understand. Custom properties throughout the CSS mean the entire palette can be swapped or extended without touching component styles.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Dark UI</span>
+            <span class="tag">Semantic colour</span>
+            <span class="tag">CSS custom properties</span>
+            <span class="tag">Contrast ratios</span>
+          </div>
+        </div>
+        <!-- Colour palette swatch -->
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:6px;">
+            <div style="background:#0D0F14;border-radius:8px;height:56px;display:flex;align-items:flex-end;padding:8px;"><span style="font-size:8px;color:#5A6178;">--bg</span></div>
+            <div style="background:#13161D;border-radius:8px;height:56px;display:flex;align-items:flex-end;padding:8px;border:1px solid #242836;"><span style="font-size:8px;color:#5A6178;">--surface</span></div>
+            <div style="background:#1A1E28;border-radius:8px;height:56px;display:flex;align-items:flex-end;padding:8px;border:1px solid #242836;"><span style="font-size:8px;color:#5A6178;">--surface-2</span></div>
+            <div style="background:#242836;border-radius:8px;height:56px;display:flex;align-items:flex-end;padding:8px;"><span style="font-size:8px;color:#5A6178;">--border</span></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:6px;">
+            <div style="background:#F0F2F8;border-radius:8px;height:40px;display:flex;align-items:flex-end;padding:7px;"><span style="font-size:8px;color:#0D0F14;">--ink</span></div>
+            <div style="background:#9AA3BA;border-radius:8px;height:40px;display:flex;align-items:flex-end;padding:7px;"><span style="font-size:8px;color:#0D0F14;">--ink-2</span></div>
+            <div style="background:#5A6178;border-radius:8px;height:40px;display:flex;align-items:flex-end;padding:7px;"><span style="font-size:8px;color:#F0F2F8;">--ink-3</span></div>
+            <div style="background:#4F8EF7;border-radius:8px;height:40px;display:flex;align-items:flex-end;padding:7px;"><span style="font-size:8px;color:#0D0F14;">--accent</span></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+            <div style="background:#34D399;border-radius:8px;height:40px;display:flex;align-items:flex-end;padding:7px;"><span style="font-size:8px;color:#0D0F14;">--green (Low)</span></div>
+            <div style="background:#FBBF24;border-radius:8px;height:40px;display:flex;align-items:flex-end;padding:7px;"><span style="font-size:8px;color:#0D0F14;">--amber (Med)</span></div>
+            <div style="background:#F87171;border-radius:8px;height:40px;display:flex;align-items:flex-end;padding:7px;"><span style="font-size:8px;color:#0D0F14;">--red (Critical)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider into final product -->
+      <div class="reveal" style="text-align:center;padding:20px 0 0;">
+        <div class="cs-label" style="justify-content:center;">The Result</div>
+        <h2 class="cs-h2" style="text-align:center;max-width:600px;margin:0 auto 0;">From wireframe to<br><em>working dashboard</em></h2>
+      </div>
+
+      <!-- Overview dashboard mockup -->
+      <div class="reveal">
+        <div class="cs-label">The Product</div>
+        <h2 class="cs-h2">Real-time <em>Occupancy Intelligence</em></h2>
+        <div class="cs-body" style="margin-bottom:36px;">
+          <p>BeonicFlow is a venue intelligence dashboard that ingests live sensor data and surfaces occupancy, visitor flow, and zone density across large physical environments. Built entirely in Angular 21 with standalone components, the app simulates a production-grade platform of the kind used by airports, stadiums, and retail centres to manage crowd flow and operational decisions in real time.</p>
+        </div>
+
+        <!-- Full dashboard mockup -->
+        <div class="dash-frame">
+          <div class="dash-with-sidebar">
+            <div class="dash-sidebar">
+              <div class="dash-sidebar-logo"><span>◈</span>BeonicFlow</div>
+              <div class="dash-nav-group">Overview</div>
+              <div class="dash-nav-item active"><div class="dash-nav-dot"></div>Dashboard</div>
+              <div class="dash-nav-item"><div class="dash-nav-dot"></div>Visitor Flow</div>
+              <div class="dash-nav-item"><div class="dash-nav-dot"></div>Analytics</div>
+              <div class="dash-nav-group">Locations</div>
+              <div class="dash-nav-item"><div class="dash-nav-dot"></div>All Venues</div>
+              <div class="dash-nav-item"><div class="dash-nav-dot"></div>Sydney Airport</div>
+              <div class="dash-nav-item"><div class="dash-nav-dot"></div>ANZ Stadium</div>
+              <div class="dash-nav-group">System</div>
+              <div class="dash-nav-item"><div class="dash-nav-dot"></div>Reports</div>
+              <div class="dash-nav-item"><div class="dash-nav-dot"></div>Alerts</div>
+            </div>
+            <div>
+              <div class="dash-topbar">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <span class="dash-tb-title">Dashboard</span>
+                  <div class="dash-tb-badge"><div class="dash-live-dot"></div>Live</div>
+                </div>
+                <span style="font-size:8px;color:#5A6178;">Sydney Airport T1 &nbsp;·&nbsp; 03:54 PM</span>
+              </div>
+              <div class="dash-stats">
+                <div class="dash-stat">
+                  <div class="dash-stat-label">Total Visitors Today</div>
+                  <div class="dash-stat-val">14,382</div>
+                  <div class="dash-stat-delta dash-green">↑ 12.4% vs yesterday</div>
+                </div>
+                <div class="dash-stat">
+                  <div class="dash-stat-label">Current Occupancy</div>
+                  <div class="dash-stat-val">3,247</div>
+                  <div class="dash-occ-bar"><div class="dash-occ-fill" style="width:68%"></div></div>
+                  <div class="dash-stat-delta dash-accent" style="margin-top:3px;">68% capacity</div>
+                </div>
+                <div class="dash-stat">
+                  <div class="dash-stat-label">Avg Dwell Time</div>
+                  <div class="dash-stat-val">24<span style="font-size:11px;color:#5A6178;">min</span></div>
+                  <div class="dash-stat-delta" style="color:#F87171;">↓ 2.1 min vs last week</div>
+                </div>
+                <div class="dash-stat">
+                  <div class="dash-stat-label">Active Sensors</div>
+                  <div class="dash-stat-val">47<span style="font-size:11px;color:#5A6178;">/48</span></div>
+                  <div class="dash-stat-delta" style="color:#5A6178;">● 1 offline , Gate C12</div>
+                </div>
+              </div>
+              <div class="dash-mid">
+                <div class="dash-chart">
+                  <div class="dash-chart-title">Visitor Flow</div>
+                  <div class="dash-chart-sub">Entries per hour · Today vs Yesterday</div>
+                  <svg class="dash-chart-svg" viewBox="0 0 400 80" preserveAspectRatio="none">
+                    <line x1="0" y1="20" x2="400" y2="20" stroke="#242836" stroke-width="1"/>
+                    <line x1="0" y1="45" x2="400" y2="45" stroke="#242836" stroke-width="1"/>
+                    <line x1="0" y1="65" x2="400" y2="65" stroke="#242836" stroke-width="1"/>
+                    <!-- Yesterday -->
+                    <path d="M0,70 C40,68 80,55 120,35 C160,15 200,10 240,18 C280,26 320,42 360,52 L400,55 L400,80 L0,80 Z" fill="#5A6178" opacity="0.1"/>
+                    <path d="M0,70 C40,68 80,55 120,35 C160,15 200,10 240,18 C280,26 320,42 360,52 L400,55" fill="none" stroke="#5A6178" stroke-width="1.2" stroke-dasharray="3 2"/>
+                    <!-- Today -->
+                    <path d="M0,72 C40,70 80,58 120,30 C160,8 200,5 240,14 C280,22 320,38 360,44 L380,42 L400,80 L0,80 Z" fill="#4F8EF7" opacity="0.1"/>
+                    <path d="M0,72 C40,70 80,58 120,30 C160,8 200,5 240,14 C280,22 320,38 360,44 L380,42" fill="none" stroke="#4F8EF7" stroke-width="1.8"/>
+                    <circle cx="380" cy="42" r="3" fill="#4F8EF7"/>
+                    <circle cx="380" cy="42" r="6" fill="#4F8EF7" opacity="0.2"/>
+                  </svg>
+                </div>
+                <div class="dash-alerts">
+                  <div class="dash-alerts-title">Live Alerts</div>
+                  <div class="dash-alert dash-alert-crit">
+                    <div class="dash-alert-dot" style="background:#F87171;"></div>
+                    <div class="dash-alert-text"><strong>Occupancy threshold exceeded</strong>Gate B · Departures · 2 min ago</div>
+                  </div>
+                  <div class="dash-alert dash-alert-warn">
+                    <div class="dash-alert-dot" style="background:#FBBF24;"></div>
+                    <div class="dash-alert-text"><strong>High dwell time detected</strong>Security Screening · 8 min ago</div>
+                  </div>
+                  <div class="dash-alert dash-alert-warn">
+                    <div class="dash-alert-dot" style="background:#FBBF24;"></div>
+                    <div class="dash-alert-text"><strong>Sensor signal degraded</strong>Gate C12 · 14 min ago</div>
+                  </div>
+                  <div class="dash-alert dash-alert-info">
+                    <div class="dash-alert-dot" style="background:#4F8EF7;"></div>
+                    <div class="dash-alert-text"><strong>Visitor flow normalising</strong>Arrivals Hall · 21 min ago</div>
+                  </div>
+                </div>
+              </div>
+              <div class="dash-heatmap">
+                <div class="dash-heatmap-title">Zone Occupancy , Terminal 1 Floor Plan</div>
+                <div class="dash-zones">
+                  <div class="dash-zone dz-crit" style="grid-column:span 2">
+                    <div class="dash-zone-name">Check-in</div>
+                    <div class="dash-zone-count dash-red">412</div>
+                  </div>
+                  <div class="dash-zone dz-high" style="grid-column:span 2">
+                    <div class="dash-zone-name">Security</div>
+                    <div class="dash-zone-count dash-red">338</div>
+                  </div>
+                  <div class="dash-zone dz-high" style="grid-column:span 3">
+                    <div class="dash-zone-name">Departures</div>
+                    <div class="dash-zone-count dash-red">890</div>
+                  </div>
+                  <div class="dash-zone dz-medium" style="grid-column:span 3">
+                    <div class="dash-zone-name">Retail Zone</div>
+                    <div class="dash-zone-count dash-amber">521</div>
+                  </div>
+                  <div class="dash-zone dz-high" style="grid-column:span 2">
+                    <div class="dash-zone-name">Food Court</div>
+                    <div class="dash-zone-count dash-red">674</div>
+                  </div>
+                  <div class="dash-zone dz-medium" style="grid-column:span 2">
+                    <div class="dash-zone-name">Lounges</div>
+                    <div class="dash-zone-count dash-amber">198</div>
+                  </div>
+                  <div class="dash-zone dz-low" style="grid-column:span 4">
+                    <div class="dash-zone-name">Arrivals</div>
+                    <div class="dash-zone-count dash-green">214</div>
+                  </div>
+                  <div class="dash-zone dz-low" style="grid-column:span 3">
+                    <div class="dash-zone-name">Transit</div>
+                    <div class="dash-zone-count dash-green">87</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real-time simulation -->
+      <div class="showcase-block reveal">
+        <div class="showcase-text">
+          <div class="cs-label">Architecture</div>
+          <h2 class="cs-h2">RxJS-Powered <em>Live Data</em></h2>
+          <div class="cs-body">
+            <p>At the heart of the dashboard is an RxJS interval observable that fires every second, simulating a WebSocket feed from physical IoT sensors. Occupancy figures, visitor counts, and chart data update in real-time without any page reload , the Angular change detection cycle picks up each emission and re-renders only what changed.</p>
+            <p>The line chart is rendered using pure SVG paths calculated in TypeScript , no charting library, no third-party dependency. Each tick recomputes the SVG <code>d</code> attribute from raw data arrays and data-binds the result directly into the template, demonstrating clean separation of data and view.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">RxJS interval</span>
+            <span class="tag">Observable</span>
+            <span class="tag">OnDestroy cleanup</span>
+            <span class="tag">SVG data-binding</span>
+          </div>
+        </div>
+        <!-- Chart close-up mockup -->
+        <div class="dash-frame">
+          <div style="background:#13161D;padding:18px;">
+            <div style="font-size:10px;font-weight:600;color:#F0F2F8;margin-bottom:2px;">Visitor Flow</div>
+            <div style="font-size:8.5px;color:#5A6178;margin-bottom:12px;">Entries per hour · Today vs Yesterday</div>
+            <svg viewBox="0 0 440 120" style="width:100%;height:120px;" preserveAspectRatio="none">
+              <line x1="0" y1="30" x2="440" y2="30" stroke="#242836" stroke-width="1"/>
+              <line x1="0" y1="65" x2="440" y2="65" stroke="#242836" stroke-width="1"/>
+              <line x1="0" y1="100" x2="440" y2="100" stroke="#242836" stroke-width="1"/>
+              <path d="M0,110 C50,108 100,90 150,60 C200,30 250,18 300,28 C350,38 400,68 440,80 L440,120 L0,120 Z" fill="#5A6178" opacity="0.09"/>
+              <path d="M0,110 C50,108 100,90 150,60 C200,30 250,18 300,28 C350,38 400,68 440,80" fill="none" stroke="#5A6178" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <path d="M0,112 C50,110 100,92 150,52 C200,18 250,8 300,20 C350,32 400,58 430,65 L440,120 L0,120 Z" fill="#4F8EF7" opacity="0.1"/>
+              <path d="M0,112 C50,110 100,92 150,52 C200,18 250,8 300,20 C350,32 400,58 430,65" fill="none" stroke="#4F8EF7" stroke-width="2"/>
+              <circle cx="430" cy="65" r="5" fill="#4F8EF7"/>
+              <circle cx="430" cy="65" r="10" fill="#4F8EF7" opacity="0.18"/>
+              <!-- Y labels -->
+              <text x="4" y="28" fill="#5A6178" font-size="7" font-family="sans-serif">400</text>
+              <text x="4" y="63" fill="#5A6178" font-size="7" font-family="sans-serif">200</text>
+              <text x="4" y="98" fill="#5A6178" font-size="7" font-family="sans-serif">50</text>
+            </svg>
+            <div style="display:flex;justify-content:space-between;font-size:7.5px;color:#5A6178;margin-top:6px;">
+              <span>00:00</span><span>04:00</span><span>08:00</span><span>12:00</span><span>16:00</span><span>20:00</span><span style="color:#4F8EF7;font-weight:500;">Now ●</span>
+            </div>
+            <div style="display:flex;gap:14px;margin-top:12px;">
+              <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:#9AA3BA;"><div style="width:10px;height:2px;background:#4F8EF7;border-radius:1px;"></div>Today</div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:#9AA3BA;"><div style="width:10px;height:2px;background:#5A6178;border-radius:1px;border-style:dashed;"></div>Yesterday</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zone heatmap section -->
+      <div class="showcase-block reverse reveal d1">
+        <div class="dash-frame">
+          <div style="background:#13161D;padding:18px;">
+            <div style="font-size:10px;font-weight:600;color:#F0F2F8;margin-bottom:2px;">Zone Occupancy</div>
+            <div style="font-size:8.5px;color:#5A6178;margin-bottom:14px;">Real-time density , Terminal 1 Floor Plan</div>
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(3,52px);gap:4px;">
+              <div class="dash-zone dz-crit" style="grid-column:span 2;">
+                <div class="dash-zone-name">Check-in</div>
+                <div class="dash-zone-count" style="color:#F87171;">412</div>
+              </div>
+              <div class="dash-zone dz-high" style="grid-column:span 2;">
+                <div class="dash-zone-name">Security</div>
+                <div class="dash-zone-count" style="color:#F87171;">338</div>
+              </div>
+              <div class="dash-zone dz-high" style="grid-column:span 3;">
+                <div class="dash-zone-name">Departures</div>
+                <div class="dash-zone-count" style="color:#F87171;">890</div>
+              </div>
+              <div class="dash-zone dz-medium" style="grid-column:span 3;">
+                <div class="dash-zone-name">Retail Zone</div>
+                <div class="dash-zone-count" style="color:#FBBF24;">521</div>
+              </div>
+              <div class="dash-zone dz-high" style="grid-column:span 2;">
+                <div class="dash-zone-name">Food Court</div>
+                <div class="dash-zone-count" style="color:#F87171;">674</div>
+              </div>
+              <div class="dash-zone dz-medium" style="grid-column:span 2;">
+                <div class="dash-zone-name">Lounges</div>
+                <div class="dash-zone-count" style="color:#FBBF24;">198</div>
+              </div>
+              <div class="dash-zone dz-low" style="grid-column:span 4;">
+                <div class="dash-zone-name">Arrivals</div>
+                <div class="dash-zone-count" style="color:#34D399;">214</div>
+              </div>
+              <div class="dash-zone dz-low" style="grid-column:span 3;">
+                <div class="dash-zone-name">Transit</div>
+                <div class="dash-zone-count" style="color:#34D399;">87</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-text">
+          <div class="cs-label">Spatial Intelligence</div>
+          <h2 class="cs-h2">Zone Heatmap <em>Floor Plan</em></h2>
+          <div class="cs-body">
+            <p>The floor plan heatmap maps physical zones to a CSS Grid layout, with each zone's background and border colour driven entirely by occupancy data. Zones transition through four density levels , low, medium, high, and critical , using Angular class bindings that update live with each data tick.</p>
+            <p>Critical zones pulse with a CSS animation to draw operator attention immediately, replicating the urgency-signalling patterns used in real venue management software. The heat gradient from green → amber → red gives operators an at-a-glance spatial overview without needing to read individual figures.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">CSS Grid</span>
+            <span class="tag">Dynamic class binding</span>
+            <span class="tag">Density levels</span>
+            <span class="tag">CSS animations</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Responsive / mobile section -->
+      <div class="showcase-block reveal d2">
+        <div class="showcase-text">
+          <div class="cs-label">Responsive Design</div>
+          <h2 class="cs-h2">Mobile-First <em>Breakpoints</em></h2>
+          <div class="cs-body">
+            <p>The dashboard uses a CSS custom property design system with a responsive grid that collapses from a 4-column stat row to 2 columns on tablet, then stacks the chart and alert panel vertically below 1100px. On mobile, the sidebar hides entirely and the layout becomes a full-width scrollable single column , all achieved with three targeted media query breakpoints and no JavaScript.</p>
+            <p>This demonstrates genuine understanding of responsive design beyond just "it fits on mobile" , the information architecture was considered at each breakpoint to ensure usability across field devices an airport operations team might use.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">CSS Grid</span>
+            <span class="tag">Media queries</span>
+            <span class="tag">CSS custom properties</span>
+            <span class="tag">Cross-browser</span>
+          </div>
+        </div>
+        <div class="dash-mobile-frame">
+          <div class="dash-mobile-topbar">
+            <div>
+              <div style="font-size:11px;font-weight:600;color:#F0F2F8;">Dashboard</div>
+              <div style="font-size:8px;color:#5A6178;margin-top:1px;">Sydney Airport T1</div>
+            </div>
+            <div class="dash-tb-badge" style="font-size:8px;"><div class="dash-live-dot"></div>Live</div>
+          </div>
+          <div class="dash-mobile-stats">
+            <div class="dash-stat">
+              <div class="dash-stat-label">Visitors Today</div>
+              <div class="dash-stat-val" style="font-size:20px;">14,382</div>
+              <div class="dash-stat-delta dash-green">↑ 12.4%</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-label">Occupancy</div>
+              <div class="dash-stat-val" style="font-size:20px;">3,247</div>
+              <div class="dash-occ-bar"><div class="dash-occ-fill" style="width:68%"></div></div>
+              <div class="dash-stat-delta dash-accent" style="margin-top:3px;">68%</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-label">Dwell Time</div>
+              <div class="dash-stat-val" style="font-size:20px;">24<span style="font-size:11px;color:#5A6178;">min</span></div>
+              <div class="dash-stat-delta" style="color:#F87171;">↓ 2.1 min</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-label">Sensors</div>
+              <div class="dash-stat-val" style="font-size:20px;">47<span style="font-size:11px;color:#5A6178;">/48</span></div>
+              <div class="dash-stat-delta" style="color:#5A6178;">1 offline</div>
+            </div>
+          </div>
+          <div class="dash-mobile-chart">
+            <div style="font-size:9px;font-weight:600;color:#F0F2F8;margin-bottom:8px;">Visitor Flow</div>
+            <svg viewBox="0 0 260 70" style="width:100%;height:70px;" preserveAspectRatio="none">
+              <line x1="0" y1="15" x2="260" y2="15" stroke="#242836" stroke-width="1"/>
+              <line x1="0" y1="40" x2="260" y2="40" stroke="#242836" stroke-width="1"/>
+              <line x1="0" y1="62" x2="260" y2="62" stroke="#242836" stroke-width="1"/>
+              <path d="M0,65 C30,64 60,54 90,38 C120,22 150,12 180,18 C210,24 240,42 260,50 L260,70 L0,70 Z" fill="#5A6178" opacity="0.1"/>
+              <path d="M0,65 C30,64 60,54 90,38 C120,22 150,12 180,18 C210,24 240,42 260,50" fill="none" stroke="#5A6178" stroke-width="1.2" stroke-dasharray="3 2"/>
+              <path d="M0,67 C30,65 60,55 90,32 C120,12 150,6 180,14 C210,20 240,38 255,43 L260,70 L0,70 Z" fill="#4F8EF7" opacity="0.12"/>
+              <path d="M0,67 C30,65 60,55 90,32 C120,12 150,6 180,14 C210,20 240,38 255,43" fill="none" stroke="#4F8EF7" stroke-width="1.8"/>
+              <circle cx="255" cy="43" r="3" fill="#4F8EF7"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<a href="crm-dashboard.html" class="next-project">
+  <div>
+    <div class="next-label">Previous Project</div>
+    <div class="next-name">Client Relationship Dashboard</div>
+  </div>
+  <span class="next-arrow">&nearr;</span>
+</a>
+
+<footer>
+  <a href="index.html" class="footer-logo">Alison Belle</a>
+  <ul class="footer-nav">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <span class="footer-copy">&copy; 2026 Alison Belle</span>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('in')),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
