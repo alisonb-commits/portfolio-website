@@ -44,30 +44,40 @@
       background: var(--ink); color: var(--bg) !important; padding: 7px 16px;
       border-radius: 6px; font-size: 12.5px; font-weight: 500; text-decoration: none; transition: opacity 0.2s;
     }
+    nav { background: rgba(10,12,17,0.88); border-bottom-color: rgba(255,255,255,0.07); }
+    nav .nav-logo { color: #F9F8F6; }
+    nav .nav-links a { color: rgba(249,248,246,0.46); }
+    nav .nav-links a:hover { color: #F9F8F6; }
+    nav .nav-cta { background: #F2F4FF; color: #0A0C11 !important; }
     .nav-cta:hover { opacity: 0.78; }
 
     /* HERO */
     #hero {
       min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
       padding: 0 52px 88px; position: relative;
-      border-bottom: 1px solid var(--border); overflow: hidden;
+      border-bottom: 1px solid rgba(255,255,255,0.06); overflow: hidden;
+      background:
+        radial-gradient(circle at 75% 15%, rgba(99,102,241,0.18), transparent 32%),
+        radial-gradient(circle at 8% 80%, rgba(79,142,247,0.10), transparent 28%),
+        radial-gradient(circle at 50% 50%, rgba(30,35,50,0.4), transparent 70%),
+        linear-gradient(180deg, #0A0C11 0%, #0E1117 100%);
     }
     .hero-grid-overlay {
       position: absolute; inset: 0; pointer-events: none;
       background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 80px 80px; opacity: 0.35;
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 80px 80px; opacity: 1;
     }
     .hero-tag {
       position: absolute; top: 80px; left: 52px; z-index: 1;
-      font-size: 11px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--ink-3);
+      font-size: 11px; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(249,248,246,0.36);
       display: flex; align-items: center; gap: 10px;
     }
-    .hero-tag::before { content: ''; width: 18px; height: 1px; background: var(--ink-3); }
+    .hero-tag::before { content: ''; width: 18px; height: 1px; background: rgba(249,248,246,0.24); }
     .hero-avail {
       position: absolute; top: 80px; right: 52px; z-index: 1;
-      display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ink-3);
+      display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(249,248,246,0.36);
     }
     .avail-dot {
       width: 7px; height: 7px; border-radius: 50%; background: #4ade80;
@@ -84,36 +94,36 @@
       font-family: var(--serif);
       font-size: clamp(58px, 8.5vw, 124px);
       font-weight: 300; line-height: 0.93; letter-spacing: -0.035em;
-      color: var(--ink); margin-bottom: 32px;
+      color: #F9F8F6; margin-bottom: 32px;
     }
-    h1 em { font-style: italic; color: var(--ink-2); }
+    h1 em { font-style: italic; color: #B7C3FF; }
     .hero-sub {
-      font-size: 17px; color: var(--ink-2); font-weight: 300;
+      font-size: 17px; color: rgba(249,248,246,0.58); font-weight: 300;
       max-width: 480px; line-height: 1.7; margin-bottom: 40px;
     }
     .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
     .btn-filled {
       display: inline-flex; align-items: center; gap: 8px;
-      background: var(--ink); color: var(--bg);
+      background: #F2F4FF; color: #0A0C11;
       padding: 12px 22px; border-radius: 7px; font-size: 14px; font-weight: 500;
-      text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s;
+      text-decoration: none; transition: transform 0.2s var(--ease), opacity 0.2s;
     }
-    .btn-filled:hover { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(24,23,15,0.2); }
+    .btn-filled:hover { transform: translateY(-1px); opacity: 0.88; }
     .btn-ghost {
       display: inline-flex; align-items: center; gap: 8px;
-      background: transparent; color: var(--ink-2);
-      padding: 12px 22px; border-radius: 7px; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04); color: rgba(249,248,246,0.72);
+      padding: 12px 22px; border-radius: 7px; border: 1px solid rgba(255,255,255,0.12);
       font-size: 14px; text-decoration: none; transition: border-color 0.2s, color 0.2s;
     }
-    .btn-ghost:hover { border-color: var(--ink-2); color: var(--ink); }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.28); color: #F9F8F6; }
 
     .hero-footnote {
       position: absolute; bottom: 88px; right: 52px; z-index: 1;
       display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
     }
-    .fn-item { font-size: 11px; color: var(--ink-3); display: flex; align-items: center; gap: 8px; }
-    .fn-item strong { color: var(--ink-2); font-weight: 500; }
-    .fn-rule { width: 1px; height: 36px; background: var(--border); margin: 2px auto; }
+    .fn-item { font-size: 11px; color: rgba(249,248,246,0.32); display: flex; align-items: center; gap: 8px; }
+    .fn-item strong { color: rgba(249,248,246,0.62); font-weight: 500; }
+    .fn-rule { width: 1px; height: 36px; background: rgba(255,255,255,0.1); margin: 2px auto; }
 
     /* TICKER */
     .ticker-wrap {
@@ -374,7 +384,7 @@
     <div class="proj-header reveal">
       <div>
         <div class="section-label">Selected Work</div>
-        <h2 class="section-title">Seven projects that<br><em>define my practice</em></h2>
+        <h2 class="section-title">Eight projects that<br><em>define my practice</em></h2>
       </div>
       <a href="#projects" class="view-all">View all →</a>
     </div>
@@ -398,34 +408,17 @@
         </div>
       </a>
 
-      <a href="nyla-artistry.html" class="proj-row reveal d1">
+      <a href="hugo-blog-starter.html" class="proj-row reveal d1">
         <span class="proj-num">02</span>
         <div class="proj-info">
-          <div class="proj-name">Nyla Artistry</div>
-          <div class="proj-desc">End-to-end website, booking experience, illustrated print guide, and brand identity for a premium Sydney beauty studio.</div>
+          <div class="proj-name">Hugo Blog Starter</div>
+          <div class="proj-desc">Static blog built with Hugo + Tailwind CSS v4 — vanilla JS search filtering, click-to-open post modals, Netlify form processing, and Zapier email automation.</div>
           <div class="proj-tags">
-            <span class="proj-tag">UX Design</span>
-            <span class="proj-tag">Booking Flow</span>
-            <span class="proj-tag">Brand</span>
-            <span class="proj-tag">Webflow</span>
-          </div>
-        </div>
-        <div class="proj-right">
-          <span class="proj-year">2025</span>
-          <span class="proj-arrow">↗</span>
-        </div>
-      </a>
-
-      <a href="belle-digital-studio.html" class="proj-row reveal d2">
-        <span class="proj-num">03</span>
-        <div class="proj-info">
-          <div class="proj-name">Belle Digital Studio</div>
-          <div class="proj-desc">Brand identity, design system, and production website for a boutique digital studio, typography tokens, component library, hand-coded.</div>
-          <div class="proj-tags">
-            <span class="proj-tag">Brand Identity</span>
-            <span class="proj-tag">Design System</span>
-            <span class="proj-tag">Typography</span>
-            <span class="proj-tag">HTML/CSS</span>
+            <span class="proj-tag">Hugo</span>
+            <span class="proj-tag">Tailwind CSS</span>
+            <span class="proj-tag">JavaScript</span>
+            <span class="proj-tag">Netlify</span>
+            <span class="proj-tag">Zapier</span>
           </div>
         </div>
         <div class="proj-right">
@@ -434,8 +427,8 @@
         </div>
       </a>
 
-      <a href="crm-dashboard.html" class="proj-row reveal">
-        <span class="proj-num">04</span>
+      <a href="crm-dashboard.html" class="proj-row reveal d2">
+        <span class="proj-num">03</span>
         <div class="proj-info">
           <div class="proj-name">Admin Content Management System</div>
           <div class="proj-desc">Full-stack admin platform with React, Node.js, PostgreSQL, and JWT authentication, demonstrating production-grade frontend and backend architecture.</div>
@@ -452,8 +445,44 @@
         </div>
       </a>
 
-      <a href="australia-study.html" class="proj-row reveal d1">
+      <a href="nyla-artistry.html" class="proj-row reveal">
+        <span class="proj-num">04</span>
+        <div class="proj-info">
+          <div class="proj-name">Nyla Artistry</div>
+          <div class="proj-desc">End-to-end website, booking experience, illustrated print guide, and brand identity for a premium Sydney beauty studio.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">UX Design</span>
+            <span class="proj-tag">Booking Flow</span>
+            <span class="proj-tag">Brand</span>
+            <span class="proj-tag">Webflow</span>
+          </div>
+        </div>
+        <div class="proj-right">
+          <span class="proj-year">2025</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="belle-digital-studio.html" class="proj-row reveal d1">
         <span class="proj-num">05</span>
+        <div class="proj-info">
+          <div class="proj-name">Belle Digital Studio</div>
+          <div class="proj-desc">Brand identity, design system, and production website for a boutique digital studio, typography tokens, component library, hand-coded.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">Brand Identity</span>
+            <span class="proj-tag">Design System</span>
+            <span class="proj-tag">Typography</span>
+            <span class="proj-tag">HTML/CSS</span>
+          </div>
+        </div>
+        <div class="proj-right">
+          <span class="proj-year">2026</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="australia-study.html" class="proj-row reveal d2">
+        <span class="proj-num">06</span>
         <div class="proj-info">
           <div class="proj-name">Australia Study</div>
           <div class="proj-desc">Logo, brand identity, and web presence for an Australian education platform, culturally grounded design applied across digital and print.</div>
@@ -470,8 +499,8 @@
         </div>
       </a>
 
-      <a href="sei-mai-name.html" class="proj-row reveal d2">
-        <span class="proj-num">06</span>
+      <a href="sei-mai-name.html" class="proj-row reveal">
+        <span class="proj-num">07</span>
         <div class="proj-info">
           <div class="proj-name">Sei Mai Name</div>
           <div class="proj-desc">Full brand identity, Squarespace website, and social media presence for a Vietnamese-inspired tapas and cocktail bar in Sydney.</div>
@@ -488,8 +517,8 @@
         </div>
       </a>
 
-      <a href="3d-uiux.html" class="proj-row reveal">
-        <span class="proj-num">07</span>
+      <a href="3d-uiux.html" class="proj-row reveal d1">
+        <span class="proj-num">08</span>
         <div class="proj-info">
           <div class="proj-name">3D UI/UX Exploration</div>
           <div class="proj-desc">Two conceptual website designs using self-taught Blender 3D renders as UI hero assets, merging visual art with functional interface design.</div>

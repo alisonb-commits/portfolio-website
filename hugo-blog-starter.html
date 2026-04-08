@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hugo Blog Starter — Alison Belle</title>
+  <meta name="description" content="A static blog built with Hugo + Tailwind CSS v4, featuring vanilla JS API integration, client-side search, post modals, Netlify forms, and Zapier automation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #F9F8F6;
+      --surface: #F2F1EE;
+      --border:  #E4E2DC;
+      --ink:     #18170F;
+      --ink-2:   #46443C;
+      --ink-3:   #8C8A82;
+      --serif:   'Fraunces', Georgia, serif;
+      --sans:    'DM Sans', system-ui, sans-serif;
+      --ease:    cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 52px; height: 58px;
+      background: rgba(249,248,246,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--serif); font-size: 16px; color: var(--ink); text-decoration: none; font-weight: 300; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--ink); color: var(--bg) !important;
+      padding: 7px 16px; border-radius: 6px;
+      font-size: 12.5px; font-weight: 500; text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.78; }
+
+    /* HERO */
+    .cs-hero {
+      padding-top: 58px;
+      min-height: 82vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding-left: 52px;
+      padding-right: 52px;
+      padding-bottom: 80px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 72% 18%, rgba(56,189,148,0.13), transparent 34%),
+        radial-gradient(circle at 12% 75%, rgba(99,102,241,0.09), transparent 30%),
+        linear-gradient(180deg, #0A0D10 0%, #0E1117 100%);
+    }
+    .cs-hero-watermark {
+      position: absolute; right: -20px; bottom: -30px;
+      font-family: var(--serif); font-size: 280px; font-weight: 900;
+      color: #fff; opacity: 0.025; line-height: 1;
+      pointer-events: none; user-select: none;
+      letter-spacing: -0.04em;
+    }
+    .hero-grid {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 64px;
+      align-items: end;
+    }
+    .cs-breadcrumb {
+      font-size: 12px; color: rgba(249,248,246,0.42);
+      display: flex; align-items: center; gap: 8px; margin-bottom: 36px;
+    }
+    .cs-breadcrumb a { color: rgba(249,248,246,0.42); text-decoration: none; transition: color 0.2s; }
+    .cs-breadcrumb a:hover { color: rgba(249,248,246,0.76); }
+    .cs-breadcrumb-sep { opacity: 0.3; }
+    .cs-proj-num {
+      font-family: var(--serif); font-size: 13px; font-style: italic;
+      color: rgba(249,248,246,0.28); margin-bottom: 18px; display: block; font-weight: 300;
+    }
+    .cs-title {
+      font-family: var(--serif);
+      font-size: clamp(52px, 7.5vw, 108px);
+      font-weight: 300; line-height: 0.95;
+      letter-spacing: -0.03em; color: #F9F8F6;
+      margin-bottom: 18px;
+    }
+    .cs-title em { font-style: italic; color: #86EFBE; }
+    .hero-subtitle {
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(249,248,246,0.32);
+      margin-bottom: 18px;
+    }
+    .cs-summary {
+      font-size: 17px; color: rgba(249,248,246,0.58); font-weight: 300;
+      line-height: 1.65; max-width: 540px; margin-bottom: 34px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+    .hero-link, .hero-link-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 18px; border-radius: 7px; text-decoration: none;
+      font-size: 13px; transition: opacity 0.2s, transform 0.2s;
+    }
+    .hero-link { background: #EDFDF5; color: #0A0D10; }
+    .hero-link-ghost { color: rgba(249,248,246,0.72); border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
+    .hero-link:hover, .hero-link-ghost:hover { opacity: 0.82; transform: translateY(-1px); }
+
+    .cs-meta-strip {
+      display: flex; gap: 0;
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 3px;
+      background: rgba(255,255,255,0.04); max-width: 640px;
+      overflow: hidden; margin-top: 38px;
+    }
+    .cs-meta-cell { padding: 18px 24px; flex: 1; border-right: 1px solid rgba(255,255,255,0.08); }
+    .cs-meta-cell:last-child { border-right: none; }
+    .cs-meta-label { font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(249,248,246,0.3); margin-bottom: 7px; }
+    .cs-meta-value { font-size: 13px; color: rgba(249,248,246,0.74); }
+
+    .hero-media {
+      position: relative;
+      background: linear-gradient(180deg, #f7f4ef 0%, #ece7e0 100%);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(24,23,15,0.08);
+      min-height: 580px;
+    }
+    .hero-media img {
+      display: block; width: 100%; height: 100%; object-fit: cover;
+    }
+
+    /* SECTIONS */
+    .cs-section, .cs-section-dark, .cs-section-tint {
+      padding: 104px 52px; border-bottom: 1px solid var(--border);
+    }
+    .cs-section-dark { background: var(--ink); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .cs-section-tint { background: var(--surface); }
+    .cs-inner { max-width: 1120px; margin: 0 auto; }
+
+    .cs-label, .cs-label-lt {
+      font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 18px; display: flex; align-items: center; gap: 12px;
+    }
+    .cs-label { color: var(--ink-3); }
+    .cs-label-lt { color: rgba(249,248,246,0.3); }
+    .cs-label::before, .cs-label-lt::before { content: ''; width: 18px; height: 1px; }
+    .cs-label::before { background: var(--ink-3); }
+    .cs-label-lt::before { background: rgba(249,248,246,0.3); }
+
+    .cs-h2, .cs-h2-lt {
+      font-family: var(--serif);
+      font-size: clamp(30px, 4vw, 52px);
+      font-weight: 300; line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 20px;
+    }
+    .cs-h2 { color: var(--ink); }
+    .cs-h2-lt { color: var(--bg); }
+    .cs-h2 em { font-style: italic; color: var(--ink-2); }
+    .cs-h2-lt em { font-style: italic; opacity: 0.45; }
+
+    .cs-body {
+      font-size: 15.5px; color: var(--ink-2); font-weight: 300;
+      line-height: 1.78; max-width: 620px;
+    }
+    .cs-body p + p { margin-top: 18px; }
+    .cs-body-lt {
+      font-size: 15.5px; color: rgba(249,248,246,0.5); font-weight: 300;
+      line-height: 1.78; max-width: 720px;
+    }
+    .cs-body-lt p + p { margin-top: 18px; }
+
+    /* SHOWCASE */
+    .showcase-stack { display: flex; flex-direction: column; gap: 96px; }
+    .showcase-block {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+      gap: 64px; align-items: center;
+    }
+    .showcase-block.reverse { grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr); }
+    .section-media {
+      position: relative;
+      background: linear-gradient(180deg, #f7f4ef 0%, #ece7e0 100%);
+      border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+      box-shadow: 0 24px 60px rgba(24,23,15,0.08);
+      min-height: 380px;
+    }
+    .section-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* PROCESS (dark) */
+    .process-list { display: grid; gap: 22px; margin-top: 24px; }
+    .process-row {
+      display: grid; grid-template-columns: 72px 1fr; gap: 18px;
+      padding: 18px 0; border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .process-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .process-num {
+      font-family: var(--serif); font-size: 30px; font-style: italic;
+      color: rgba(249,248,246,0.22); line-height: 1;
+    }
+    .process-title { font-size: 15px; color: rgba(249,248,246,0.88); margin-bottom: 6px; font-weight: 500; }
+    .process-copy { font-size: 13px; color: rgba(249,248,246,0.46); line-height: 1.65; }
+
+    /* SCREENSHOT GRID */
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 52px;
+    }
+    .screenshot-item {
+      border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+      background: var(--surface);
+      box-shadow: 0 8px 24px rgba(24,23,15,0.05);
+    }
+    .screenshot-item img { display: block; width: 100%; height: auto; object-fit: cover; }
+    .screenshot-caption {
+      padding: 14px 16px;
+      font-size: 11.5px; color: var(--ink-3); letter-spacing: 0.04em;
+    }
+    .screenshot-item.wide { grid-column: span 2; }
+
+    /* OUTCOMES */
+    .outcome-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
+      border-radius: 3px; overflow: hidden; margin-top: 48px;
+    }
+    .outcome-cell { background: var(--bg); padding: 40px 32px; }
+    .outcome-num {
+      font-family: var(--serif); font-size: 56px; font-weight: 300;
+      letter-spacing: -0.04em; color: var(--ink); line-height: 1; margin-bottom: 10px;
+    }
+    .outcome-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
+    .outcome-note { font-size: 13px; color: var(--ink-2); font-weight: 300; line-height: 1.55; }
+
+    /* NEXT PROJECT */
+    .next-project {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 52px; text-decoration: none; color: inherit;
+      border-top: 1px solid var(--border); transition: background 0.2s;
+    }
+    .next-project:hover { background: var(--surface); }
+    .next-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+    .next-name { font-family: var(--serif); font-size: 40px; font-weight: 300; letter-spacing: -0.02em; color: var(--ink); }
+    .next-arrow { font-size: 44px; color: var(--ink-3); transition: transform 0.25s var(--ease); }
+    .next-project:hover .next-arrow { transform: translate(6px,-6px); }
+
+    footer {
+      padding: 28px 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+    .footer-logo { font-family: var(--serif); font-size: 15px; color: var(--ink-3); text-decoration: none; font-weight: 300; }
+    .footer-nav { display: flex; gap: 24px; list-style: none; }
+    .footer-nav a { font-size: 12px; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .footer-nav a:hover { color: var(--ink); }
+    .footer-copy { font-size: 12px; color: var(--ink-3); }
+
+    .reveal { opacity: 1; transform: none; transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 24px; }
+      .nav-links li:not(:last-child) { display: none; }
+      .cs-hero, .cs-section, .cs-section-dark, .cs-section-tint { padding-left: 24px; padding-right: 24px; }
+      .hero-grid, .showcase-block, .showcase-block.reverse { grid-template-columns: 1fr; gap: 32px; }
+      .hero-media { min-height: 280px; }
+      .section-media { min-height: 220px; }
+      .cs-meta-strip { flex-direction: column; }
+      .cs-meta-cell { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .outcome-grid { grid-template-columns: 1fr; }
+      .screenshot-grid { grid-template-columns: 1fr; }
+      .screenshot-item.wide { grid-column: span 1; }
+      footer { flex-direction: column; gap: 14px; padding: 24px; }
+      .next-project { padding: 32px 24px; }
+      .next-name { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Alison Belle</a>
+  <ul class="nav-links">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="cs-hero">
+  <div class="cs-hero-watermark">Hugo</div>
+  <div class="hero-grid">
+    <div class="reveal">
+      <div class="cs-breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="cs-breadcrumb-sep">/</span>
+        <a href="index.html#projects">Work</a>
+        <span class="cs-breadcrumb-sep">/</span>
+        Hugo Blog Starter
+      </div>
+      <span class="cs-proj-num">Static Site &amp; Automation</span>
+      <h1 class="cs-title">Hugo Blog<br><em>Starter</em></h1>
+      <div class="hero-subtitle">Hugo · Tailwind CSS v4 · JavaScript · Netlify</div>
+      <p class="cs-summary">A fully deployed static blog built with Hugo and Tailwind CSS v4, wired up with a vanilla JS API layer, client-side search filtering, click-to-open post modals, Netlify form processing, and Zapier-powered email automation — all on a custom npm + Hugo build pipeline.</p>
+      <div class="hero-actions">
+        <a class="hero-link" href="https://zippy-platypus-1a8106.netlify.app" target="_blank" rel="noopener noreferrer">View Live Site &nearr;</a>
+        <a class="hero-link-ghost" href="https://github.com/alisonb-commits/megaport-assessment" target="_blank" rel="noopener noreferrer">GitHub Repo &nearr;</a>
+      </div>
+      <div class="cs-meta-strip">
+        <div class="cs-meta-cell">
+          <div class="cs-meta-label">Role</div>
+          <div class="cs-meta-value">Developer &amp; Designer</div>
+        </div>
+        <div class="cs-meta-cell">
+          <div class="cs-meta-label">Stack</div>
+          <div class="cs-meta-value">Hugo, Tailwind CSS, JS, Netlify, Zapier</div>
+        </div>
+        <div class="cs-meta-cell">
+          <div class="cs-meta-label">Year</div>
+          <div class="cs-meta-value">2026</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-media reveal d1">
+      <img src="assets/Homepage.png" alt="Hugo Blog Starter homepage showing the blog listing layout with Tailwind CSS styling">
+    </div>
+  </div>
+</header>
+
+<!-- OVERVIEW -->
+<section class="cs-section">
+  <div class="cs-inner">
+    <div class="reveal">
+      <div class="cs-label">Overview</div>
+      <h2 class="cs-h2">A static blog that<br><em>actually does things</em></h2>
+      <div class="cs-body">
+        <p>Most Hugo starters stop at rendering Markdown. This one goes further — pulling in live post data via a JavaScript API layer, letting visitors search and filter posts in the browser without a page reload, and opening full posts in a modal overlay rather than navigating away.</p>
+        <p>On the backend, Netlify handles form submissions and Zapier routes new contact entries to an automated email sequence — zero server required. The build pipeline chains npm scripts with Hugo's native build system, keeping the workflow clean and deployable with a single <code>git push</code>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE: search + modal -->
+<section class="cs-section-tint" id="showcase">
+  <div class="cs-inner">
+    <div class="showcase-stack">
+
+      <div class="showcase-block reveal">
+        <div class="showcase-text">
+          <div class="cs-label">Client-Side Search</div>
+          <h2 class="cs-h2">Instant filtering<br><em>no reload</em></h2>
+          <div class="cs-body">
+            <p>A lightweight vanilla JS search layer reads post titles, tags, and summaries from a pre-built JSON index at build time. As the user types, results filter live — no external search service, no API round-trip.</p>
+            <p>This keeps the site fully static while still feeling interactive and responsive.</p>
+          </div>
+        </div>
+        <div class="section-media reveal d1">
+          <img src="assets/Search in action.png" alt="Search input actively filtering blog posts by keyword in real time">
+        </div>
+      </div>
+
+      <div class="showcase-block reverse reveal">
+        <div class="section-media reveal d1">
+          <img src="assets/Modal open.png" alt="A blog post open in a click-triggered modal overlay with full content visible">
+        </div>
+        <div class="showcase-text">
+          <div class="cs-label">Post Modals</div>
+          <h2 class="cs-h2">Click to read,<br><em>stay in place</em></h2>
+          <div class="cs-body">
+            <p>Rather than navigating to a separate page, each post card triggers a modal overlay that renders the full post content. This reduces perceived load time and keeps the reading context anchored to the list view.</p>
+            <p>Built with vanilla JS — no libraries, no dependencies. Keyboard-accessible with focus trapping and escape-to-close.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS (dark) -->
+<section class="cs-section-dark">
+  <div class="cs-inner">
+    <div class="reveal">
+      <div class="cs-label-lt">Build Process</div>
+      <h2 class="cs-h2-lt">How it comes<br><em>together</em></h2>
+      <div class="cs-body-lt">
+        <p>The project is composed from four distinct layers — static site generation, styling, interactivity, and automation — all wired together through a single build command.</p>
+      </div>
+      <div class="process-list">
+        <div class="process-row">
+          <div class="process-num">01</div>
+          <div>
+            <div class="process-title">Hugo + npm pipeline</div>
+            <div class="process-copy">Hugo handles templating and content rendering. npm scripts orchestrate the build order — Tailwind compiles first, Hugo picks up the output CSS, and the final dist folder deploys directly to Netlify.</div>
+          </div>
+        </div>
+        <div class="process-row">
+          <div class="process-num">02</div>
+          <div>
+            <div class="process-title">Tailwind CSS v4</div>
+            <div class="process-copy">v4's new CSS-first config removes the need for a JS config file. Utility classes compile to a minimal stylesheet with zero unused rules — keeping page weight low on a content-heavy site.</div>
+          </div>
+        </div>
+        <div class="process-row">
+          <div class="process-num">03</div>
+          <div>
+            <div class="process-title">Netlify forms + Zapier</div>
+            <div class="process-copy">The contact form uses Netlify's built-in form detection — no backend code required. A Zapier zap listens to new Netlify form submissions and fires an automated email reply, creating a lightweight CRM-style follow-up flow.</div>
+          </div>
+        </div>
+        <div class="process-row">
+          <div class="process-num">04</div>
+          <div>
+            <div class="process-title">Vanilla JS API integration</div>
+            <div class="process-copy">Post data is exposed as a JSON endpoint at build time. JavaScript fetches and renders this data client-side, enabling filtering and modal behaviour without React or any framework overhead.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENSHOT GALLERY -->
+<section class="cs-section">
+  <div class="cs-inner">
+    <div class="reveal">
+      <div class="cs-label">Gallery</div>
+      <h2 class="cs-h2">The site in<br><em>context</em></h2>
+      <div class="cs-body">
+        <p>From the homepage listing through to the contact form and mobile breakpoints — the site adapts cleanly across screen sizes while keeping the focus on content legibility.</p>
+      </div>
+    </div>
+    <div class="screenshot-grid reveal d1">
+      <div class="screenshot-item wide">
+        <img src="assets/Homepage.png" alt="Hugo Blog Starter full homepage with post listing grid">
+        <div class="screenshot-caption">Homepage — post listing with Tailwind CSS grid layout</div>
+      </div>
+      <div class="screenshot-item">
+        <img src="assets/Contact form.png" alt="Contact form with Netlify form processing enabled">
+        <div class="screenshot-caption">Contact form — Netlify processing + Zapier automation</div>
+      </div>
+      <div class="screenshot-item">
+        <img src="assets/Mobile view Hugo.png" alt="Mobile view of the Hugo blog showing responsive layout">
+        <div class="screenshot-caption">Mobile view — fully responsive at all breakpoints</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOMES -->
+<section class="cs-section-tint">
+  <div class="cs-inner">
+    <div class="reveal">
+      <div class="cs-label">Outcomes</div>
+      <h2 class="cs-h2">Built, deployed,<br><em>automated</em></h2>
+      <div class="cs-body">
+        <p>The result is a production-ready static blog that demonstrates a full-stack frontend mindset — from build tooling and progressive enhancement to serverless automation — without a single line of server-side code.</p>
+      </div>
+    </div>
+    <div class="outcome-grid reveal d1">
+      <div class="outcome-cell">
+        <div class="outcome-num">0</div>
+        <div class="outcome-label">Backend servers</div>
+        <div class="outcome-note">Fully static — hosting, forms, and email automation run on managed services.</div>
+      </div>
+      <div class="outcome-cell">
+        <div class="outcome-num">4</div>
+        <div class="outcome-label">Key features</div>
+        <div class="outcome-note">Search, modals, contact forms, and email automation — all in vanilla JS + Netlify.</div>
+      </div>
+      <div class="outcome-cell">
+        <div class="outcome-num">1</div>
+        <div class="outcome-label">Deploy command</div>
+        <div class="outcome-note">A single <code>git push</code> triggers the full build and deploy pipeline on Netlify.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT PROJECT -->
+<a href="index.html#projects" class="next-project">
+  <div>
+    <div class="next-label">Back to work</div>
+    <div class="next-name">View all projects</div>
+  </div>
+  <div class="next-arrow">↗</div>
+</a>
+
+<footer>
+  <a href="index.html" class="footer-logo">Alison Belle</a>
+  <ul class="footer-nav">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <span class="footer-copy">© 2026 Alison Belle</span>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(
+    e => e.forEach(el => el.isIntersecting && el.target.classList.add('in')),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
