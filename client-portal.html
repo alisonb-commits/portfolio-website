@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Portal Dashboard - Alison Belle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F9F8F6;
+      --surface: #F2F1EE;
+      --border: #E4E2DC;
+      --ink: #18170F;
+      --ink-2: #46443C;
+      --ink-3: #8C8A82;
+      --serif: 'Fraunces', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 52px; height: 58px;
+      background: rgba(249,248,246,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--serif); font-size: 16px; color: var(--ink); text-decoration: none; font-weight: 300; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--ink); color: var(--bg) !important;
+      padding: 7px 16px; border-radius: 6px;
+      font-size: 12.5px; font-weight: 500; text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.78; }
+
+    /* ── Hero ── */
+    .cs-hero {
+      padding-top: 58px; min-height: 82vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding-left: 52px; padding-right: 52px; padding-bottom: 80px;
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      background:
+        radial-gradient(circle at 68% 16%, rgba(99,102,241,0.2), transparent 30%),
+        radial-gradient(circle at 10% 82%, rgba(45,212,191,0.11), transparent 26%),
+        linear-gradient(180deg, #0B0C14 0%, #12131C 100%);
+    }
+    .cs-hero-watermark {
+      position: absolute; right: -20px; bottom: -30px;
+      font-family: var(--serif); font-size: 280px; font-weight: 900;
+      color: #fff; opacity: 0.025; line-height: 1;
+      pointer-events: none; user-select: none; letter-spacing: -0.04em;
+    }
+    .cs-breadcrumb {
+      font-size: 12px; color: rgba(249,248,246,0.42);
+      display: flex; align-items: center; gap: 8px; margin-bottom: 36px;
+    }
+    .cs-breadcrumb a { color: rgba(249,248,246,0.42); text-decoration: none; transition: color 0.2s; }
+    .cs-breadcrumb a:hover { color: rgba(249,248,246,0.76); }
+    .cs-breadcrumb-sep { opacity: 0.3; }
+    .cs-proj-num {
+      font-family: var(--serif); font-size: 13px; font-style: italic;
+      color: rgba(249,248,246,0.28); margin-bottom: 18px; display: block; font-weight: 300;
+    }
+    .cs-title {
+      font-family: var(--serif);
+      font-size: clamp(52px, 7.5vw, 108px);
+      font-weight: 300; line-height: 0.95; letter-spacing: -0.03em; color: #F9F8F6;
+      margin-bottom: 24px;
+    }
+    .cs-title em { font-style: italic; color: #A5B4FC; }
+    .cs-summary {
+      font-size: 17px; color: rgba(249,248,246,0.58); font-weight: 300;
+      line-height: 1.65; max-width: 620px; margin-bottom: 34px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 38px; }
+    .hero-link, .hero-link-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 18px; border-radius: 7px; text-decoration: none; font-size: 13px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .hero-link { background: #EEF0FF; color: #0B0C14; }
+    .hero-link-ghost { color: rgba(249,248,246,0.72); border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
+    .hero-link:hover, .hero-link-ghost:hover { opacity: 0.82; transform: translateY(-1px); }
+    .cs-meta-strip {
+      display: flex;
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 3px;
+      background: rgba(255,255,255,0.04); max-width: 900px; overflow: hidden;
+    }
+    .cs-meta-cell { padding: 18px 24px; flex: 1; border-right: 1px solid rgba(255,255,255,0.08); }
+    .cs-meta-cell:last-child { border-right: none; }
+    .cs-meta-label { font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(249,248,246,0.3); margin-bottom: 7px; }
+    .cs-meta-value { font-size: 13px; color: rgba(249,248,246,0.74); }
+
+    /* ── Sections ── */
+    .cs-section, .cs-section-dark, .cs-section-tint {
+      padding: 96px 52px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-section-dark { background: var(--ink); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .cs-section-tint { background: var(--surface); }
+    .cs-inner { max-width: 1120px; margin: 0 auto; }
+
+    .cs-label, .cs-label-lt {
+      font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 18px; display: flex; align-items: center; gap: 12px;
+    }
+    .cs-label { color: var(--ink-3); }
+    .cs-label-lt { color: rgba(249,248,246,0.3); }
+    .cs-label::before, .cs-label-lt::before { content: ''; width: 18px; height: 1px; }
+    .cs-label::before { background: var(--ink-3); }
+    .cs-label-lt::before { background: rgba(249,248,246,0.3); }
+
+    .cs-h2, .cs-h2-lt {
+      font-family: var(--serif);
+      font-size: clamp(30px, 4vw, 52px);
+      font-weight: 300; line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 20px;
+    }
+    .cs-h2 { color: var(--ink); }
+    .cs-h2-lt { color: var(--bg); }
+    .cs-h2 em { font-style: italic; color: var(--ink-2); }
+    .cs-h2-lt em { font-style: italic; opacity: 0.45; }
+
+    .cs-body { font-size: 15.5px; color: var(--ink-2); font-weight: 300; line-height: 1.78; max-width: 620px; }
+    .cs-body p + p { margin-top: 18px; }
+
+    .showcase-stack { display: flex; flex-direction: column; gap: 96px; }
+    .showcase-block {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+      gap: 64px; align-items: center;
+    }
+    .showcase-block.reverse { grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr); }
+
+    .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+    .tag {
+      font-size: 11px; letter-spacing: 0.04em;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--ink-3); padding: 4px 12px; border-radius: 100px;
+    }
+
+    /* ── Wireframe components ── */
+    .wireframe-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 22px; margin-top: 28px;
+    }
+    .wireframe-card {
+      background: #f3f2ef; border: 1px solid #d9d6cf;
+      border-radius: 8px; overflow: hidden;
+      box-shadow: 0 18px 40px rgba(24,23,15,0.05);
+    }
+    .wireframe-topbar {
+      height: 34px; background: #ece9e3; border-bottom: 1px solid #d9d6cf;
+      display: flex; align-items: center; gap: 6px; padding: 0 14px;
+    }
+    .wireframe-dot { width: 7px; height: 7px; border-radius: 50%; background: #c8c4bc; }
+    .wireframe-body { padding: 16px; display: grid; gap: 12px; }
+    .wf-row { display: grid; gap: 10px; }
+    .wf-2col { grid-template-columns: 0.28fr 1fr; }
+    .wf-bar, .wf-box, .wf-chip { background: #d8d5ce; border-radius: 4px; }
+    .wf-bar { height: 10px; }
+    .wf-box { min-height: 56px; }
+    .wf-chip { height: 26px; }
+    .wf-sidebar { background: #e7e3dc; border-radius: 6px; padding: 10px; display: grid; gap: 8px; align-content: start; }
+    .wf-panel { background: #ebe8e2; border-radius: 6px; padding: 12px; display: grid; gap: 10px; }
+    .wf-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .wf-table-row { display: grid; grid-template-columns: 2fr 1fr 1fr 0.6fr; gap: 8px; align-items: center; }
+    .wf-badge { height: 18px; border-radius: 99px; background: #c8c4bc; }
+    .wf-avatar { width: 20px; height: 20px; border-radius: 50%; background: #c8c4bc; flex-shrink: 0; }
+
+    /* ═══════════════════════════════════════════════
+       PRODUCT MOCKUPS — warm, light, Notion-inspired
+    ═══════════════════════════════════════════════ */
+
+    /* Shared shell */
+    .app-shell {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #D8D4CE;
+      box-shadow: 0 24px 56px rgba(24,23,15,0.13), 0 2px 8px rgba(24,23,15,0.06);
+    }
+
+    /* ── Login ── */
+    .login-wrap {
+      background: #EDEAE5;
+      padding: 48px 32px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .login-card {
+      background: #FFFFFF;
+      border: 1px solid #E2DDD8;
+      border-radius: 12px;
+      padding: 32px 28px;
+      width: 100%; max-width: 320px;
+      box-shadow: 0 2px 12px rgba(24,23,15,0.06);
+    }
+    .login-heading { font-size: 20px; font-weight: 600; color: #1C1917; letter-spacing: -0.03em; margin-bottom: 4px; }
+    .login-sub { font-size: 12px; color: #A09D98; margin-bottom: 24px; }
+    .login-field { margin-bottom: 12px; }
+    .login-label { font-size: 11px; font-weight: 500; color: #6B6862; margin-bottom: 5px; }
+    .login-input {
+      width: 100%; height: 36px; background: #F7F5F2;
+      border: 1px solid #E2DDD8; border-radius: 6px;
+      display: flex; align-items: center; padding: 0 12px;
+      font-size: 12px; color: #A09D98;
+    }
+    .login-btn {
+      width: 100%; height: 36px; background: #1C1917;
+      border-radius: 6px; margin-top: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 600; color: #F9F8F6; letter-spacing: -0.01em;
+    }
+    .login-footer { text-align: center; margin-top: 14px; font-size: 11px; color: #A09D98; }
+    .login-footer span { color: #1C1917; font-weight: 500; }
+
+    /* ── Dashboard ── */
+    .dash-wrap {
+      background: #EDEAE5;
+      display: grid;
+      grid-template-columns: 176px 1fr;
+      min-height: 320px;
+    }
+    .dash-sidebar {
+      background: #FFFFFF;
+      border-right: 1px solid #E2DDD8;
+      padding: 16px 12px;
+      display: flex; flex-direction: column;
+    }
+    .dash-brand { font-size: 13px; font-weight: 700; color: #1C1917; letter-spacing: -0.03em; padding: 4px 8px; margin-bottom: 16px; }
+    .dash-nav-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 8px; border-radius: 6px; font-size: 11px; color: #6B6862;
+      margin-bottom: 2px;
+    }
+    .dash-nav-item.active { background: #F0EDE8; color: #1C1917; font-weight: 500; }
+    .dash-nav-icon {
+      width: 14px; height: 14px; border-radius: 3px;
+      border: 1.5px solid currentColor; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .dash-spacer { flex: 1; }
+    .dash-user {
+      display: flex; align-items: center; gap: 7px;
+      padding: 8px; border-top: 1px solid #E2DDD8; margin-top: 8px;
+    }
+    .dash-avatar {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: #1C1917; color: #F9F8F6;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 700; flex-shrink: 0;
+    }
+    .dash-username { font-size: 10px; font-weight: 500; color: #1C1917; }
+    .dash-signout { font-size: 9px; color: #A09D98; margin-top: 1px; }
+
+    .dash-main { padding: 20px 22px; }
+    .dash-greeting { font-size: 18px; font-weight: 700; color: #1C1917; letter-spacing: -0.03em; margin-bottom: 2px; }
+    .dash-greeting-sub { font-size: 11px; color: #A09D98; margin-bottom: 18px; }
+
+    .dash-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+    .dash-stat-card {
+      background: #FFFFFF; border: 1px solid #E2DDD8; border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .dash-stat-label {
+      font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.1em;
+      color: #A09D98; margin-bottom: 6px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .dash-stat-icon { width: 14px; height: 14px; border-radius: 3px; background: #F0EDE8; }
+    .dash-stat-val { font-size: 26px; font-weight: 700; color: #1C1917; letter-spacing: -0.04em; line-height: 1; }
+
+    .dash-recent { background: #FFFFFF; border: 1px solid #E2DDD8; border-radius: 8px; overflow: hidden; }
+    .dash-recent-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 11px 14px; border-bottom: 1px solid #F0EDE8;
+      font-size: 11px; font-weight: 600; color: #1C1917;
+    }
+    .dash-recent-viewall { font-size: 10px; color: #A09D98; }
+    .dash-client-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-bottom: 1px solid #F7F5F2;
+    }
+    .dash-client-row:last-child { border-bottom: none; }
+    .dash-client-av {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: #E8E4DF; color: #6B6862;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600; flex-shrink: 0;
+    }
+    .dash-client-info { flex: 1; }
+    .dash-client-name { font-size: 11px; font-weight: 500; color: #1C1917; }
+    .dash-client-co { font-size: 10px; color: #A09D98; }
+    .badge-active { font-size: 10px; padding: 2px 9px; border-radius: 99px; background: #DCFCE7; color: #15803D; font-weight: 500; }
+    .badge-pending { font-size: 10px; padding: 2px 9px; border-radius: 99px; background: #FEF9C3; color: #A16207; font-weight: 500; }
+    .badge-completed { font-size: 10px; padding: 2px 9px; border-radius: 99px; background: #EFF6FF; color: #2563EB; font-weight: 500; }
+
+    /* ── Clients table ── */
+    .table-wrap {
+      background: #EDEAE5;
+      padding: 20px 22px;
+    }
+    .table-page-head {
+      display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px;
+    }
+    .table-page-title { font-size: 22px; font-weight: 700; color: #1C1917; letter-spacing: -0.03em; }
+    .table-page-sub { font-size: 11px; color: #A09D98; margin-top: 2px; }
+    .table-add-btn {
+      background: #1C1917; color: #F9F8F6; border-radius: 7px;
+      padding: 7px 13px; font-size: 11px; font-weight: 600; white-space: nowrap;
+    }
+    .table-controls {
+      display: flex; gap: 8px; margin-bottom: 12px;
+    }
+    .table-search {
+      flex: 1; height: 34px; background: #FFFFFF;
+      border: 1px solid #E2DDD8; border-radius: 7px;
+      display: flex; align-items: center; gap: 7px; padding: 0 12px;
+      font-size: 11px; color: #A09D98;
+    }
+    .table-search-dot { width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid #C8C4BE; flex-shrink: 0; }
+    .table-filter {
+      height: 34px; background: #FFFFFF;
+      border: 1px solid #E2DDD8; border-radius: 7px;
+      display: flex; align-items: center; gap: 6px; padding: 0 12px;
+      font-size: 11px; color: #6B6862; white-space: nowrap;
+    }
+    .table-card { background: #FFFFFF; border: 1px solid #E2DDD8; border-radius: 8px; overflow: hidden; }
+    .table-head {
+      display: grid; grid-template-columns: 1.4fr 1fr 1.4fr 0.6fr 0.7fr;
+      padding: 9px 14px; border-bottom: 1px solid #F0EDE8;
+      font-size: 9px; font-weight: 600; color: #A09D98; text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .table-row {
+      display: grid; grid-template-columns: 1.4fr 1fr 1.4fr 0.6fr 0.7fr;
+      padding: 11px 14px; border-bottom: 1px solid #F7F5F2; align-items: center;
+    }
+    .table-row:last-child { border-bottom: none; }
+    .table-name-cell { display: flex; align-items: center; gap: 9px; }
+    .table-av {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: #E8E4DF; color: #6B6862;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 700; flex-shrink: 0;
+    }
+    .table-name { font-size: 11px; font-weight: 500; color: #1C1917; }
+    .table-cell { font-size: 11px; color: #6B6862; }
+
+    /* ── Projects page ── */
+    .projects-wrap {
+      background: #EDEAE5; padding: 20px 22px;
+    }
+    .proj-table-card { background: #FFFFFF; border: 1px solid #E2DDD8; border-radius: 8px; overflow: hidden; }
+    .proj-table-head {
+      display: grid; grid-template-columns: 2fr 1fr 0.8fr;
+      padding: 9px 14px; border-bottom: 1px solid #F0EDE8;
+      font-size: 9px; font-weight: 600; color: #A09D98; text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .proj-table-row {
+      display: grid; grid-template-columns: 2fr 1fr 0.8fr;
+      padding: 11px 14px; border-bottom: 1px solid #F7F5F2; align-items: start;
+    }
+    .proj-table-row:last-child { border-bottom: none; }
+    .proj-title { font-size: 11px; font-weight: 500; color: #1C1917; margin-bottom: 2px; }
+    .proj-desc { font-size: 10px; color: #A09D98; }
+    .proj-client { font-size: 11px; color: #6B6862; }
+
+    /* ── Edit modal ── */
+    .modal-scene {
+      background: #EDEAE5; padding: 20px 22px;
+      position: relative;
+    }
+    .modal-bg-blur {
+      position: absolute; inset: 0;
+      background: rgba(237,234,229,0.7);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal-card {
+      background: #FFFFFF; border: 1px solid #E2DDD8;
+      border-radius: 10px; padding: 22px 22px;
+      width: 100%; max-width: 340px;
+      box-shadow: 0 8px 32px rgba(24,23,15,0.12);
+    }
+    .modal-title { font-size: 15px; font-weight: 700; color: #1C1917; letter-spacing: -0.03em; margin-bottom: 16px; }
+    .modal-field { margin-bottom: 11px; }
+    .modal-label { font-size: 10px; font-weight: 600; color: #6B6862; margin-bottom: 4px; display: flex; align-items: center; gap: 3px; }
+    .modal-required { color: #A09D98; }
+    .modal-input {
+      width: 100%; height: 34px; background: #FFFFFF;
+      border: 1px solid #E2DDD8; border-radius: 6px;
+      display: flex; align-items: center; padding: 0 10px;
+      font-size: 11px; color: #1C1917;
+    }
+    .modal-textarea {
+      width: 100%; min-height: 56px; background: #FFFFFF;
+      border: 1px solid #E2DDD8; border-radius: 6px;
+      padding: 8px 10px; font-size: 11px; color: #6B6862;
+    }
+    .modal-select {
+      width: 100%; height: 34px; background: #FFFFFF;
+      border: 1px solid #E2DDD8; border-radius: 6px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 10px; font-size: 11px; color: #1C1917;
+    }
+    .modal-select-arrow { font-size: 9px; color: #A09D98; }
+    .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+    .modal-cancel {
+      height: 34px; background: #FFFFFF; border: 1px solid #E2DDD8;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 500; color: #6B6862;
+    }
+    .modal-save {
+      height: 34px; background: #1C1917;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 600; color: #F9F8F6;
+    }
+
+    /* ── Profile page ── */
+    .profile-wrap { background: #EDEAE5; padding: 20px 22px; }
+    .profile-page-title { font-size: 22px; font-weight: 700; color: #1C1917; letter-spacing: -0.03em; }
+    .profile-page-sub { font-size: 11px; color: #A09D98; margin-bottom: 14px; }
+    .profile-card {
+      background: #FFFFFF; border: 1px solid #E2DDD8; border-radius: 8px;
+      padding: 14px 16px; margin-bottom: 8px;
+    }
+    .profile-card-title { font-size: 12px; font-weight: 600; color: #1C1917; margin-bottom: 10px; }
+    .profile-label { font-size: 10px; font-weight: 500; color: #6B6862; margin-bottom: 4px; }
+    .profile-input {
+      width: 100%; height: 32px; background: #F7F5F2;
+      border: 1px solid #E2DDD8; border-radius: 6px;
+      display: flex; align-items: center; padding: 0 10px;
+      font-size: 11px; color: #1C1917; margin-bottom: 10px;
+    }
+    .profile-input-disabled { color: #A09D98; background: #F0EDE8; }
+    .profile-hint { font-size: 10px; color: #A09D98; margin-top: -6px; margin-bottom: 10px; }
+    .profile-save-btn {
+      display: flex; justify-content: flex-end;
+    }
+    .profile-btn {
+      height: 30px; background: #1C1917; border-radius: 6px;
+      display: inline-flex; align-items: center; padding: 0 14px;
+      font-size: 11px; font-weight: 600; color: #F9F8F6;
+    }
+    .profile-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+    .duo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    /* ── Mobile ── */
+    .mobile-wrap {
+      background: #EDEAE5; padding: 16px 14px;
+      max-width: 260px; margin: 0 auto;
+    }
+    .mobile-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .mobile-brand { font-size: 13px; font-weight: 700; color: #1C1917; }
+    .mobile-hamburger { display: flex; flex-direction: column; gap: 3px; }
+    .mobile-hamburger span { width: 16px; height: 1.5px; background: #1C1917; border-radius: 1px; }
+    .mobile-greeting { font-size: 17px; font-weight: 700; color: #1C1917; letter-spacing: -0.03em; margin-bottom: 2px; }
+    .mobile-sub { font-size: 10px; color: #A09D98; margin-bottom: 12px; }
+    .mobile-stat {
+      background: #FFFFFF; border: 1px solid #E2DDD8; border-radius: 8px;
+      padding: 11px 14px; margin-bottom: 8px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .mobile-stat-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #A09D98; }
+    .mobile-stat-val { font-size: 22px; font-weight: 700; color: #1C1917; letter-spacing: -0.04em; }
+    .mobile-stat-icon { width: 14px; height: 14px; border-radius: 3px; background: #F0EDE8; }
+    .mobile-recent-head {
+      font-size: 11px; font-weight: 600; color: #1C1917;
+      display: flex; justify-content: space-between; margin: 12px 0 8px;
+    }
+    .mobile-recent-viewall { color: #A09D98; font-weight: 400; }
+
+    /* Next / Footer */
+    .next-project {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 52px; text-decoration: none; color: inherit;
+      border-top: 1px solid var(--border); transition: background 0.2s;
+    }
+    .next-project:hover { background: var(--surface); }
+    .next-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+    .next-name { font-family: var(--serif); font-size: 40px; font-weight: 300; letter-spacing: -0.02em; color: var(--ink); }
+    .next-arrow { font-size: 44px; color: var(--ink-3); transition: transform 0.25s var(--ease); }
+    .next-project:hover .next-arrow { transform: translate(6px,-6px); }
+
+    footer {
+      padding: 28px 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+    .footer-logo { font-family: var(--serif); font-size: 15px; color: var(--ink-3); text-decoration: none; font-weight: 300; }
+    .footer-nav { display: flex; gap: 24px; list-style: none; }
+    .footer-nav a { font-size: 12px; color: var(--ink-3); text-decoration: none; transition: color 0.2s; }
+    .footer-nav a:hover { color: var(--ink); }
+    .footer-copy { font-size: 12px; color: var(--ink-3); }
+
+    .reveal {
+      opacity: 1; transform: none;
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 24px; }
+      .nav-links li:not(:last-child) { display: none; }
+      .cs-hero, .cs-section, .cs-section-dark, .cs-section-tint { padding-left: 24px; padding-right: 24px; }
+      .showcase-block, .showcase-block.reverse { grid-template-columns: 1fr; gap: 32px; }
+      .wireframe-grid { grid-template-columns: 1fr; }
+      .cs-meta-strip { flex-direction: column; }
+      .cs-meta-cell { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      footer { flex-direction: column; gap: 14px; padding: 24px; }
+      .next-project { padding: 32px 24px; }
+      .next-name { font-size: 28px; }
+      .dash-wrap { grid-template-columns: 1fr; }
+      .dash-sidebar { display: none; }
+      .dash-stats { grid-template-columns: 1fr; }
+      .table-head, .table-row { grid-template-columns: 1.4fr 1fr 0.7fr; }
+      .table-head > *:nth-child(3), .table-row > *:nth-child(3) { display: none; }
+      .duo-grid { grid-template-columns: 1fr; }
+      .duo-grid .app-shell[style*="max-width:220px"] { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Alison Belle</a>
+  <ul class="nav-links">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="cs-hero">
+  <div class="cs-hero-watermark">CP</div>
+  <div class="cs-breadcrumb">
+    <a href="index.html">Home</a>
+    <span class="cs-breadcrumb-sep">/</span>
+    <a href="index.html#projects">Work</a>
+    <span class="cs-breadcrumb-sep">/</span>
+    Client Portal
+  </div>
+  <span class="cs-proj-num">Project 01</span>
+  <h1 class="cs-title reveal">Client Portal<br><em>Dashboard System</em></h1>
+  <p class="cs-summary reveal d1">A production-grade full-stack application for managing clients, tracking project pipelines, and organising active work — built with React, Node.js, PostgreSQL, and JWT authentication, deployed on Vercel and Render.</p>
+  <div class="hero-actions reveal d2">
+    <a class="hero-link" href="https://github.com/alisonb-commits/Client-Portal" target="_blank" rel="noopener noreferrer">View on GitHub &nearr;</a>
+    <a class="hero-link-ghost" href="https://client-portal-six-phi.vercel.app" target="_blank" rel="noopener noreferrer">Live Demo &nearr;</a>
+    <a class="hero-link-ghost" href="#portal-sections">Explore the build</a>
+  </div>
+  <div class="cs-meta-strip reveal d2">
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Role</div>
+      <div class="cs-meta-value">Full-Stack Developer &amp; UI Designer</div>
+    </div>
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Stack</div>
+      <div class="cs-meta-value">React · Vite · Tailwind CSS · Node.js · Express · PostgreSQL · JWT</div>
+    </div>
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Deployed</div>
+      <div class="cs-meta-value">Vercel (frontend) · Render (backend + DB)</div>
+    </div>
+    <div class="cs-meta-cell">
+      <div class="cs-meta-label">Year</div>
+      <div class="cs-meta-value">2026</div>
+    </div>
+  </div>
+</header>
+
+<section class="cs-section" id="portal-sections">
+  <div class="cs-inner">
+    <div class="showcase-stack">
+
+      <!-- 1. Wireframes -->
+      <div class="reveal">
+        <div class="cs-label">Structure First</div>
+        <h2 class="cs-h2">Wireframe <em>Exploration</em></h2>
+        <div class="cs-body">
+          <p>Before building, the layout and content hierarchy were mapped through low-fidelity wireframes — defining the sidebar navigation model, the dashboard overview structure, and the CRUD workflow for clients and projects before any visual design decisions were made.</p>
+        </div>
+        <div class="wireframe-grid" aria-label="Low-fidelity wireframes showing dashboard layout and client list structure">
+          <div class="wireframe-card">
+            <div class="wireframe-topbar">
+              <span class="wireframe-dot"></span><span class="wireframe-dot"></span><span class="wireframe-dot"></span>
+            </div>
+            <div class="wireframe-body">
+              <div class="wf-row wf-2col">
+                <div class="wf-sidebar">
+                  <div class="wf-bar" style="width:65%;height:11px;"></div>
+                  <div class="wf-chip"></div>
+                  <div class="wf-chip" style="width:80%;"></div>
+                  <div class="wf-chip" style="width:88%;"></div>
+                </div>
+                <div class="wf-panel">
+                  <div class="wf-bar" style="width:45%;height:13px;"></div>
+                  <div class="wf-bar" style="width:62%;height:9px;"></div>
+                  <div class="wf-stat-row">
+                    <div class="wf-box" style="min-height:48px;"></div>
+                    <div class="wf-box" style="min-height:48px;"></div>
+                    <div class="wf-box" style="min-height:48px;"></div>
+                  </div>
+                  <div class="wf-box" style="min-height:12px;background:#c8c4bc;"></div>
+                  <div class="wf-table-row">
+                    <div style="display:flex;align-items:center;gap:5px;"><div class="wf-avatar"></div><div class="wf-bar" style="flex:1;"></div></div>
+                    <div class="wf-bar"></div><div class="wf-badge"></div><div class="wf-bar"></div>
+                  </div>
+                  <div class="wf-table-row">
+                    <div style="display:flex;align-items:center;gap:5px;"><div class="wf-avatar"></div><div class="wf-bar" style="flex:1;width:70%;"></div></div>
+                    <div class="wf-bar"></div><div class="wf-badge"></div><div class="wf-bar"></div>
+                  </div>
+                  <div class="wf-table-row">
+                    <div style="display:flex;align-items:center;gap:5px;"><div class="wf-avatar"></div><div class="wf-bar" style="flex:1;width:85%;"></div></div>
+                    <div class="wf-bar"></div><div class="wf-badge"></div><div class="wf-bar"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="wireframe-card">
+            <div class="wireframe-topbar">
+              <span class="wireframe-dot"></span><span class="wireframe-dot"></span><span class="wireframe-dot"></span>
+            </div>
+            <div class="wireframe-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                <div class="wf-bar" style="width:28%;height:13px;"></div>
+                <div class="wf-chip" style="width:80px;"></div>
+              </div>
+              <div class="wf-bar" style="width:42%;height:9px;margin-bottom:10px;"></div>
+              <div style="display:grid;grid-template-columns:1fr 80px;gap:8px;margin-bottom:12px;">
+                <div class="wf-chip"></div><div class="wf-chip"></div>
+              </div>
+              <div style="background:#ebe8e2;border-radius:6px;overflow:hidden;">
+                <div style="display:grid;grid-template-columns:2fr 1fr 0.8fr;gap:8px;padding:8px 10px;border-bottom:1px solid #d8d5ce;">
+                  <div class="wf-bar" style="width:40%;"></div><div class="wf-bar" style="width:60%;"></div><div class="wf-bar" style="width:55%;"></div>
+                </div>
+                <div style="display:grid;grid-template-columns:2fr 1fr 0.8fr;gap:8px;padding:9px 10px;border-bottom:1px solid #e0ddd6;align-items:center;">
+                  <div class="wf-bar" style="width:75%;"></div><div class="wf-bar" style="width:65%;"></div><div class="wf-badge"></div>
+                </div>
+                <div style="display:grid;grid-template-columns:2fr 1fr 0.8fr;gap:8px;padding:9px 10px;border-bottom:1px solid #e0ddd6;align-items:center;">
+                  <div class="wf-bar" style="width:60%;"></div><div class="wf-bar" style="width:80%;"></div><div class="wf-badge"></div>
+                </div>
+                <div style="display:grid;grid-template-columns:2fr 1fr 0.8fr;gap:8px;padding:9px 10px;align-items:center;">
+                  <div class="wf-bar" style="width:82%;"></div><div class="wf-bar" style="width:50%;"></div><div class="wf-badge"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Authentication -->
+      <div class="showcase-block reveal d1">
+        <div class="showcase-text">
+          <div class="cs-label">Security</div>
+          <h2 class="cs-h2">Authentication <em>&amp; Access Control</em></h2>
+          <div class="cs-body">
+            <p>The portal begins with a secure sign-in flow backed by JWT authentication, bcrypt password hashing, and HTTP security headers via Helmet. On login, a signed token is issued and persisted through React context, creating a clear boundary between public and protected surfaces.</p>
+            <p>Every backend API route validates the Bearer token before responding, and rate limiting on auth endpoints guards against brute-force attempts. Users can also register new accounts and update their profile through the same secured routes.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">JWT</span>
+            <span class="tag">bcrypt</span>
+            <span class="tag">Protected Routes</span>
+            <span class="tag">Helmet</span>
+            <span class="tag">Rate Limiting</span>
+          </div>
+        </div>
+        <div class="app-shell">
+          <div class="login-wrap">
+            <div class="login-card">
+              <div class="login-heading">Welcome back</div>
+              <div class="login-sub">Sign in to ClientPortal</div>
+              <div class="login-field">
+                <div class="login-label">Email</div>
+                <div class="login-input">you@example.com</div>
+              </div>
+              <div class="login-field">
+                <div class="login-label">Password</div>
+                <div class="login-input" style="letter-spacing:0.18em;font-size:14px;color:#C8C4BE;">••••••••</div>
+              </div>
+              <div class="login-btn">Continue</div>
+              <div class="login-footer">No account? <span>Sign up</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Dashboard overview -->
+      <div class="showcase-block reverse reveal">
+        <div class="app-shell" style="overflow:hidden;">
+          <div class="dash-wrap">
+            <div class="dash-sidebar">
+              <div class="dash-brand">ClientPortal</div>
+              <div class="dash-nav-item active">
+                <div class="dash-nav-icon" style="border-radius:2px;"></div>
+                Dashboard
+              </div>
+              <div class="dash-nav-item">
+                <div class="dash-nav-icon" style="border-radius:50%;"></div>
+                Clients
+              </div>
+              <div class="dash-nav-item">
+                <div class="dash-nav-icon"></div>
+                Projects
+              </div>
+              <div class="dash-spacer"></div>
+              <div class="dash-user">
+                <div class="dash-avatar">AB</div>
+                <div>
+                  <div class="dash-username">Alison Belle</div>
+                  <div class="dash-signout">→ Sign out</div>
+                </div>
+              </div>
+            </div>
+            <div class="dash-main">
+              <div class="dash-greeting">Good morning, Alison</div>
+              <div class="dash-greeting-sub">Here's what's happening with your clients.</div>
+              <div class="dash-stats">
+                <div class="dash-stat-card">
+                  <div class="dash-stat-label">Total Clients <div class="dash-stat-icon"></div></div>
+                  <div class="dash-stat-val">3</div>
+                </div>
+                <div class="dash-stat-card">
+                  <div class="dash-stat-label">Total Projects <div class="dash-stat-icon"></div></div>
+                  <div class="dash-stat-val">3</div>
+                </div>
+                <div class="dash-stat-card">
+                  <div class="dash-stat-label">Active Projects <div class="dash-stat-icon"></div></div>
+                  <div class="dash-stat-val">1</div>
+                </div>
+              </div>
+              <div class="dash-recent">
+                <div class="dash-recent-head">
+                  Recent clients <span class="dash-recent-viewall">View all →</span>
+                </div>
+                <div class="dash-client-row">
+                  <div class="dash-client-av">M</div>
+                  <div class="dash-client-info">
+                    <div class="dash-client-name">Mabel Chalmers</div>
+                    <div class="dash-client-co">Accenture</div>
+                  </div>
+                  <span class="badge-active">active</span>
+                </div>
+                <div class="dash-client-row">
+                  <div class="dash-client-av">E</div>
+                  <div class="dash-client-info">
+                    <div class="dash-client-name">Emely Gehrlein</div>
+                    <div class="dash-client-co">Australia Study</div>
+                  </div>
+                  <span class="badge-active">active</span>
+                </div>
+                <div class="dash-client-row">
+                  <div class="dash-client-av">J</div>
+                  <div class="dash-client-info">
+                    <div class="dash-client-name">Jinoo Kim</div>
+                    <div class="dash-client-co">NSW Transport</div>
+                  </div>
+                  <span class="badge-active">active</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-text">
+          <div class="cs-label">Core Product</div>
+          <h2 class="cs-h2">Overview <em>Dashboard</em></h2>
+          <div class="cs-body">
+            <p>The dashboard gives a live snapshot of all active clients and work at a glance — total clients, total projects, and active project count surfaced immediately after login. The sidebar navigation provides fast access to all sections, and the recent clients list shows the latest activity without needing to navigate away.</p>
+            <p>The interface was designed with a clean, Notion-inspired aesthetic — warm off-white surfaces, minimal chrome, and clear typographic hierarchy — to feel familiar and focused rather than like a generic admin panel.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Dashboard</span>
+            <span class="tag">React Context</span>
+            <span class="tag">Live Data</span>
+            <span class="tag">Sidebar Nav</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Client management -->
+      <div class="showcase-block reveal d1">
+        <div class="showcase-text">
+          <div class="cs-label">Client Management</div>
+          <h2 class="cs-h2">Full CRUD <em>with Search &amp; Filter</em></h2>
+          <div class="cs-body">
+            <p>The Clients page gives full control over every client record — create, view, edit, and delete, with real-time search filtering and status-based filtering available simultaneously. Each client links to their associated projects through a relational database structure.</p>
+            <p>The table view was kept deliberately lean: name with avatar initial, company, email, project count, and status badge. Everything a user needs to act, nothing that gets in the way.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">CRUD</span>
+            <span class="tag">Search</span>
+            <span class="tag">Status Filter</span>
+            <span class="tag">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="app-shell">
+          <div class="table-wrap">
+            <div class="table-page-head">
+              <div>
+                <div class="table-page-title">Clients</div>
+                <div class="table-page-sub">3 total</div>
+              </div>
+              <div class="table-add-btn">+ New client</div>
+            </div>
+            <div class="table-controls">
+              <div class="table-search">
+                <div class="table-search-dot"></div>
+                Search clients...
+              </div>
+              <div class="table-filter">All statuses ▾</div>
+            </div>
+            <div class="table-card">
+              <div class="table-head">
+                <div>Name</div><div>Company</div><div>Email</div><div>Projects</div><div>Status</div>
+              </div>
+              <div class="table-row">
+                <div class="table-name-cell">
+                  <div class="table-av">M</div>
+                  <div class="table-name">Mabel Chalmers</div>
+                </div>
+                <div class="table-cell">Accenture</div>
+                <div class="table-cell" style="font-size:10px;">mabel.chalmers@gmail.com</div>
+                <div class="table-cell">0</div>
+                <div><span class="badge-active">active</span></div>
+              </div>
+              <div class="table-row">
+                <div class="table-name-cell">
+                  <div class="table-av">E</div>
+                  <div class="table-name">Emely Gehrlein</div>
+                </div>
+                <div class="table-cell">Australia Study</div>
+                <div class="table-cell" style="font-size:10px;">em.gehrlein@gmail.com</div>
+                <div class="table-cell">1</div>
+                <div><span class="badge-active">active</span></div>
+              </div>
+              <div class="table-row">
+                <div class="table-name-cell">
+                  <div class="table-av">J</div>
+                  <div class="table-name">Jinoo Kim</div>
+                </div>
+                <div class="table-cell">NSW Transport</div>
+                <div class="table-cell" style="font-size:10px;">jinoo.kim@gmail.com</div>
+                <div class="table-cell">2</div>
+                <div><span class="badge-active">active</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Projects + edit modal -->
+      <div class="showcase-block reverse reveal d2">
+        <div class="app-shell" style="position:relative;overflow:hidden;">
+          <div class="projects-wrap">
+            <div class="table-page-head">
+              <div>
+                <div class="table-page-title">Projects</div>
+                <div class="table-page-sub">3 total</div>
+              </div>
+              <div class="table-add-btn">+ New project</div>
+            </div>
+            <div class="table-controls">
+              <div class="table-search"><div class="table-search-dot"></div> Search projects...</div>
+              <div class="table-filter">All statuses ▾</div>
+            </div>
+            <div class="proj-table-card">
+              <div class="proj-table-head"><div>Title</div><div>Client</div><div>Status</div></div>
+              <div class="proj-table-row">
+                <div><div class="proj-title">SaaS Product Redesign</div><div class="proj-desc">Feedback still pending</div></div>
+                <div class="proj-client">Jinoo Kim</div>
+                <div><span class="badge-completed">completed</span></div>
+              </div>
+              <div class="proj-table-row">
+                <div><div class="proj-title">Logo Creation</div><div class="proj-desc">Branded logo in style of Notion</div></div>
+                <div class="proj-client">Emely Gehrlein</div>
+                <div><span class="badge-pending">pending</span></div>
+              </div>
+              <div class="proj-table-row">
+                <div><div class="proj-title">Website Design</div><div class="proj-desc">Fresh branded design</div></div>
+                <div class="proj-client">Jinoo Kim</div>
+                <div><span class="badge-active">active</span></div>
+              </div>
+            </div>
+          </div>
+          <!-- Edit modal overlay -->
+          <div class="modal-bg-blur">
+            <div class="modal-card">
+              <div class="modal-title">Edit project</div>
+              <div class="modal-field">
+                <div class="modal-label">Title <span class="modal-required">*</span></div>
+                <div class="modal-input">SaaS Product Redesign</div>
+              </div>
+              <div class="modal-field">
+                <div class="modal-label">Description</div>
+                <div class="modal-textarea">Feedback still pending</div>
+              </div>
+              <div class="modal-field">
+                <div class="modal-label">Client <span class="modal-required">*</span></div>
+                <div class="modal-select">Jinoo Kim <span class="modal-select-arrow">▾</span></div>
+              </div>
+              <div class="modal-field">
+                <div class="modal-label">Status</div>
+                <div class="modal-select">Completed <span class="modal-select-arrow">▾</span></div>
+              </div>
+              <div class="modal-actions">
+                <div class="modal-cancel">Cancel</div>
+                <div class="modal-save">Save changes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-text">
+          <div class="cs-label">Project Pipeline</div>
+          <h2 class="cs-h2">Status Tracking <em>&amp; Inline Editing</em></h2>
+          <div class="cs-body">
+            <p>Projects move through a three-stage pipeline — Pending, Active, and Completed — linked to their parent client through a relational PostgreSQL schema. The edit modal allows any field to be updated without leaving the page, with changes persisted immediately through protected API routes.</p>
+            <p>This interaction pattern mirrors what you'd find in real internal tools: fast, contextual edits within the current view rather than navigating to a separate detail page.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Status Pipeline</span>
+            <span class="tag">Inline Edit</span>
+            <span class="tag">Relational DB</span>
+            <span class="tag">REST API</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Profile + mobile -->
+      <div class="showcase-block reveal">
+        <div class="showcase-text">
+          <div class="cs-label">Account Settings</div>
+          <h2 class="cs-h2">Profile <em>&amp; Responsive Design</em></h2>
+          <div class="cs-body">
+            <p>The profile page lets users update their display name and change their password through separate, focused forms — each backed by a protected API route. Email is surfaced as read-only to reflect the auth constraint clearly rather than hiding it.</p>
+            <p>The entire application is fully responsive. On mobile, the sidebar navigation collapses behind a hamburger, stat cards stack vertically, and tables reflow — making the admin experience just as usable on a phone as on desktop.</p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Profile Settings</span>
+            <span class="tag">Password Update</span>
+            <span class="tag">Responsive</span>
+            <span class="tag">Mobile-First</span>
+          </div>
+        </div>
+        <div class="duo-grid">
+          <!-- Profile -->
+          <div class="app-shell">
+            <div class="profile-wrap">
+              <div class="profile-page-title">Profile</div>
+              <div class="profile-page-sub">Manage your account settings</div>
+              <div class="profile-card">
+                <div class="profile-card-title">Display name</div>
+                <div class="profile-label">Full name</div>
+                <div class="profile-input">Alison Belle</div>
+                <div class="profile-save-btn"><div class="profile-btn">Save name</div></div>
+              </div>
+              <div class="profile-card">
+                <div class="profile-card-title">Email address</div>
+                <div class="profile-input profile-input-disabled">alison.bellee@gmail.com</div>
+                <div class="profile-hint">Email cannot be changed.</div>
+              </div>
+              <div class="profile-card">
+                <div class="profile-card-title">Change password</div>
+                <div class="profile-label">Current password</div>
+                <div class="profile-input" style="letter-spacing:0.15em;color:#C8C4BE;font-size:13px;">••••••••</div>
+                <div class="profile-label">New password</div>
+                <div class="profile-input" style="color:#A09D98;font-size:11px;">Min. 8 characters</div>
+                <div class="profile-label">Confirm new password</div>
+                <div class="profile-input" style="letter-spacing:0.15em;color:#C8C4BE;font-size:13px;">••••••••</div>
+                <div class="profile-save-btn" style="margin-top:4px;"><div class="profile-btn">Update password</div></div>
+              </div>
+            </div>
+          </div>
+          <!-- Mobile -->
+          <div class="app-shell" style="max-width:220px;">
+            <div class="mobile-wrap">
+              <div class="mobile-topbar">
+                <div class="mobile-brand">ClientPortal</div>
+                <div class="mobile-hamburger">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+              <div class="mobile-greeting">Good morning,<br>Alison</div>
+              <div class="mobile-sub">Here's what's happening.</div>
+              <div class="mobile-stat">
+                <div>
+                  <div class="mobile-stat-label">Total Clients</div>
+                  <div class="mobile-stat-val">3</div>
+                </div>
+                <div class="mobile-stat-icon"></div>
+              </div>
+              <div class="mobile-stat">
+                <div>
+                  <div class="mobile-stat-label">Total Projects</div>
+                  <div class="mobile-stat-val">3</div>
+                </div>
+                <div class="mobile-stat-icon"></div>
+              </div>
+              <div class="mobile-stat">
+                <div>
+                  <div class="mobile-stat-label">Active Projects</div>
+                  <div class="mobile-stat-val">1</div>
+                </div>
+                <div class="mobile-stat-icon"></div>
+              </div>
+              <div class="mobile-recent-head">
+                Recent clients <span class="mobile-recent-viewall">View all →</span>
+              </div>
+              <div class="dash-client-row" style="background:#FFF;border-radius:6px;margin-bottom:4px;padding:8px 10px;">
+                <div class="dash-client-av">M</div>
+                <div class="dash-client-info"><div class="dash-client-name">Mabel Chalmers</div><div class="dash-client-co">Accenture</div></div>
+                <span class="badge-active" style="font-size:9px;">active</span>
+              </div>
+              <div class="dash-client-row" style="background:#FFF;border-radius:6px;margin-bottom:4px;padding:8px 10px;">
+                <div class="dash-client-av">E</div>
+                <div class="dash-client-info"><div class="dash-client-name">Emely Gehrlein</div><div class="dash-client-co">Australia Study</div></div>
+                <span class="badge-active" style="font-size:9px;">active</span>
+              </div>
+              <div class="dash-client-row" style="background:#FFF;border-radius:6px;padding:8px 10px;">
+                <div class="dash-client-av">J</div>
+                <div class="dash-client-info"><div class="dash-client-name">Jinoo Kim</div><div class="dash-client-co">NSW Transport</div></div>
+                <span class="badge-active" style="font-size:9px;">active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<a href="https://github.com/alisonb-commits/Client-Portal" class="next-project" target="_blank" rel="noopener noreferrer">
+  <div>
+    <div class="next-label">GitHub Project</div>
+    <div class="next-name">View Source on GitHub</div>
+  </div>
+  <span class="next-arrow">&nearr;</span>
+</a>
+
+<footer>
+  <a href="index.html" class="footer-logo">Alison Belle</a>
+  <ul class="footer-nav">
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <span class="footer-copy">&copy; 2026 Alison Belle</span>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('in')),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
